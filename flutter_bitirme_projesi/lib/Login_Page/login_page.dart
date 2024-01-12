@@ -30,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
       child: Padding(
         padding: PaddingSizes().innerFrame,
         child: Container(
-          color: ProjectColors().darkTheme,
+          //color: ProjectColors().darkTheme,
           child: Center(
             child: Column(
               children: [
@@ -49,6 +49,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: Column(
                     children: [
                       CustomTextWidget(
+                        textInputType: TextInputType.number,
                         textInputAction: TextInputAction.next,
                         hintText: hintText1,
                         width: textFieldWidth,

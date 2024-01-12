@@ -31,11 +31,9 @@ class _ElectionEnterTypeMenuState extends State<ElectionEnterTypeMenu> {
           children: [
             Padding(
               padding: const EdgeInsets.only(bottom: 10, top: 25),
-              child: Expanded(
-                child: Text(
-                  "Seçim Erişim Arayüzü",
-                  style: Theme.of(context).textTheme.headlineSmall,
-                ),
+              child: Text(
+                "Seçim Erişim Arayüzü",
+                style: Theme.of(context).textTheme.headlineSmall,
               ),
             ),
             Row(
@@ -101,56 +99,49 @@ class _ElectionEnterTypeMenuState extends State<ElectionEnterTypeMenu> {
                 ),
               ],
             ),
-            Expanded(
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-                child: Container(
-                  color: Colors.white,
-                  height: 30,
-                  child: TextField(
-                    keyboardType: (_ActiveButton == true)
-                        ? TextInputType.phone
-                        : TextInputType.url,
-                    decoration: InputDecoration(
-                        hintText: (_ActiveButton == true)
-                            ? "ID ile giriş "
-                            : "URL ile giriş",
-                        border: OutlineInputBorder(),
-                        focusColor: Colors.white),
-                  ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+              child: Container(
+                color: Colors.white,
+                height: 30,
+                child: TextField(
+                  keyboardType: (_ActiveButton == true)
+                      ? TextInputType.phone
+                      : TextInputType.url,
+                  decoration: InputDecoration(
+                      hintText: (_ActiveButton == true)
+                          ? "ID ile giriş "
+                          : "URL ile giriş",
+                      border: OutlineInputBorder(),
+                      focusColor: Colors.white),
                 ),
               ),
             ),
-            Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 30),
-                    child: SizedBox(
-                      width: 100,
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: ProjectColors().commonTheme,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10))),
-                          onPressed: () {},
-                          child: Expanded(
-                            child: Text(
-                              "Seçime Bağlanın",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .displaySmall
-                                  ?.copyWith(
-                                      fontSize: 14,
-                                      color: ProjectColors().background),
-                            ),
-                          )),
-                    ),
-                  )
-                ],
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 30),
+                  child: SizedBox(
+                    width: 100,
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: ProjectColors().commonTheme,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10))),
+                        onPressed: () {},
+                        child: Text(
+                          "Seçime Bağlanın",
+                          style: Theme.of(context)
+                              .textTheme
+                              .displaySmall
+                              ?.copyWith(
+                                  fontSize: 14,
+                                  color: ProjectColors().background),
+                        )),
+                  ),
+                )
+              ],
             )
           ],
         ),
