@@ -15,7 +15,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final String title = "Giriş Yap";
+  final String title = "Girişs Yap";
   final String hintText1 = "T.C Numarası";
   final String hintText2 = "Şifre";
   final String buttonText = "Giriş Yap";
