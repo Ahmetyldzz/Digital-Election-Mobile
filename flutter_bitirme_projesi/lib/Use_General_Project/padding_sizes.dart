@@ -4,9 +4,9 @@ class PaddingSizes {
   final EdgeInsets generalFrame = EdgeInsets.only(
     top: 40,
     bottom: 40,
-    right: 30,
-    left: 30,
   );
+
+  
   final EdgeInsets innerFrame = EdgeInsets.only(
     top: 15,
     bottom: 15,

@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bitirme_projesi/Giri%C5%9F%20Yap%C4%B1lm%C4%B1%C5%9F%20Anasayfa/home_page.dart';
-import 'package:flutter_bitirme_projesi/Giri%C5%9F%20Yap/login_page.dart';
-import 'package:flutter_bitirme_projesi/Kay%C4%B1t%20Ol/kayit_ol.dart';
+import 'package:flutter_bitirme_projesi/Notification_Page/notification.dart';
+import 'package:flutter_bitirme_projesi/Entered_Homepage/election_enter_type_interface.dart';
+import 'package:flutter_bitirme_projesi/Entered_Homepage/entered_home_page.dart';
+import 'package:flutter_bitirme_projesi/Not_Entered_Homepage/home_page.dart';
+import 'package:flutter_bitirme_projesi/Login_Page/login_page.dart';
+import 'package:flutter_bitirme_projesi/Profile/profile.dart';
+import 'package:flutter_bitirme_projesi/Sign_In_Page/sign_in.dart';
+import 'package:flutter_bitirme_projesi/Use_General_Project/new_navigation_bar.dart';
+import 'package:flutter_bitirme_projesi/Voting_Page/oy_kullanma.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,7 +26,7 @@ class MyApp extends StatelessWidget {
           appBarTheme: AppBarTheme(
         color: Color.fromRGBO(70, 139, 151, 1),
       )),
-      home: HomePage(),
+      home: LoginPage(),
     );
   }
 }
