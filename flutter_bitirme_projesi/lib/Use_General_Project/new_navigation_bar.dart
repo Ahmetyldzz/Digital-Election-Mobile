@@ -19,7 +19,7 @@ class _NewNavigationBarState extends State<NewNavigationBar> {
     return Scaffold(
         backgroundColor: ProjectColors().background,
         appBar: AppBar(),
-        bottomNavigationBar: customSolomonNavigationBar());
+        bottomNavigationBar: customDotNavigationBar());
   }
 
   DotNavigationBar customDotNavigationBar() {
@@ -55,24 +55,7 @@ class _NewNavigationBarState extends State<NewNavigationBar> {
     );
   }
 
-  SalomonBottomBar customSolomonNavigationBar() {
-    return SalomonBottomBar(
-      selectedItemColor: ProjectColors().likePink,
-      unselectedItemColor: ProjectColors().background,
-      backgroundColor: ProjectColors().commonTheme,
-      currentIndex: _currentIndex,
-      onTap: (p0) {
-        setState(() {
-          _currentIndex = p0;
-        });
-      },
-      items: [
-        SalomonBottomBarItem(icon: Icon(Icons.home), title: Text("Home")),
-        SalomonBottomBarItem(icon: Icon(Icons.search), title: Text("Search")),
-        SalomonBottomBarItem(icon: Icon(Icons.mail), title: Text("Mail")),
-        SalomonBottomBarItem(
-            icon: Icon(Icons.notifications), title: Text("Notifications")),
-      ],
-    );
-  }
+  
 }
+
+

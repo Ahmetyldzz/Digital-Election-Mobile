@@ -33,12 +33,12 @@ class _GeneralFrameState extends State<GeneralFrame> {
           ),
         ),
       ),
-      bottomNavigationBar: CustomNavigationBar(),
+  
     );
   }
 }
 
 class ContainerSizes {
-  final double width = 400;
+  final double width = 360;
   final double height = 500;
 }

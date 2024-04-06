@@ -3,6 +3,7 @@ import 'package:flutter_bitirme_projesi/Use_General_Project/custom_func.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/general_frame.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
 import 'package:flutter_bitirme_projesi/Entered_Homepage/election_enter_type_interface.dart';
+import 'package:flutter_bitirme_projesi/Use_General_Project/salomon_navbar.dart';
 
 class EnteredHomePage extends StatefulWidget {
   const EnteredHomePage({super.key});
@@ -31,7 +32,7 @@ class _EnteredHomePageState extends State<EnteredHomePage> {
     return Stack(
       children: [
         Scaffold(
-          bottomNavigationBar: CustomNavigationBar(),
+          bottomNavigationBar: SalomonBar(),
           resizeToAvoidBottomInset: true,
           appBar: AppBar(
             actions: [

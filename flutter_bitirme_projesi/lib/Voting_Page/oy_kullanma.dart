@@ -1,7 +1,14 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bitirme_projesi/Entered_Homepage/entered_home_page.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/general_frame.dart';
+import 'package:flutter_bitirme_projesi/Use_General_Project/navigateToPage.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
 import 'package:flutter_bitirme_projesi/Voting_Page/custom_card_model.dart';
+import 'package:flutter_bitirme_projesi/Voting_Page/postmodel.dart';
+import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 class Oykullanma extends StatefulWidget {
   const Oykullanma({super.key});
@@ -10,15 +17,43 @@ class Oykullanma extends StatefulWidget {
   State<Oykullanma> createState() => _OykullanmaState();
 }
 
-class _OykullanmaState extends State<Oykullanma> {
+class _OykullanmaState extends State<Oykullanma> with NavigatorRoute {
   bool isClicked = false;
+  int _currentIndex = 0;
   int _activeCard = 0;
+  bool _isLoading = false;
   Color? renk = ProjectColors().background;
   List<CustomCardModel>? model1;
+  List<VotingNameModel>? model2;
+  @override
+  void initState() {
+    super.initState();
+    fetchPostItems();
+  }
+
+  void isLoading() {
+    setState(() {
+      _isLoading = !_isLoading;
+    });
+  }
+
   onIndexChanged(int index) {
     setState(() {
       _activeCard = index;
     });
+  }
+
+  Future<void> fetchPostItems() async {
+    isLoading();
+    final result = await Dio().get("http://192.168.0.5:3000/api/register");
+
+    if (result.statusCode == HttpStatus.ok) {
+      final datas = result.data;
+      if (datas is List) {
+        model2 = datas.map((e) => VotingNameModel.fromJson(e)).toList();
+      }
+    }
+    isLoading();
   }
 
   @override
@@ -33,6 +68,13 @@ class _OykullanmaState extends State<Oykullanma> {
 
     return Scaffold(
       backgroundColor: ProjectColors().background,
+      bottomNavigationBar: customSolomonNavigationBar(),
+      appBar: AppBar(
+        actions: [
+          _isLoading ? CircularProgressIndicator.adaptive() : SizedBox.shrink()
+        ],
+        backgroundColor: ProjectColors().commonTheme,
+      ),
       body: GeneralFrame(
         child: Column(
           children: [
@@ -41,8 +83,9 @@ class _OykullanmaState extends State<Oykullanma> {
               child: Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: ListView.builder(
-                  itemCount: 15,
+                  itemCount: model2?.length ?? 10,
                   itemBuilder: (context, index) {
+                    VotingNameModel? vModel;
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
@@ -64,7 +107,7 @@ class _OykullanmaState extends State<Oykullanma> {
                                     color: ProjectColors().darkTheme,
                                   ))),
                               Text(
-                                "Ahmet Yıldız",
+                                model2?[index].name ?? "",
                                 style: Theme.of(context)
                                     .textTheme
                                     .headlineSmall
@@ -107,7 +150,9 @@ class _OykullanmaState extends State<Oykullanma> {
                           style: ElevatedButton.styleFrom(
                               backgroundColor: ProjectColors().darkTheme,
                               maximumSize: Size(100, 50)),
-                          onPressed: () {},
+                          onPressed: () {
+                            navigateToWidget(context, EnteredHomePage());
+                          },
                           child: Text(
                             "Oy Kullanma işlemini tamamla",
                             style:
@@ -121,6 +166,27 @@ class _OykullanmaState extends State<Oykullanma> {
           ],
         ),
       ),
+    );
+  }
+
+  SalomonBottomBar customSolomonNavigationBar() {
+    return SalomonBottomBar(
+      selectedItemColor: ProjectColors().likePink,
+      unselectedItemColor: ProjectColors().background,
+      backgroundColor: ProjectColors().commonTheme,
+      currentIndex: _currentIndex,
+      onTap: (p0) {
+        setState(() {
+          _currentIndex = p0;
+        });
+      },
+      items: [
+        SalomonBottomBarItem(icon: Icon(Icons.home), title: Text("Home")),
+        SalomonBottomBarItem(icon: Icon(Icons.search), title: Text("Search")),
+        SalomonBottomBarItem(icon: Icon(Icons.mail), title: Text("Mail")),
+        SalomonBottomBarItem(
+            icon: Icon(Icons.notifications), title: Text("Notifications")),
+      ],
     );
   }
 }

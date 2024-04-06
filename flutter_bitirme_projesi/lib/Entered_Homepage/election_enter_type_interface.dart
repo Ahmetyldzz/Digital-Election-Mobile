@@ -68,7 +68,7 @@ class _ElectionEnterTypeMenuState extends State<ElectionEnterTypeMenu> {
                     ),
                   ),
                 ),
-                Expanded(
+                /*  Expanded(
                   child: SizedBox(
                     width: 175,
                     child: Padding(
@@ -96,7 +96,7 @@ class _ElectionEnterTypeMenuState extends State<ElectionEnterTypeMenu> {
                       ),
                     ),
                   ),
-                ),
+                ), */
               ],
             ),
             Padding(

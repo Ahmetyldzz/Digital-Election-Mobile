@@ -45,6 +45,26 @@ class Deneme {
   }
 }
 
+class VotingNameModel {
+  String? name;
+  String? surname;
+
+  VotingNameModel({this.name, this.surname});
+
+  VotingNameModel.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    surname = json['surname'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['name'] = this.name;
+    data['surname'] = this.surname;
+    return data;
+  }
+}
+
+
 class RegistersModel {
   String? name;
   String? surname;
