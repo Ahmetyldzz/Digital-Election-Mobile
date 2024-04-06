@@ -6,6 +6,7 @@ import 'package:flutter_bitirme_projesi/Use_General_Project/padding_sizes.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_button.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
 import 'package:flutter_bitirme_projesi/Sign_In_Page/sign_in.dart';
+import 'package:flutter_bitirme_projesi/Use_General_Project/salomon_navbar.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -15,7 +16,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final String title = "Girişs Yap";
+  final String title = "Giriş Yap";
   final String hintText1 = "T.C Numarası";
   final String hintText2 = "Şifre";
   final String buttonText = "Giriş Yap";
@@ -27,6 +28,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return GeneralFrame(
+      bottomNavigationBar: SalomonBar(),
       child: Padding(
         padding: PaddingSizes().innerFrame,
         child: Container(

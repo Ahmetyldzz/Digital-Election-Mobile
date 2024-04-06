@@ -4,10 +4,11 @@ import 'package:flutter_bitirme_projesi/Use_General_Project/padding_sizes.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
 
 class GeneralFrame extends StatefulWidget {
-  const GeneralFrame({super.key, this.child, this.title, this.appBar});
+  const GeneralFrame({super.key, this.child, this.title, this.appBar, this.bottomNavigationBar});
   final Widget? child;
   final Widget? title;
   final PreferredSizeWidget? appBar;
+  final Widget? bottomNavigationBar;
 
   @override
   State<GeneralFrame> createState() => _GeneralFrameState();
@@ -17,6 +18,8 @@ class _GeneralFrameState extends State<GeneralFrame> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: widget.bottomNavigationBar,
+      resizeToAvoidBottomInset: false,
       backgroundColor: ProjectColors().background,
       appBar: widget.appBar,
       body: Padding(
@@ -33,7 +36,6 @@ class _GeneralFrameState extends State<GeneralFrame> {
           ),
         ),
       ),
-  
     );
   }
 }

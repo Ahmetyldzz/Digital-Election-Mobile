@@ -28,6 +28,7 @@ class _HomePageState extends State<HomePage> with NavigatorRoute {
   @override
   Widget build(BuildContext context) {
     return GeneralFrame(
+      bottomNavigationBar: SalomonNavBar(),
       appBar: AppBar(
         title: Text(
           "Anasayfa",

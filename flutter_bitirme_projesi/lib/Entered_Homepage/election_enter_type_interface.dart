@@ -12,13 +12,8 @@ class ElectionEnterTypeMenu extends StatefulWidget {
 
 class _ElectionEnterTypeMenuState extends State<ElectionEnterTypeMenu>
     with NavigatorRoute {
-  bool _ActiveButton = false;
+  
   TextEditingController textEditingController = TextEditingController();
-  void buttonChanged() {
-    setState(() {
-      _ActiveButton = !_ActiveButton;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
