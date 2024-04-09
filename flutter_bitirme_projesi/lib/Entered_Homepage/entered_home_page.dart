@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bitirme_projesi/Not_Entered_Homepage/home_page.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/custom_func.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/general_frame.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
@@ -19,8 +20,18 @@ class _EnteredHomePageState extends State<EnteredHomePage> {
       tesr1 = !tesr1;
     });
   }
+   final PageController _pageController = PageController(initialPage: 0);
+  int _activePage = 0;
+  final List<Widget> pages = [
+    UstKisim(text: "text"),
+    UstKisim(text: "selam"),
+    UstKisim(text: "merhaba"),
+    UstKisim(text: "halo"),
+    UstKisim(text: "halasdasdo"),
+    UstKisim(text: "asdasdasdasdasdasda"),
+  ];
 
-  bool _ActiveButton = false;
+ bool _ActiveButton = false;
   void buttonChanged() {
     setState(() {
       _ActiveButton = !_ActiveButton;
@@ -58,8 +69,34 @@ class _EnteredHomePageState extends State<EnteredHomePage> {
             title: Text("Anasayfa"),
           ),
           body: GeneralFrame(
-              child:
-                  Visibility(visible: tesr1, child: ElectionEnterTypeMenu())),
+              child:Column(
+        children: [
+          Expanded(
+            flex: 9,
+            child: Padding(
+                padding: const EdgeInsets.only(left: 15, right: 15),
+                child: PageView.builder(
+                  controller: _pageController,
+                  onPageChanged: (int page) {
+                    setState(() {
+                      _activePage = page;
+                    });
+                  },
+                  itemCount: pages.length,
+                  itemBuilder: (context, index) {
+                    return pages[index % pages.length];
+                  },
+                )),
+          ),
+          Expanded(
+              flex: 1,
+              child: AltKisim(
+                  pages: pages,
+                  pageController: _pageController,
+                  activePage: _activePage)),
+        ],
+      ),
+                  /* Visibility(visible: tesr1, child: ElectionEnterTypeMenu()) */),
         ),
         /* Container(
           color: Colors.amber,
