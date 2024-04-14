@@ -10,14 +10,14 @@ import 'package:flutter_bitirme_projesi/Voting_Page/custom_card_model.dart';
 import 'package:flutter_bitirme_projesi/Voting_Page/postmodel.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
-class Oykullanma extends StatefulWidget {
-  const Oykullanma({super.key});
+class Voting extends StatefulWidget {
+  const Voting({super.key});
 
   @override
-  State<Oykullanma> createState() => _OykullanmaState();
+  State<Voting> createState() => _VotingState();
 }
 
-class _OykullanmaState extends State<Oykullanma> with NavigatorRoute {
+class _VotingState extends State<Voting> with NavigatorRoute {
   bool isClicked = false;
   int _currentIndex = 0;
   int _activeCard = 0;

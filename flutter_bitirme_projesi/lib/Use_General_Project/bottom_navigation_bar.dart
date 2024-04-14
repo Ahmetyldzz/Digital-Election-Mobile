@@ -3,7 +3,7 @@ import 'package:flutter_bitirme_projesi/Entered_Homepage/entered_home_page.dart'
 import 'package:flutter_bitirme_projesi/Notification_Page/notification.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/navigateToPage.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
-import 'package:flutter_bitirme_projesi/Voting_Page/oy_kullanma.dart';
+import 'package:flutter_bitirme_projesi/Voting_Page/voting.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
   const CustomBottomNavigationBar({super.key});

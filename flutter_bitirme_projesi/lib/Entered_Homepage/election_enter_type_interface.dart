@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/navigateToPage.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
-import 'package:flutter_bitirme_projesi/Voting_Page/oy_kullanma.dart';
+import 'package:flutter_bitirme_projesi/Voting_Page/voting.dart';
 
 class ElectionEnterTypeMenu extends StatefulWidget {
   const ElectionEnterTypeMenu({super.key});

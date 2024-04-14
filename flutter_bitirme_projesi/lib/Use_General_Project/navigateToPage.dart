@@ -3,7 +3,7 @@ import 'package:flutter_bitirme_projesi/Entered_Homepage/entered_home_page.dart'
 import 'package:flutter_bitirme_projesi/Login_Page/login_page.dart';
 import 'package:flutter_bitirme_projesi/Notification_Page/notification.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
-import 'package:flutter_bitirme_projesi/Voting_Page/oy_kullanma.dart';
+import 'package:flutter_bitirme_projesi/Voting_Page/voting.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 mixin NavigatorRoute {
@@ -44,7 +44,7 @@ class _SalomonNavBarState extends State<SalomonNavBar> with NavigatorRoute {
         }
 
         if (p0 == 2) {
-          navigateToWidget(context, Oykullanma());
+          navigateToWidget(context, Voting());
         }
 
         if (p0 == 3) {
