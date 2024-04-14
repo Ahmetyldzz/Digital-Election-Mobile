@@ -90,6 +90,9 @@ class _KayitOlState extends State<KayitOl> {
               Padding(
                 padding: const EdgeInsets.only(top: 15),
                 child: ProjectButtonStyle(
+                  onPressed: () {
+                    
+                  },
                   title: buttonText,
                   fontSize: 25,
                   buttonColor: ProjectColors().likePink,

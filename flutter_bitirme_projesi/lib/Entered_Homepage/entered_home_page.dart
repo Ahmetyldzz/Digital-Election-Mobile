@@ -20,7 +20,8 @@ class _EnteredHomePageState extends State<EnteredHomePage> {
       tesr1 = !tesr1;
     });
   }
-   final PageController _pageController = PageController(initialPage: 0);
+
+  final PageController _pageController = PageController(initialPage: 0);
   int _activePage = 0;
   final List<Widget> pages = [
     UstKisim(text: "text"),
@@ -31,7 +32,7 @@ class _EnteredHomePageState extends State<EnteredHomePage> {
     UstKisim(text: "asdasdasdasdasdasda"),
   ];
 
- bool _ActiveButton = false;
+  bool _ActiveButton = false;
   void buttonChanged() {
     setState(() {
       _ActiveButton = !_ActiveButton;
@@ -69,36 +70,38 @@ class _EnteredHomePageState extends State<EnteredHomePage> {
             title: Text("Anasayfa"),
           ),
           body: GeneralFrame(
-              child:Column(
-        children: [
-          Expanded(
-            flex: 9,
-            child: Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15),
-                child: PageView.builder(
-                  controller: _pageController,
-                  onPageChanged: (int page) {
-                    setState(() {
-                      _activePage = page;
-                    });
-                  },
-                  itemCount: pages.length,
-                  itemBuilder: (context, index) {
-                    return pages[index % pages.length];
-                  },
-                )),
+            child: Column(
+              children: [
+                Expanded(
+                  flex: 9,
+                  child: Padding(
+                      padding: const EdgeInsets.only(left: 15, right: 15),
+                      child: PageView.builder(
+                        controller: _pageController,
+                        onPageChanged: (int page) {
+                          setState(() {
+                            _activePage = page;
+                          });
+                        },
+                        itemCount: pages.length,
+                        itemBuilder: (context, index) {
+                          return pages[index % pages.length];
+                        },
+                      )),
+                ),
+                Expanded(
+                    flex: 1,
+                    child: AltKisim(
+                        pages: pages,
+                        pageController: _pageController,
+                        activePage: _activePage)),
+              ],
+            ),
           ),
-          Expanded(
-              flex: 1,
-              child: AltKisim(
-                  pages: pages,
-                  pageController: _pageController,
-                  activePage: _activePage)),
-        ],
-      ),
-                  /* Visibility(visible: tesr1, child: ElectionEnterTypeMenu()) */),
         ),
-        /* Container(
+        /* Visibility(visible: tesr1, child: ElectionEnterTypeMenu()), */
+        ElectionEnterTypeMenu()
+        /*  Container(
           color: Colors.amber,
           child: Center(child: ElectionEnterTypeMenu()),
         ), */

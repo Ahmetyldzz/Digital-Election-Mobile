@@ -6,17 +6,18 @@ class ProjectButtonStyle extends StatelessWidget {
     required this.title,
     required this.fontSize,
     required this.textColor,
-    required this.buttonColor,
+    required this.buttonColor, required this.onPressed,
   });
   final String title;
   final double fontSize;
   final Color textColor;
   final Color buttonColor;
+  final void Function() onPressed;
   
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-        onPressed: () {},
+        onPressed: onPressed,
         style: ElevatedButton.styleFrom(
             backgroundColor: buttonColor,
             shape: RoundedRectangleBorder(

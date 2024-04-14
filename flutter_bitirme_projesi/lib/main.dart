@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bitirme_projesi/Entered_Homepage/election_enter_type_interfacee.dart';
 import 'package:flutter_bitirme_projesi/Notification_Page/notification.dart';
 import 'package:flutter_bitirme_projesi/Entered_Homepage/election_enter_type_interface.dart';
 import 'package:flutter_bitirme_projesi/Entered_Homepage/entered_home_page.dart';
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
           appBarTheme: AppBarTheme(
         color: Color.fromRGBO(70, 139, 151, 1),
       )),
-      home: HomePage(),
+      home: LoginPage(),
     );
   }
 }

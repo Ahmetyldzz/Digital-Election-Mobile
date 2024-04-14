@@ -66,6 +66,9 @@ class _LoginPageState extends State<LoginPage> {
                       Padding(
                         padding: const EdgeInsets.only(top: 30),
                         child: ProjectButtonStyle(
+                          onPressed: () {
+                            
+                          },
                             title: buttonText,
                             fontSize: fontSize,
                             textColor: ProjectColors().darkTheme,
