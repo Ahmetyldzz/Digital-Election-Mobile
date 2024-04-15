@@ -21,7 +21,72 @@ class PostModel {
     data['body'] = this.body;
     return data;
   }
+
+
 }
+
+class RegisterNewModel {
+  String nameee = "";
+  String surname= "";
+  String kimlikNo = "";
+  String password= "";
+  String dogumTrh = "";
+  int? telNo;
+  bool? isAdmin;
+
+  RegisterNewModel(
+      {required this.nameee,
+      required this.surname,
+      required this.kimlikNo,
+      required this.password,
+      required this.dogumTrh,
+      this.telNo,
+      this.isAdmin});
+
+  RegisterNewModel.fromJson(Map<String, dynamic> json) {
+    nameee = json['name'];
+    surname = json['surname'];
+    kimlikNo = json['kimlikNo'];
+    password = json['password'];
+    dogumTrh = json['dogumTrh'];
+    telNo = json['telNo'];
+    isAdmin = json['isAdmin'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['name'] = this.nameee;
+    data['surname'] = this.surname;
+    data['kimlikNo'] = this.kimlikNo;
+    data['password'] = this.password;
+    data['dogumTrh'] = this.dogumTrh;
+    data['telNo'] = this.telNo;
+    data['isAdmin'] = this.isAdmin;
+    return data;
+  }
+}
+
+
+class AuthModel {
+  String? kimlikNo;
+  String? password;
+
+  AuthModel({this.kimlikNo, this.password});
+
+  AuthModel.fromJson(Map<String, dynamic> json) {
+    kimlikNo = json['kimlikNo'];
+    password = json['password'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['kimlikNo'] = this.kimlikNo;
+    data['password'] = this.password;
+    return data;
+  }
+}
+
+
 
 
 class VotingNameModel {
@@ -44,7 +109,7 @@ class VotingNameModel {
 }
 
 
-class RegistersModel {
+class RegisterModel {
   String? name;
   String? surname;
   String? kimlikNo;
@@ -52,7 +117,7 @@ class RegistersModel {
   String? dogumTrh;
   int? telNo;
 
-  RegistersModel(
+  RegisterModel(
       {this.name,
       this.surname,
       this.kimlikNo,
@@ -60,7 +125,7 @@ class RegistersModel {
       this.dogumTrh,
       this.telNo});
 
-  RegistersModel.fromJson(Map<String, dynamic> json) {
+  RegisterModel.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     surname = json['surname'];
     kimlikNo = json['kimlikNo'];
@@ -80,6 +145,8 @@ class RegistersModel {
     return data;
   }
 }
+
+
 
 class AnnouncementModel {
   String? announcementTitle;

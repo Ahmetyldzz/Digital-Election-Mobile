@@ -10,13 +10,14 @@ class CustomTextWidget extends StatelessWidget {
     required this.height,
     required this.width,
     this.textInputAction = TextInputAction.next,
-    this.textInputType = TextInputType.text,
+    this.textInputType = TextInputType.text, this.textEditingController,
   });
   final String hintText;
   final double height;
   final double width;
   final TextInputAction? textInputAction;
   final TextInputType? textInputType;
+  final TextEditingController? textEditingController;
 
   @override
   Widget build(BuildContext context) {
@@ -27,13 +28,14 @@ class CustomTextWidget extends StatelessWidget {
         width: width,
         decoration: BoxDecoration(
             color: ProjectColors().background,
-            borderRadius: BorderRadius.circular(10)),
+            borderRadius: BorderRadius.circular(4)),
         child: Align(
           alignment: Alignment.bottomCenter,
           child: TextField(
             textInputAction: textInputAction,
             keyboardType: textInputType,
             decoration: InputDecoration(
+                border: OutlineInputBorder(),
                 hintText: "  ${hintText}",
                 hintTextDirection: TextDirection.ltr,
                 hintStyle: Theme.of(context)

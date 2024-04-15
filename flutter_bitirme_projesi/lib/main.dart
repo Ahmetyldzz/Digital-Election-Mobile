@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bitirme_projesi/Elections/elections.dart';
 import 'package:flutter_bitirme_projesi/Entered_Homepage/election_enter_type_interfacee.dart';
+import 'package:flutter_bitirme_projesi/Login_Page/deneme.dart';
 import 'package:flutter_bitirme_projesi/Notification_Page/notification.dart';
 import 'package:flutter_bitirme_projesi/Entered_Homepage/election_enter_type_interface.dart';
 import 'package:flutter_bitirme_projesi/Entered_Homepage/entered_home_page.dart';
@@ -7,6 +9,7 @@ import 'package:flutter_bitirme_projesi/Not_Entered_Homepage/home_page.dart';
 import 'package:flutter_bitirme_projesi/Login_Page/login_page.dart';
 import 'package:flutter_bitirme_projesi/Profile/profile.dart';
 import 'package:flutter_bitirme_projesi/Sign_Up_Page/sign_up.dart';
+import 'package:flutter_bitirme_projesi/Use_General_Project/Popup/popup.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/new_navigation_bar.dart';
 import 'package:flutter_bitirme_projesi/Voting_Page/voting.dart';
 
@@ -27,7 +30,7 @@ class MyApp extends StatelessWidget {
           appBarTheme: AppBarTheme(
         color: Color.fromRGBO(70, 139, 151, 1),
       )),
-      home: EnteredHomePage(),
+      home: Elections(),
     );
   }
 }

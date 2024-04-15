@@ -1,16 +1,50 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bitirme_projesi/Use_General_Project/general_frame.dart';
-import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
+import 'dart:io';
 
-class ProfilePage extends StatelessWidget {
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bitirme_projesi/Use_General_Project/Popup/popup.dart';
+import 'package:flutter_bitirme_projesi/Use_General_Project/general_frame.dart';
+import 'package:flutter_bitirme_projesi/Use_General_Project/postmodel.dart';
+import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
+import 'package:flutter_bitirme_projesi/Use_General_Project/salomon_navbar.dart';
+
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  List<RegisterModel>? registersModel;
+
+  Future<void> fetchPostItems() async {
+    final response = await Dio().get("http://192.168.0.7:3000/api/register");
+    print("object");
+    if (response.statusCode == HttpStatus.ok) {
+      final datas = response.data;
+      if (datas is List) {
+        registersModel = datas.map((e) => RegisterModel.fromJson(e)).toList();
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchPostItems();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: SalomonBar(),
       backgroundColor: ProjectColors().background,
       appBar: AppBar(
         backgroundColor: ProjectColors().commonTheme,
+        actions: [
+          Popup(),
+        ],
       ),
       body: GeneralFrame(
         child: Column(children: [
@@ -30,39 +64,51 @@ class ProfilePage extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              CustomText(
-                headText: "Name",
-                text: "Ahmet ",
+              Expanded(
+                child: CustomText(
+                  headText: "Name",
+                  text: registersModel?[0].name ?? "",
+                ),
               ),
-              CustomText(
-                headText: "Surname",
-                text: "Yıldız",
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              CustomText(
-                headText: "T.C.",
-                text: "58279148824",
-              ),
-              CustomTextPassword(
-                label: "Password",
-                text: "***********",
+              Expanded(
+                child: CustomText(
+                  headText: "Surname",
+                  text: registersModel?[0].surname ?? "",
+                ),
               ),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              CustomText(
-                headText: "Phone",
-                text: "05462414260",
+              Expanded(
+                child: CustomText(
+                  headText: "T.C.",
+                  text: registersModel?[0].kimlikNo.toString() ?? "",
+                ),
               ),
-              CustomText(
-                headText: "Date of Birth",
-                text: "11.05.2001",
+              Expanded(
+                child: CustomTextPassword(
+                  label: "Password",
+                  text: "asdas",
+                ),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Expanded(
+                child: CustomText(
+                  headText: "Phone",
+                  text: registersModel?[0].telNo.toString() ?? "",
+                ),
+              ),
+              Expanded(
+                child: CustomText(
+                  headText: "Date of Birth",
+                  text: registersModel?[0].dogumTrh ?? "",
+                ),
               ),
             ],
           ),
@@ -137,15 +183,17 @@ class CustomTextPassword extends StatefulWidget {
 }
 
 class _CustomTextPasswordState extends State<CustomTextPassword> {
+  bool _isVisible = false;
+  void isLoading() {
+    setState(() {
+      _isVisible = !_isVisible;
+      print(_isVisible);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final TextEditingController textEditingController = TextEditingController();
-    bool isVisible = false;
-    void isChanged() {
-      setState(() {
-        isVisible = !isVisible;
-      });
-    }
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 25),
@@ -175,13 +223,15 @@ class _CustomTextPasswordState extends State<CustomTextPassword> {
                     padding: const EdgeInsets.only(left: 15),
                     child: TextField(
                       readOnly: true,
-                      obscureText: isVisible,
+                      obscureText: _isVisible,
                       controller: textEditingController,
                       decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: widget.text,
                           suffixIcon: InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              isLoading();
+                            },
                             child: Icon(
                               Icons.remove_red_eye_outlined,
                               color: ProjectColors().darkTheme,

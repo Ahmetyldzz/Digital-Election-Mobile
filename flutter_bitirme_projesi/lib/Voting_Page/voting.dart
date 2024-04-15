@@ -24,7 +24,7 @@ class _VotingState extends State<Voting> with NavigatorRoute {
   bool _isLoading = false;
   Color? renk = ProjectColors().background;
   List<CustomCardModel>? model1;
-  List<VotingNameModel>? model2;
+  List<RegisterModel>? model2;
   @override
   void initState() {
     super.initState();
@@ -45,12 +45,12 @@ class _VotingState extends State<Voting> with NavigatorRoute {
 
   Future<void> fetchPostItems() async {
     isLoading();
-    final result = await Dio().get("http://192.168.0.5:3000/api/register");
+    final result = await Dio().get("http://192.168.200.232:3000/api/register");
 
     if (result.statusCode == HttpStatus.ok) {
       final datas = result.data;
       if (datas is List) {
-        model2 = datas.map((e) => VotingNameModel.fromJson(e)).toList();
+        model2 = datas.map((e) => RegisterModel.fromJson(e)).toList();
       }
     }
     isLoading();
