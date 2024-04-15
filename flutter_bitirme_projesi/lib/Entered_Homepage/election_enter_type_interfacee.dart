@@ -11,11 +11,15 @@ class ElectionType extends StatefulWidget {
 class _ElectionTypeState extends State<ElectionType> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(color: ProjectColors().background),
-      width: 250,
-      height: 180,
-      child: Text(""),
+    return Center(
+      child: Container(
+        decoration: BoxDecoration(
+            color: ProjectColors().background,
+            borderRadius: BorderRadius.circular(12)),
+        width: 250,
+        height: 180,
+        child: Text(""),
+      ),
     );
   }
 }

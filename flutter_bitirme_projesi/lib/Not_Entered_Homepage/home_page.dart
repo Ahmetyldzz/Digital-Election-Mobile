@@ -4,7 +4,7 @@ import 'package:flutter_bitirme_projesi/Use_General_Project/navigateToPage.dart'
 import 'package:flutter_bitirme_projesi/Use_General_Project/padding_sizes.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
 import 'package:flutter_bitirme_projesi/Login_Page/login_page.dart';
-import 'package:flutter_bitirme_projesi/Sign_In_Page/sign_in.dart';
+import 'package:flutter_bitirme_projesi/Sign_Up_Page/sign_up.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage> with NavigatorRoute {
             padding: EdgeInsets.only(bottom: 12, top: 12, right: 20),
             child: ElevatedButton(
                 onPressed: () {
-                  navigateToWidget(context, KayitOl());
+                  navigateToWidget(context, Signup());
                 },
                 style: ElevatedButton.styleFrom(
                     shape: StadiumBorder(),

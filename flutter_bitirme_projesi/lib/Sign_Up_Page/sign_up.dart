@@ -7,14 +7,14 @@ import 'package:flutter_bitirme_projesi/Use_General_Project/project_button.dart'
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
 import 'package:flutter_bitirme_projesi/Login_Page/login_page.dart';
 
-class KayitOl extends StatefulWidget {
-  const KayitOl({super.key});
+class Signup extends StatefulWidget {
+  const Signup({super.key});
 
   @override
-  State<KayitOl> createState() => _KayitOlState();
+  State<Signup> createState() => _SignupState();
 }
 
-class _KayitOlState extends State<KayitOl> {
+class _SignupState extends State<Signup> {
   double fontSize = 28;
   final String title = "Kayıt Ol";
   final String hintText1 = "Ad";
@@ -90,9 +90,7 @@ class _KayitOlState extends State<KayitOl> {
               Padding(
                 padding: const EdgeInsets.only(top: 15),
                 child: ProjectButtonStyle(
-                  onPressed: () {
-                    
-                  },
+                  onPressed: () {},
                   title: buttonText,
                   fontSize: 25,
                   buttonColor: ProjectColors().likePink,

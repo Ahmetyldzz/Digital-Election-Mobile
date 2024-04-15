@@ -5,7 +5,7 @@ import 'package:flutter_bitirme_projesi/Use_General_Project/navigate_other_auth.
 import 'package:flutter_bitirme_projesi/Use_General_Project/padding_sizes.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_button.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
-import 'package:flutter_bitirme_projesi/Sign_In_Page/sign_in.dart';
+import 'package:flutter_bitirme_projesi/Sign_Up_Page/sign_up.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/salomon_navbar.dart';
 
 class LoginPage extends StatefulWidget {
@@ -66,9 +66,7 @@ class _LoginPageState extends State<LoginPage> {
                       Padding(
                         padding: const EdgeInsets.only(top: 30),
                         child: ProjectButtonStyle(
-                          onPressed: () {
-                            
-                          },
+                            onPressed: () {},
                             title: buttonText,
                             fontSize: fontSize,
                             textColor: ProjectColors().darkTheme,
@@ -77,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
                       Padding(
                         padding: EdgeInsets.only(top: 90),
                         child: NavigateToOtherAuth(
-                            widget: KayitOl(),
+                            widget: Signup(),
                             title: underText,
                             navigateText: underText2),
                       ),

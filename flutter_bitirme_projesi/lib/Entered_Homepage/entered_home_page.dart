@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bitirme_projesi/Elections/elections.dart';
 import 'package:flutter_bitirme_projesi/Not_Entered_Homepage/home_page.dart';
-import 'package:flutter_bitirme_projesi/Use_General_Project/custom_func.dart';
+import 'package:flutter_bitirme_projesi/Profile/profile.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/general_frame.dart';
+import 'package:flutter_bitirme_projesi/Use_General_Project/navigateToPage.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
-import 'package:flutter_bitirme_projesi/Entered_Homepage/election_enter_type_interface.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/salomon_navbar.dart';
 
 class EnteredHomePage extends StatefulWidget {
@@ -13,13 +14,9 @@ class EnteredHomePage extends StatefulWidget {
   State<EnteredHomePage> createState() => _EnteredHomePageState();
 }
 
-class _EnteredHomePageState extends State<EnteredHomePage> {
+class _EnteredHomePageState extends State<EnteredHomePage> with NavigatorRoute {
   bool tesr1 = false;
-  void test() {
-    setState(() {
-      tesr1 = !tesr1;
-    });
-  }
+ 
 
   final PageController _pageController = PageController(initialPage: 0);
   int _activePage = 0;
@@ -32,12 +29,8 @@ class _EnteredHomePageState extends State<EnteredHomePage> {
     UstKisim(text: "asdasdasdasdasdasda"),
   ];
 
-  bool _ActiveButton = false;
-  void buttonChanged() {
-    setState(() {
-      _ActiveButton = !_ActiveButton;
-    });
-  }
+  
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -50,20 +43,32 @@ class _EnteredHomePageState extends State<EnteredHomePage> {
             actions: [
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    const EdgeInsets.symmetric(vertical: 11, horizontal: 10),
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         shape: StadiumBorder(),
                         backgroundColor: ProjectColors().darkTheme),
                     onPressed: () {
-                      test();
+                      navigateToWidget(context, Elections());
                     },
                     child: Text(
-                      "Oy Kullan",
+                      "Seçimler",
                       style: Theme.of(context)
                           .textTheme
                           .bodyLarge
                           ?.copyWith(color: ProjectColors().background),
+                    )),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: IconButton(
+                    onPressed: () {
+                      navigateToWidget(context, ProfilePage());
+                    },
+                    icon: Icon(
+                      Icons.account_circle_rounded,
+                      size: 40,
+                      color: ProjectColors().background,
                     )),
               )
             ],
@@ -100,7 +105,7 @@ class _EnteredHomePageState extends State<EnteredHomePage> {
           ),
         ),
         /* Visibility(visible: tesr1, child: ElectionEnterTypeMenu()), */
-        ElectionEnterTypeMenu()
+
         /*  Container(
           color: Colors.amber,
           child: Center(child: ElectionEnterTypeMenu()),
