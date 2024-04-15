@@ -23,27 +23,6 @@ class PostModel {
   }
 }
 
-class Deneme {
-  String? sId;
-  String? picturePath;
-  int? iV;
-
-  Deneme({this.sId, this.picturePath, this.iV});
-
-  Deneme.fromJson(Map<String, dynamic> json) {
-    sId = json['_id'];
-    picturePath = json['picturePath'];
-    iV = json['__v'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['picturePath'] = this.picturePath;
-    data['__v'] = this.iV;
-    return data;
-  }
-}
 
 class VotingNameModel {
   String? name;
@@ -119,4 +98,21 @@ class AnnouncementModel {
     data['announcementBody'] = this.announcementBody;
     return data;
   }
+}
+
+class Candidates {
+
+}
+
+
+class Electypes {
+
+}
+
+/* class Elections {
+
+} */
+
+class Voters {
+
 }

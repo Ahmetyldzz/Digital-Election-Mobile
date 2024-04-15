@@ -1,9 +1,13 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bitirme_projesi/Elections/elections.dart';
 import 'package:flutter_bitirme_projesi/Not_Entered_Homepage/home_page.dart';
 import 'package:flutter_bitirme_projesi/Profile/profile.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/general_frame.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/navigateToPage.dart';
+import 'package:flutter_bitirme_projesi/Use_General_Project/postmodel.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/salomon_navbar.dart';
 
@@ -16,10 +20,29 @@ class EnteredHomePage extends StatefulWidget {
 
 class _EnteredHomePageState extends State<EnteredHomePage> with NavigatorRoute {
   bool tesr1 = false;
- 
 
   final PageController _pageController = PageController(initialPage: 0);
   int _activePage = 0;
+  List<AnnouncementModel>? model1;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchPostItems();
+  }
+
+  Future<void> fetchPostItems() async {
+    final response = await Dio().get("http://192.168.0.7:3000/api/register");
+
+    if (response.statusCode == HttpStatus.ok) {
+      final datas = response.data;
+
+      if (datas is List) {
+        model1 = datas.map((e) => AnnouncementModel.fromJson(e)).toList();
+      }
+    }
+  }
+
   final List<Widget> pages = [
     UstKisim(text: "text"),
     UstKisim(text: "selam"),
@@ -28,9 +51,6 @@ class _EnteredHomePageState extends State<EnteredHomePage> with NavigatorRoute {
     UstKisim(text: "halasdasdo"),
     UstKisim(text: "asdasdasdasdasdasda"),
   ];
-
-  
- 
 
   @override
   Widget build(BuildContext context) {
@@ -88,16 +108,16 @@ class _EnteredHomePageState extends State<EnteredHomePage> with NavigatorRoute {
                             _activePage = page;
                           });
                         },
-                        itemCount: pages.length,
+                        itemCount: model1?.length,
                         itemBuilder: (context, index) {
-                          return pages[index % pages.length];
+                          return UstKisim(text: model1?[index].announcementBody ?? "");
                         },
                       )),
                 ),
                 Expanded(
                     flex: 1,
                     child: AltKisim(
-                        pages: pages,
+                        pages: model1,
                         pageController: _pageController,
                         activePage: _activePage)),
               ],

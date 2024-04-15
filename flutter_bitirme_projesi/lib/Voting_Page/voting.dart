@@ -7,7 +7,7 @@ import 'package:flutter_bitirme_projesi/Use_General_Project/general_frame.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/navigateToPage.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
 import 'package:flutter_bitirme_projesi/Voting_Page/custom_card_model.dart';
-import 'package:flutter_bitirme_projesi/Voting_Page/postmodel.dart';
+import 'package:flutter_bitirme_projesi/Use_General_Project/postmodel.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 class Voting extends StatefulWidget {
@@ -85,7 +85,6 @@ class _VotingState extends State<Voting> with NavigatorRoute {
                 child: ListView.builder(
                   itemCount: model2?.length ?? 10,
                   itemBuilder: (context, index) {
-                    VotingNameModel? vModel;
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(

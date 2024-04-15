@@ -108,7 +108,7 @@ class AltKisim extends StatelessWidget {
   })  : _pageController = pageController,
         _activePage = activePage;
 
-  final List<Widget> pages;
+  final List? pages;
   final PageController _pageController;
   final int _activePage;
 
@@ -119,7 +119,7 @@ class AltKisim extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: List<Widget>.generate(
-            pages.length,
+            pages?.length ?? 0,
             (index) => Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10),
                   child: InkWell(
