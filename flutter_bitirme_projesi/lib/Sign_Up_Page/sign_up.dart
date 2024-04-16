@@ -2,8 +2,10 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bitirme_projesi/Entered_Homepage/entered_home_page.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/custom_text_widget.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/general_frame.dart';
+import 'package:flutter_bitirme_projesi/Use_General_Project/navigateToPage.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/navigate_other_auth.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/padding_sizes.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/postmodel.dart';
@@ -18,7 +20,7 @@ class Signup extends StatefulWidget {
   State<Signup> createState() => _SignupState();
 }
 
-class _SignupState extends State<Signup> {
+class _SignupState extends State<Signup> with NavigatorRoute {
   double fontSize = 28;
   final String title = "Kayıt Ol";
   final String hintText1 = "Ad";
@@ -35,11 +37,14 @@ class _SignupState extends State<Signup> {
   final double hintTextWidth2 = 120;
   final double hintTextHeight2 = 40;
   bool _isLoading = false;
-  final TextEditingController tcKimlikNoEditingController = TextEditingController();
+  final TextEditingController tcKimlikNoEditingController =
+      TextEditingController();
   final TextEditingController isimEditingController = TextEditingController();
-  final TextEditingController soyisimEditingController = TextEditingController();
+  final TextEditingController soyisimEditingController =
+      TextEditingController();
   final TextEditingController sifreEditingController = TextEditingController();
-  final TextEditingController dogumTarihiEditingController = TextEditingController();
+  final TextEditingController dogumTarihiEditingController =
+      TextEditingController();
   final TextEditingController telNoEditingController = TextEditingController();
 
   void _changeLoading() {
@@ -130,18 +135,16 @@ class _SignupState extends State<Signup> {
                 child: ProjectButtonStyle(
                   onPressed: () {
                     final model = RegisterNewModel(
-                        nameee: "alper",
-                        isAdmin: true,
-                        surname: "adadsfsdf",
-                        kimlikNo: "asdasdasdas",
-                        password: "aaaaaaaaaaa",
-                        dogumTrh: "2002-10-03",
-                        telNo: 123123123);
-
-                    final model2 = PostModel(
-                        body: "asda", title: "asda", id: 2, userId: 3);
+                        nameee: isimEditingController.text,
+                        isAdmin: false,
+                        surname: soyisimEditingController.text,
+                        kimlikNo: tcKimlikNoEditingController.text,
+                        password: sifreEditingController.text,
+                        dogumTrh: dogumTarihiEditingController.text,
+                        telNo: int.tryParse(telNoEditingController.text));
 
                     _addItemToService(model);
+                    navigateToWidget(context, LoginPage());
                   },
                   title: buttonText,
                   fontSize: 25,

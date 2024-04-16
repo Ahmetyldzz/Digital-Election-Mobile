@@ -164,8 +164,8 @@ class ElectionModel {
   String? electionTitle;
   String? electionExplanation;
   String? electionType;
-  List<String>? candidates;
-  List<String>? voter;
+  String? candidates;
+  String? voter;
 
   ElectionModel(
       {this.initDate,
@@ -182,8 +182,8 @@ class ElectionModel {
     electionTitle = json['electionTitle'];
     electionExplanation = json['electionExplanation'];
     electionType = json['electionType'];
-    candidates = json['candidates'].cast<String>();
-    voter = json['voter'].cast<String>();
+    candidates = json['candidates'];
+    voter = json['voter'];
   }
 
   Map<String, dynamic> toJson() {
@@ -198,4 +198,3 @@ class ElectionModel {
     return data;
   }
 }
-

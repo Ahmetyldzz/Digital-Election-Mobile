@@ -47,7 +47,6 @@ class _LoginPageState extends State<LoginPage> with NavigatorRoute {
   @override
   void initState() {
     super.initState();
-    _dio = Dio(BaseOptions(baseUrl: "http://192.168.0.7:3000/api/signup/"));
     fetchPostItems();
   }
 
@@ -58,7 +57,7 @@ class _LoginPageState extends State<LoginPage> with NavigatorRoute {
 
   Future<void> fetchPostItems() async {
     final response =
-        await Dio().get("http://192.168.0.7:3000/api/announcement");
+        await Dio().get("http://192.168.200.232:3000/api/register");
 
     if (response.statusCode == HttpStatus.ok) {
       final datas = response.data;
@@ -137,16 +136,23 @@ class _LoginPageState extends State<LoginPage> with NavigatorRoute {
                           ),
                         ),
                       ),
+                      /* TextField(
+                        controller: kimlikNoTextEditingContoller,
+                      ),
+                      TextField(
+                        controller: passwordTextEditingContoller,
+                      ), */
                       Padding(
                         padding: const EdgeInsets.only(top: 30),
                         child: ProjectButtonStyle(
                             onPressed: () {
                               AuthModel authModel = AuthModel(
                                   kimlikNo: kimlikNoTextEditingContoller.text,
-                                  password: "ahmetyildiz123");
+                                  password: passwordTextEditingContoller.text);
 
                               try {
                                 _addItemToService(authModel);
+
                                 //print(response);
                                 String tokenAsString =
                                     convertDynamicToString(response);
@@ -168,32 +174,16 @@ class _LoginPageState extends State<LoginPage> with NavigatorRoute {
                                           child: Text("Close"),
                                         ),
                                       ],
-                                      title: Text("Flutter Alert Dialogue"),
+                                      title: Text("Hatalı Giriş"),
                                       contentPadding: EdgeInsets.all(20.0),
-                                      content: Text("This is Alert dialog"),
+                                      content: Text(
+                                          "Hatalı kimlik numarası yada şifre"),
                                     ),
                                   );
                                 }
-                                /*  for (int i = 0;
-                                      i <= decodedToken.length;
-                                      i++) {
-                                    print(decodedToken.values);
-                                  } */
-
-                                /*  if (decodedToken.containsValue(kimlikNo)) {
-                                      //navigateToWidget(context, EnteredHomePage());
-                                  //print(decodedToken);
-                                } */
-
-                                //
                               } catch (e) {
                                 print(e);
                               }
-
-                              /*  if (response is Dio) {
-                                navigateToWidget(context, EnteredHomePage());
-                                statusCode = 0;
-                              } else {} */
                             },
                             title: buttonText,
                             fontSize: fontSize,

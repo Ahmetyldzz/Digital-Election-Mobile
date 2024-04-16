@@ -43,14 +43,6 @@ class _EnteredHomePageState extends State<EnteredHomePage> with NavigatorRoute {
     }
   }
 
-  final List<Widget> pages = [
-    UstKisim(text: "text"),
-    UstKisim(text: "selam"),
-    UstKisim(text: "merhaba"),
-    UstKisim(text: "halo"),
-    UstKisim(text: "halasdasdo"),
-    UstKisim(text: "asdasdasdasdasdasda"),
-  ];
 
   @override
   Widget build(BuildContext context) {
