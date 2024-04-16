@@ -21,15 +21,13 @@ class PostModel {
     data['body'] = this.body;
     return data;
   }
-
-
 }
 
 class RegisterNewModel {
   String nameee = "";
-  String surname= "";
+  String surname = "";
   String kimlikNo = "";
-  String password= "";
+  String password = "";
   String dogumTrh = "";
   int? telNo;
   bool? isAdmin;
@@ -66,7 +64,6 @@ class RegisterNewModel {
   }
 }
 
-
 class AuthModel {
   String? kimlikNo;
   String? password;
@@ -86,9 +83,6 @@ class AuthModel {
   }
 }
 
-
-
-
 class VotingNameModel {
   String? name;
   String? surname;
@@ -107,7 +101,6 @@ class VotingNameModel {
     return data;
   }
 }
-
 
 class RegisterModel {
   String? name;
@@ -146,8 +139,6 @@ class RegisterModel {
   }
 }
 
-
-
 class AnnouncementModel {
   String? announcementTitle;
   String? announcementBody;
@@ -167,19 +158,44 @@ class AnnouncementModel {
   }
 }
 
-class Candidates {
+class ElectionModel {
+  String? initDate;
+  String? endDate;
+  String? electionTitle;
+  String? electionExplanation;
+  String? electionType;
+  List<String>? candidates;
+  List<String>? voter;
 
+  ElectionModel(
+      {this.initDate,
+      this.endDate,
+      this.electionTitle,
+      this.electionExplanation,
+      this.electionType,
+      this.candidates,
+      this.voter});
+
+  ElectionModel.fromJson(Map<String, dynamic> json) {
+    initDate = json['initDate'];
+    endDate = json['endDate'];
+    electionTitle = json['electionTitle'];
+    electionExplanation = json['electionExplanation'];
+    electionType = json['electionType'];
+    candidates = json['candidates'].cast<String>();
+    voter = json['voter'].cast<String>();
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['initDate'] = this.initDate;
+    data['endDate'] = this.endDate;
+    data['electionTitle'] = this.electionTitle;
+    data['electionExplanation'] = this.electionExplanation;
+    data['electionType'] = this.electionType;
+    data['candidates'] = this.candidates;
+    data['voter'] = this.voter;
+    return data;
+  }
 }
 
-
-class Electypes {
-
-}
-
-/* class Elections {
-
-} */
-
-class Voters {
-
-}

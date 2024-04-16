@@ -35,12 +35,12 @@ class _SignupState extends State<Signup> {
   final double hintTextWidth2 = 120;
   final double hintTextHeight2 = 40;
   bool _isLoading = false;
-  final TextEditingController textEditingController = TextEditingController();
-  final TextEditingController textEditingController2 = TextEditingController();
-  final TextEditingController textEditingController3 = TextEditingController();
-  final TextEditingController textEditingController4 = TextEditingController();
-  final TextEditingController textEditingController5 = TextEditingController();
-  final TextEditingController textEditingController6 = TextEditingController();
+  final TextEditingController tcKimlikNoEditingController = TextEditingController();
+  final TextEditingController isimEditingController = TextEditingController();
+  final TextEditingController soyisimEditingController = TextEditingController();
+  final TextEditingController sifreEditingController = TextEditingController();
+  final TextEditingController dogumTarihiEditingController = TextEditingController();
+  final TextEditingController telNoEditingController = TextEditingController();
 
   void _changeLoading() {
     setState(() {
@@ -63,7 +63,7 @@ class _SignupState extends State<Signup> {
     _changeLoading();
     final response = await Dio().post(
         'https://jsonplaceholder.typicode.com/posts',
-        data: registerModel);
+        data: registerModel.toJson());
     if (response.statusCode == HttpStatus.ok) {
       print("response.statusCode");
     }
@@ -86,59 +86,43 @@ class _SignupState extends State<Signup> {
                       fontSize: fontSize,
                     ),
               ),
-              /* Container(
-                height: 40,
-                color: ProjectColors().background,
-                child: TextField(
-                  controller: textEditingController,
-                  decoration: InputDecoration(border: OutlineInputBorder()),
-                ),
+              customTextField(
+                  hintText: "T.C Kimlik Numarası",
+                  textEditingController: tcKimlikNoEditingController,
+                  textInputType: TextInputType.phone,
+                  textInputAction: TextInputAction.next),
+              customTextField(
+                hintText: "İsim",
+                textEditingController: isimEditingController,
+                textInputAction: TextInputAction.next,
               ),
-              Container(
-                height: 40,
-                color: ProjectColors().background,
-                child: TextField(
-                  controller: textEditingController2,
-                  decoration: InputDecoration(border: OutlineInputBorder()),
-                ),
+              customTextField(
+                hintText: "Soyisim",
+                textEditingController: soyisimEditingController,
+                textInputAction: TextInputAction.next,
               ),
-              Container(
-                height: 40,
-                color: ProjectColors().background,
-                child: TextField(
-                  controller: textEditingController3,
-                  decoration: InputDecoration(border: OutlineInputBorder()),
-                ),
-              ),
-              Container(
-                height: 40,
-                color: ProjectColors().background,
-                child: TextField(
-                  controller: textEditingController4,
-                  decoration: InputDecoration(border: OutlineInputBorder()),
-                ),
-              ), */
+              customTextField(
+                  hintText: "Parola",
+                  textEditingController: sifreEditingController,
+                  textInputAction: TextInputAction.next,
+                  isObscure: true),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  /* Container(
-                    height: 40,
-                    width: 100,
-                    color: ProjectColors().background,
-                    child: TextField(
-                      controller: textEditingController5,
-                      decoration: InputDecoration(border: OutlineInputBorder()),
-                    ),
-                  ),
-                  Container(s
-                    width: 100,
-                    height: 40,
-                    color: ProjectColors().background,
-                    child: TextField(
-                      controller: textEditingController6,
-                      decoration: InputDecoration(border: OutlineInputBorder()),
-                    ),
-                  ), */
+                  Expanded(
+                      child: customTextField(
+                    hintText: "Doğum Tarihi",
+                    textEditingController: dogumTarihiEditingController,
+                    textInputAction: TextInputAction.next,
+                    textInputType: TextInputType.datetime,
+                  )),
+                  Expanded(
+                      child: customTextField(
+                    hintText: "Tel No:",
+                    textEditingController: telNoEditingController,
+                    textInputAction: TextInputAction.next,
+                    textInputType: TextInputType.phone,
+                  )),
                 ],
               ),
               Padding(
@@ -173,6 +157,35 @@ class _SignupState extends State<Signup> {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Padding customTextField({
+    required String hintText,
+    required TextEditingController textEditingController,
+    TextInputAction? textInputAction = TextInputAction.done,
+    TextInputType? textInputType = TextInputType.text,
+    bool isObscure = false,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        height: 50,
+        decoration: BoxDecoration(
+            color: ProjectColors().background,
+            borderRadius: BorderRadius.circular(12)),
+        child: TextField(
+          obscureText: isObscure,
+          textInputAction: textInputAction,
+          keyboardType: textInputType,
+          cursorColor: Colors.black,
+          controller: textEditingController,
+          decoration: InputDecoration(
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+              hintText: hintText),
         ),
       ),
     );

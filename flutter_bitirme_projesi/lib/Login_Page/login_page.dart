@@ -1,6 +1,7 @@
 import 'dart:ffi';
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bitirme_projesi/Entered_Homepage/entered_home_page.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/general_frame.dart';
@@ -12,6 +13,7 @@ import 'package:flutter_bitirme_projesi/Use_General_Project/project_button.dart'
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
 import 'package:flutter_bitirme_projesi/Sign_Up_Page/sign_up.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/salomon_navbar.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -39,6 +41,8 @@ class _LoginPageState extends State<LoginPage> with NavigatorRoute {
   int? statusCode;
   String? password;
   List<RegisterModel>? registersModel;
+  var token;
+  var response;
 
   @override
   void initState() {
@@ -48,13 +52,8 @@ class _LoginPageState extends State<LoginPage> with NavigatorRoute {
   }
 
   Future<void> _addItemToService(AuthModel authModel) async {
-    final response = await Dio().post(
-        'http://192.168.200.232:3000/api/signup/auth',
-        data: authModel.toJson());
-    print("object");
-    if (response.statusCode == 200) {
-      statusCode = 200;
-    }
+    response = (await Dio().post('http://192.168.200.232:3000/api/signup/auth',
+        data: authModel.toJson()));
   }
 
   Future<void> fetchPostItems() async {
@@ -69,11 +68,19 @@ class _LoginPageState extends State<LoginPage> with NavigatorRoute {
     }
   }
 
+  String convertDynamicToString(dynamic value) {
+    if (value is String) {
+      return value;
+    } else {
+      // İstediğiniz dönüşümü burada yapabilirsiniz.
+      return value.toString();
+    }
+  }
+
   @override
   @override
   Widget build(BuildContext context) {
     return GeneralFrame(
-      bottomNavigationBar: SalomonBar(),
       child: Padding(
         padding: PaddingSizes().innerFrame,
         child: Container(
@@ -95,45 +102,98 @@ class _LoginPageState extends State<LoginPage> with NavigatorRoute {
                   padding: const EdgeInsets.only(top: 70),
                   child: Column(
                     children: [
-                      TextField(
-                        controller: kimlikNoTextEditingContoller,
-                        decoration:
-                            InputDecoration(border: OutlineInputBorder()),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: ProjectColors().background,
+                              borderRadius: BorderRadius.circular(12)),
+                          child: TextField(
+                            textInputAction: TextInputAction.next,
+                            keyboardType: TextInputType.number,
+                            cursorColor: Colors.black,
+                            controller: kimlikNoTextEditingContoller,
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12)),
+                                hintText: "T.C. Kimlik Numarası"),
+                          ),
+                        ),
                       ),
-                      TextField(
-                        controller: passwordTextEditingContoller,
-                        decoration:
-                            InputDecoration(border: OutlineInputBorder()),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: ProjectColors().background,
+                              borderRadius: BorderRadius.circular(12)),
+                          child: TextField(
+                            obscureText: true,
+                            cursorColor: Colors.black,
+                            controller: passwordTextEditingContoller,
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12)),
+                                hintText: "Şifre"),
+                          ),
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 30),
                         child: ProjectButtonStyle(
                             onPressed: () {
                               AuthModel authModel = AuthModel(
-                                  kimlikNo: "12345678905",
+                                  kimlikNo: kimlikNoTextEditingContoller.text,
                                   password: "ahmetyildiz123");
 
-                              _addItemToService(authModel);
-                              if (statusCode == 200) {
-                                navigateToWidget(context, EnteredHomePage());
-                              } else {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Text("Close"),
-                                      ),
-                                    ],
-                                    title: Text("Flutter Alert Dialogue"),
-                                    contentPadding: EdgeInsets.all(20.0),
-                                    content: Text("This is Alert dialog"),
-                                  ),
-                                );
+                              try {
+                                _addItemToService(authModel);
+                                //print(response);
+                                String tokenAsString =
+                                    convertDynamicToString(response);
+                                Map<String, dynamic> decodedToken =
+                                    JwtDecoder.decode(tokenAsString);
+
+                                if (decodedToken.containsValue(
+                                    kimlikNoTextEditingContoller.text)) {
+                                  navigateToWidget(context, EnteredHomePage());
+                                } else {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Text("Close"),
+                                        ),
+                                      ],
+                                      title: Text("Flutter Alert Dialogue"),
+                                      contentPadding: EdgeInsets.all(20.0),
+                                      content: Text("This is Alert dialog"),
+                                    ),
+                                  );
+                                }
+                                /*  for (int i = 0;
+                                      i <= decodedToken.length;
+                                      i++) {
+                                    print(decodedToken.values);
+                                  } */
+
+                                /*  if (decodedToken.containsValue(kimlikNo)) {
+                                      //navigateToWidget(context, EnteredHomePage());
+                                  //print(decodedToken);
+                                } */
+
+                                //
+                              } catch (e) {
+                                print(e);
                               }
+
+                              /*  if (response is Dio) {
+                                navigateToWidget(context, EnteredHomePage());
+                                statusCode = 0;
+                              } else {} */
                             },
                             title: buttonText,
                             fontSize: fontSize,

@@ -1,4 +1,8 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bitirme_projesi/Use_General_Project/postmodel.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
 
 class Elections extends StatefulWidget {
@@ -9,6 +13,24 @@ class Elections extends StatefulWidget {
 }
 
 class _ElectionsState extends State<Elections> {
+  List<RegisterModel>? model2;
+  @override
+  void initState() {
+    super.initState();
+    fetchPostItems();
+  }
+
+  Future<void> fetchPostItems() async {
+    final result = await Dio().get("http://192.168.200.232:3000/api/elections");
+
+    if (result.statusCode == HttpStatus.ok) {
+      final datas = result.data;
+      if (datas is List) {
+        model2 = datas.map((e) => RegisterModel.fromJson(e)).toList();
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
