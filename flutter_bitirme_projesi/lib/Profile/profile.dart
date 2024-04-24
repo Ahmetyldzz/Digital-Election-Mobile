@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/Popup/popup.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/general_frame.dart';
-import 'package:flutter_bitirme_projesi/Use_General_Project/postmodel.dart';
+import 'package:flutter_bitirme_projesi/model/postmodel.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/salomon_navbar.dart';
 
@@ -19,8 +19,7 @@ class _ProfilePageState extends State<ProfilePage> {
   List<RegisterModel>? registersModel;
 
   Future<void> fetchPostItems() async {
-    final response = await Dio().get("http://192.168.0.7:3000/api/register");
-    print("object");
+    final response = await Dio().get("http://192.168.23.232:3000/api/register");
     if (response.statusCode == HttpStatus.ok) {
       final datas = response.data;
       if (datas is List) {

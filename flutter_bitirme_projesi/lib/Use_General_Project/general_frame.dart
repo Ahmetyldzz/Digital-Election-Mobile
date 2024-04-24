@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bitirme_projesi/Use_General_Project/custom_func.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/padding_sizes.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
 

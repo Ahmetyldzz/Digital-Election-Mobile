@@ -1,11 +1,9 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/general_frame.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/navigateToPage.dart';
-import 'package:flutter_bitirme_projesi/Use_General_Project/padding_sizes.dart';
-import 'package:flutter_bitirme_projesi/Use_General_Project/postmodel.dart';
+import 'package:flutter_bitirme_projesi/model/postmodel.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
 import 'package:flutter_bitirme_projesi/Login_Page/login_page.dart';
 import 'package:flutter_bitirme_projesi/Sign_Up_Page/sign_up.dart';
@@ -21,23 +19,16 @@ class _HomePageState extends State<HomePage> with NavigatorRoute {
   final PageController _pageController = PageController(initialPage: 0);
   int _activePage = 0;
   List<AnnouncementModel>? model1;
-  final List<Widget> pages = [
-    UstKisim(text: "text"),
-    UstKisim(text: "selam"),
-    UstKisim(text: "merhaba"),
-    UstKisim(text: "halo"),
-    UstKisim(text: "halasdasdo"),
-    UstKisim(text: "asdasdasdasdasdasda"),
-  ];
-
+  late final Dio _dio;
   @override
   void initState() {
     super.initState();
+    _dio = Dio(BaseOptions(baseUrl: "http://192.168.107.232:3000/api/"));
     fetchPostItems();
   }
 
   Future<void> fetchPostItems() async {
-    final response = await Dio().get("http://192.168.200.232:3000/api/announcement");
+    final response = await _dio.get("announcement");
 
     if (response.statusCode == HttpStatus.ok) {
       final datas = response.data;
@@ -106,7 +97,8 @@ class _HomePageState extends State<HomePage> with NavigatorRoute {
                   },
                   itemCount: model1?.length,
                   itemBuilder: (context, index) {
-                    return  UstKisim(text: model1?[index].announcementTitle ?? "");
+                    return UstKisim(
+                        text: model1?[index].announcementTitle ?? "");
                   },
                 )),
           ),

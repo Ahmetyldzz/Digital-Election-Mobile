@@ -7,7 +7,7 @@ import 'package:flutter_bitirme_projesi/Not_Entered_Homepage/home_page.dart';
 import 'package:flutter_bitirme_projesi/Profile/profile.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/general_frame.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/navigateToPage.dart';
-import 'package:flutter_bitirme_projesi/Use_General_Project/postmodel.dart';
+import 'package:flutter_bitirme_projesi/model/postmodel.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/salomon_navbar.dart';
 
@@ -24,15 +24,25 @@ class _EnteredHomePageState extends State<EnteredHomePage> with NavigatorRoute {
   final PageController _pageController = PageController(initialPage: 0);
   int _activePage = 0;
   List<AnnouncementModel>? model1;
+  late final Dio _dio;
+  final String _baseUrl = "http://192.168.0.16:3000/api/";
+  bool _isLoading = false;
 
   @override
   void initState() {
     super.initState();
+    _dio = Dio(BaseOptions(baseUrl: _baseUrl));
     fetchPostItems();
+    print("çalıştı");
+  }
+
+  void isLoading() {
+    _isLoading = !_isLoading;
   }
 
   Future<void> fetchPostItems() async {
-    final response = await Dio().get("http://192.168.0.7:3000/api/register");
+    isLoading();
+    final response = await _dio.get(paths.announcement.name);
 
     if (response.statusCode == HttpStatus.ok) {
       final datas = response.data;
@@ -41,8 +51,8 @@ class _EnteredHomePageState extends State<EnteredHomePage> with NavigatorRoute {
         model1 = datas.map((e) => AnnouncementModel.fromJson(e)).toList();
       }
     }
+    isLoading();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +112,11 @@ class _EnteredHomePageState extends State<EnteredHomePage> with NavigatorRoute {
                         },
                         itemCount: model1?.length,
                         itemBuilder: (context, index) {
-                          return UstKisim(text: model1?[index].announcementBody ?? "");
+                          return _isLoading
+                              ? Center(
+                                  child: CircularProgressIndicator.adaptive())
+                              : UstKisim(
+                                  text: model1?[index].announcementBody ?? "");
                         },
                       )),
                 ),
@@ -126,3 +140,5 @@ class _EnteredHomePageState extends State<EnteredHomePage> with NavigatorRoute {
     );
   }
 }
+
+enum paths { announcement }

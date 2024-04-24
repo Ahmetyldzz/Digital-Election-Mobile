@@ -1,10 +1,10 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bitirme_projesi/Elections/election_details_page.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/navigateToPage.dart';
-import 'package:flutter_bitirme_projesi/Use_General_Project/postmodel.dart';
+import 'package:flutter_bitirme_projesi/model/postmodel.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
 import 'package:flutter_bitirme_projesi/Voting_Page/voting.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
@@ -17,7 +17,7 @@ class Elections extends StatefulWidget {
 }
 
 class _ElectionsState extends State<Elections> with NavigatorRoute {
-  List<ElectionModel>? model2;
+  List<ElectionsModels>? model2;
   late Map<String, dynamic> decodedToken;
   var response;
 
@@ -37,13 +37,13 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
   }
 
   Future<void> fetchPostItems() async {
-    final result = await Dio().get("http://192.168.200.232:3000/api/elections");
+    final result = await Dio().get("http://192.168.1.90:3000/api/elections");
 
     if (result.statusCode == HttpStatus.ok) {
       final datas = result.data;
       if (datas is List) {
-        model2 = datas.map((e) => ElectionModel.fromJson(e)).toList();
-        print(model2?[2].voter);
+        model2 = datas.map((e) => ElectionsModels.fromJson(e)).toList();
+        print(model2?[0].endDate);
       }
     }
   }
@@ -74,107 +74,87 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Card(
-                elevation: 5,
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: ProjectColors().commonTheme,
-                      borderRadius: BorderRadius.circular(5)),
-                  width: 200,
-                  height: 100,
-                  child: ListTile(
-                    title: Text(
-                      "2024 Cumhurbaşkanlığı Seçimi",
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineSmall
-                          ?.copyWith(color: ProjectColors().background),
-                    ),
-                    trailing: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 0),
-                          child: InkWell(
-                            onTap: () {
-                              navigateToWidget(context, Voting());
-                            },
-                            child: CircleAvatar(
-                              backgroundColor: ProjectColors().darkTheme,
-                              child: Icon(
-                                Icons.chevron_right_rounded,
-                                size: 30,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    subtitle: Container(
-                        //color: Colors.amber,
-                        child: Text(
-                      "11-10-2024 12-10-2024",
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyLarge
-                          ?.copyWith(color: ProjectColors().background),
-                    )),
-                  ),
-                ),
-              ),
+              child: _customElectionCard(context,
+                  "2018 Cumhurbaşkanlığı Seçimi", "11-05-2018 12-05-2018"),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Card(
-                elevation: 5,
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: ProjectColors().commonTheme,
-                      borderRadius: BorderRadius.circular(5)),
-                  width: 200,
-                  height: 100,
-                  child: ListTile(
-                    title: Text(
-                      "2018 Cumhurbaşkanlığı Seçimi",
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineSmall
-                          ?.copyWith(color: ProjectColors().background),
-                    ),
-                    trailing: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 0),
-                          child: InkWell(
-                            onTap: () {
-                              navigateToWidget(context, Voting());
-                            },
-                            child: CircleAvatar(
-                              backgroundColor: ProjectColors().darkTheme,
-                              child: Icon(
-                                Icons.chevron_right_rounded,
-                                size: 30,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    subtitle: Container(
-                        //color: Colors.amber,
-                        child: Text(
-                      "16-04-2018 - 17-04-2018",
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyLarge
-                          ?.copyWith(color: ProjectColors().background),
-                    )),
-                  ),
-                ),
-              ),
+              child: _customElectionCard(context,
+                  "2024 Cumhurbaşkanlığı Seçimi", "11-05-2024 12-05-2024"),
             ),
           ],
         ));
+  }
+
+  Card _customElectionCard(
+      BuildContext context, String title, String electionDate) {
+    return Card(
+      elevation: 5,
+      child: Container(
+        decoration: BoxDecoration(
+            color: ProjectColors().commonTheme,
+            borderRadius: BorderRadius.circular(5)),
+        width: 200,
+        height: 100,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ListTile(
+            title: Text(
+              title,
+              style: Theme.of(context)
+                  .textTheme
+                  .headlineSmall
+                  ?.copyWith(color: ProjectColors().background),
+            ),
+            trailing: _customTrailingColumn(context),
+            subtitle: Container(
+                //color: Colors.amber,
+                child: Text(
+              electionDate,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyLarge
+                  ?.copyWith(color: ProjectColors().background),
+            )),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Column _customTrailingColumn(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 0),
+            child: InkWell(
+              onTap: () {
+                navigateToWidget(context, Voting());
+              },
+              child: CircleAvatar(
+                backgroundColor: ProjectColors().darkTheme,
+                child: Icon(
+                  Icons.chevron_right_rounded,
+                  size: 20,
+                ),
+              ),
+            ),
+          ),
+        ),
+        Expanded(
+          child: IconButton(
+              onPressed: () {
+                navigateToWidget(context, ElectionDetailsPage());
+              },
+              icon: Icon(
+                Icons.info_outlined,
+                color: ProjectColors().background,
+                //size: 20,
+              )),
+        )
+      ],
+    );
   }
 }

@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:dot_navigation_bar/dot_navigation_bar.dart';
-import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
-import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
+
 
 class SignInVariables {
   double fontSize = 28;

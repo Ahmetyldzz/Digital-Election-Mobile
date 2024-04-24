@@ -31,6 +31,5 @@ class _SalomonBarState extends State<SalomonBar> {
             icon: Icon(Icons.notifications), title: Text("Notifications")),
       ],
     );
-    ;
   }
 }

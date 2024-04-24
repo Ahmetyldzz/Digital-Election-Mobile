@@ -1,14 +1,13 @@
 import 'dart:io';
 
+import 'package:bcrypt/bcrypt.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bitirme_projesi/Entered_Homepage/entered_home_page.dart';
-import 'package:flutter_bitirme_projesi/Use_General_Project/custom_text_widget.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/general_frame.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/navigateToPage.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/navigate_other_auth.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/padding_sizes.dart';
-import 'package:flutter_bitirme_projesi/Use_General_Project/postmodel.dart';
+import 'package:flutter_bitirme_projesi/model/postmodel.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_button.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
 import 'package:flutter_bitirme_projesi/Login_Page/login_page.dart';
@@ -37,6 +36,8 @@ class _SignupState extends State<Signup> with NavigatorRoute {
   final double hintTextWidth2 = 120;
   final double hintTextHeight2 = 40;
   bool _isLoading = false;
+  late final Dio _dio;
+  final String _baseUrl = "http://192.168.1.90:3000/api/";
   final TextEditingController tcKimlikNoEditingController =
       TextEditingController();
   final TextEditingController isimEditingController = TextEditingController();
@@ -46,6 +47,12 @@ class _SignupState extends State<Signup> with NavigatorRoute {
   final TextEditingController dogumTarihiEditingController =
       TextEditingController();
   final TextEditingController telNoEditingController = TextEditingController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _dio = Dio(BaseOptions(baseUrl: _baseUrl));
+  }
 
   void _changeLoading() {
     setState(() {
@@ -55,8 +62,8 @@ class _SignupState extends State<Signup> with NavigatorRoute {
 
   Future<void> _addItemToService(RegisterNewModel registerModel) async {
     _changeLoading();
-    final response = await Dio().post(
-        'http://192.168.200.232:3000/api/register',
+    final response = await _dio.post(
+        'signup/create',
         data: registerModel.toJson());
     if (response.statusCode == HttpStatus.ok) {
       print(response);

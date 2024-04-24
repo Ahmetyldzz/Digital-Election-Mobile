@@ -6,8 +6,8 @@ import 'package:flutter_bitirme_projesi/Entered_Homepage/entered_home_page.dart'
 import 'package:flutter_bitirme_projesi/Use_General_Project/general_frame.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/navigateToPage.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
-import 'package:flutter_bitirme_projesi/Voting_Page/custom_card_model.dart';
-import 'package:flutter_bitirme_projesi/Use_General_Project/postmodel.dart';
+import 'package:flutter_bitirme_projesi/model/custom_card_model.dart';
+import 'package:flutter_bitirme_projesi/model/postmodel.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 class Voting extends StatefulWidget {
@@ -20,14 +20,18 @@ class Voting extends StatefulWidget {
 class _VotingState extends State<Voting> with NavigatorRoute {
   bool isClicked = false;
   int _currentIndex = 0;
-  int _activeCard = 0;
+  int _activeCard = -1;
   bool _isLoading = false;
+  bool _isSelected = false;
   Color? renk = ProjectColors().background;
   List<CustomCardModel>? model1;
   List<RegisterModel>? model2;
+  final String _baseUrl = "http://192.168.0.16:3000/api/";
+  late final Dio _dio;
   @override
   void initState() {
     super.initState();
+    _dio = Dio(BaseOptions(baseUrl: _baseUrl));
     fetchPostItems();
   }
 
@@ -45,7 +49,7 @@ class _VotingState extends State<Voting> with NavigatorRoute {
 
   Future<void> fetchPostItems() async {
     isLoading();
-    final result = await Dio().get("http://192.168.200.232:3000/api/register");
+    final result = await _dio.get(paths.register.name);
 
     if (result.statusCode == HttpStatus.ok) {
       final datas = result.data;
@@ -150,7 +154,61 @@ class _VotingState extends State<Voting> with NavigatorRoute {
                               backgroundColor: ProjectColors().darkTheme,
                               maximumSize: Size(100, 50)),
                           onPressed: () {
-                            navigateToWidget(context, EnteredHomePage());
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog.adaptive(
+                                title: Text(
+                                  "Deneme",
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                                content: Text(
+                                  "${model2?[_activeCard].name?.toUpperCase()} adlı adaya oy kullanmak üzeresiniz EMİN misiniz? ",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.copyWith(fontSize: 20),
+                                ),
+                                actions: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(12)),
+                                          backgroundColor:
+                                              ProjectColors().darkTheme,
+                                        ),
+                                        onPressed: () {
+                                          setState(() {
+                                            _isSelected = true;
+                                          });
+                                          Navigator.of(context).pop();
+                                          if (_isSelected == true) {
+                                            navigateToWidget(
+                                                context, EnteredHomePage());
+                                          }
+                                        },
+                                        child: Text("Evet")),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(12)),
+                                          backgroundColor:
+                                              ProjectColors().darkTheme,
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text("Hayır")),
+                                  ),
+                                ],
+                              ),
+                            );
                           },
                           child: Text(
                             "Oy Kullanma işlemini tamamla",
@@ -229,4 +287,15 @@ class _CustomColumnCard extends StatelessWidget {
           )),
     ]);
   }
+}
+
+enum paths {
+  candidate,
+  elections,
+  electiontypes,
+  signup,
+  voterlist,
+  directory,
+  announcement,
+  register
 }

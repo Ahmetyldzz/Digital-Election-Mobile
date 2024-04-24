@@ -1,4 +1,5 @@
-import 'dart:ffi';
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -8,11 +9,10 @@ import 'package:flutter_bitirme_projesi/Use_General_Project/general_frame.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/navigateToPage.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/navigate_other_auth.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/padding_sizes.dart';
-import 'package:flutter_bitirme_projesi/Use_General_Project/postmodel.dart';
+import 'package:flutter_bitirme_projesi/model/postmodel.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_button.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
 import 'package:flutter_bitirme_projesi/Sign_Up_Page/sign_up.dart';
-import 'package:flutter_bitirme_projesi/Use_General_Project/salomon_navbar.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 class LoginPage extends StatefulWidget {
@@ -43,21 +43,22 @@ class _LoginPageState extends State<LoginPage> with NavigatorRoute {
   List<RegisterModel>? registersModel;
   var token;
   var response;
+  final String _baseUrl = "http://192.168.1.90:3000/api/";
 
   @override
   void initState() {
     super.initState();
+    _dio = Dio(BaseOptions(baseUrl: _baseUrl));
     fetchPostItems();
   }
 
   Future<void> _addItemToService(AuthModel authModel) async {
-    response = (await Dio().post('http://192.168.200.232:3000/api/signup/auth',
+    response = (await _dio.post('${Paths.signup.name}/${Paths.auth}',
         data: authModel.toJson()));
   }
 
   Future<void> fetchPostItems() async {
-    final response =
-        await Dio().get("http://192.168.200.232:3000/api/register");
+    final response = await _dio.get(Paths.signup.name);
 
     if (response.statusCode == HttpStatus.ok) {
       final datas = response.data;
@@ -65,6 +66,11 @@ class _LoginPageState extends State<LoginPage> with NavigatorRoute {
         registersModel = datas.map((e) => RegisterModel.fromJson(e)).toList();
       }
     }
+  }
+
+  void isLogged(){
+
+
   }
 
   String convertDynamicToString(dynamic value) {
@@ -145,19 +151,19 @@ class _LoginPageState extends State<LoginPage> with NavigatorRoute {
                       Padding(
                         padding: const EdgeInsets.only(top: 30),
                         child: ProjectButtonStyle(
-                            onPressed: () {
+                            onPressed: () async {
                               AuthModel authModel = AuthModel(
                                   kimlikNo: kimlikNoTextEditingContoller.text,
                                   password: passwordTextEditingContoller.text);
-
                               try {
-                                _addItemToService(authModel);
+                                await _addItemToService(authModel);
 
                                 //print(response);
                                 String tokenAsString =
                                     convertDynamicToString(response);
                                 Map<String, dynamic> decodedToken =
                                     JwtDecoder.decode(tokenAsString);
+                                print(tokenAsString);
 
                                 if (decodedToken.containsValue(
                                     kimlikNoTextEditingContoller.text)) {
@@ -182,7 +188,9 @@ class _LoginPageState extends State<LoginPage> with NavigatorRoute {
                                   );
                                 }
                               } catch (e) {
-                                print(e);
+                                if (kDebugMode) {
+                                  print(e);
+                                }
                               }
                             },
                             title: buttonText,
@@ -208,3 +216,8 @@ class _LoginPageState extends State<LoginPage> with NavigatorRoute {
     );
   }
 }
+
+enum Paths {
+  signup,auth
+}
+                  
