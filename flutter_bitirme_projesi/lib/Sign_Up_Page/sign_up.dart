@@ -72,17 +72,6 @@ class _SignupState extends State<Signup> with NavigatorRoute {
     _changeLoading();
   }
 
-  Future<void> _addItemToService2(PostModel registerModel) async {
-    _changeLoading();
-    final response = await Dio().post(
-        'https://jsonplaceholder.typicode.com/posts',
-        data: registerModel.toJson());
-    if (response.statusCode == HttpStatus.ok) {
-      print("response.statusCode");
-    }
-    _changeLoading();
-  }
-
   @override
   Widget build(BuildContext context) {
     return GeneralFrame(

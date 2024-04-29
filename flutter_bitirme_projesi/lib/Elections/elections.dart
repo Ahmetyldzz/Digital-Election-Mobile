@@ -30,26 +30,17 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
   final String _baseUrl = BackendFeatures.baseUrl;
   late final Dio _dio;
   bool _isLoading = false;
-  int i = 0;
+  bool _isGetting = false;
+
   AuthModel authModel = AuthModel(id: "12345678901", password: "alpersonat123");
 
   @override
   void initState() {
     _dio = Dio(BaseOptions(baseUrl: _baseUrl));
     super.initState();
+    Login(authModel);
     fetchPostItems();
-    checkElections();
-  }
-
-  void checkElections() {
-    for (i; i < (electionItems?.length ?? 0); i++) {
-      for (int j = 0; j < (electionItems?[i].voter?.length ?? 0); j++) {
-        if (electionItems?[i].voter?[j].sId == "661dcc4bf63c3704fbc3c2f7") {
-          print("counter");
-          selectedElectionItems.add((electionItems![i]));
-        }
-      }
-    }
+    setList();
   }
 
   void isLoading() {
@@ -62,8 +53,8 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
 
       if (response.statusCode == HttpStatus.ok) {
         var myToken = response;
+        print(myToken);
         decodedToken = JwtDecoder.decode(myToken.toString());
-        print(decodedToken["name"]);
       }
     } on DioException catch (e) {
       print(e.message);
@@ -86,25 +77,36 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
     }
   }
 
+  void setList() {
+    // print(decodedToken["_id"]);
+    print(electionItems?.length);
+
+    for (int i = 0; i < (electionItems?.length ?? 0); i++) {
+      for (int j = 0; j < (electionItems?[i].voter?.length ?? 0); j++) {
+        print(electionItems?[i].voter?[j].kimlikNo);
+        print(decodedToken["_id"]);
+        // print("debug");
+
+        if (electionItems?[i].voter?[j].kimlikNo == decodedToken["_kimlikNo"]) {
+          print("counter");
+          selectedElectionItems.add((electionItems![i]));
+        }
+      }
+    }
+    //print("setList");
+    //  print(selectedElectionItems.length);
+    _isGetting = true;
+  }
+
   Future<void> fetchPostItems() async {
     isLoading();
     final result = await _dio.get(paths.elections.name);
 
     if (result.statusCode == HttpStatus.ok) {
+      print("getItems");
       final datas = result.data;
       if (datas is List) {
         electionItems = datas.map((e) => ElectionNewModel.fromJson(e)).toList();
-        for (i; i < (electionItems?.length ?? 0); i++) {
-          for (int j = 0; j < (electionItems?[i].voter?.length ?? 0); j++) {
-            if (electionItems?[i].voter?[j].sId == "661dcc4bf63c3704fbc3c2f6") {
-              print("counter");
-              selectedElectionItems.add((electionItems![i]));
-            }
-          }
-        }
-
-        print(selectedElectionItems[0].electionTitle);
-        print(selectedElectionItems.length);
       }
     }
 
@@ -122,19 +124,40 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
         appBar: AppBar(
           backgroundColor: ProjectColors().commonTheme,
         ),
-        body: ListView.builder(
-          itemCount: selectedElectionItems.length,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: _customElectionCard(
-                  context: context,
-                  title: selectedElectionItems[index].electionTitle ?? "",
-                  electionDate:
-                      "${selectedElectionItems[index].initDate} - ${selectedElectionItems[index].endDate}"),
-            );
-          },
-        ));
+        body: _isGetting
+            ? ListView.builder(
+                itemCount: selectedElectionItems.length,
+                itemBuilder: (context, index) {
+                  print(selectedElectionItems.length);
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: _customElectionCard(
+                        context: context,
+                        title: selectedElectionItems[index].electionTitle ?? "",
+                        electionDate:
+                            "${selectedElectionItems[index].initDate} - ${selectedElectionItems[index].endDate}"),
+                  );
+                },
+              )
+            : Column(
+                children: [
+                  ElevatedButton(
+                      onPressed: () {
+                        Login(authModel);
+                      },
+                      child: Text("Login")),
+                  ElevatedButton(
+                      onPressed: () {
+                        fetchPostItems();
+                      },
+                      child: Text("getItems")),
+                  ElevatedButton(
+                      onPressed: () {
+                        setList();
+                      },
+                      child: Text("setList")),
+                ],
+              ));
   }
 
   Card _customElectionCard(
@@ -213,3 +236,19 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
 }
 
 enum paths { elections }
+
+/* 
+ListView.builder(
+          itemCount: selectedElectionItems.length,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: _customElectionCard(
+                  context: context,
+                  title: selectedElectionItems[index].electionTitle ?? "",
+                  electionDate:
+                      "${selectedElectionItems[index].initDate} - ${selectedElectionItems[index].endDate}"),
+            );
+          },
+        )
+ */
