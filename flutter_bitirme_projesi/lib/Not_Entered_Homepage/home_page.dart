@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bitirme_projesi/Constants/backend_featues.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/general_frame.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/navigateToPage.dart';
 import 'package:flutter_bitirme_projesi/model/postmodel.dart';
@@ -20,10 +21,11 @@ class _HomePageState extends State<HomePage> with NavigatorRoute {
   int _activePage = 0;
   List<AnnouncementModel>? model1;
   late final Dio _dio;
+  final String _baseUrl = BackendFeatures.baseUrl;
   @override
   void initState() {
     super.initState();
-    _dio = Dio(BaseOptions(baseUrl: "http://192.168.107.232:3000/api/"));
+    _dio = Dio(BaseOptions(baseUrl: _baseUrl));
     fetchPostItems();
   }
 

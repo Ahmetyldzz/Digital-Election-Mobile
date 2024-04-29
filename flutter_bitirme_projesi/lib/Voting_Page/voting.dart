@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bitirme_projesi/Constants/backend_featues.dart';
 import 'package:flutter_bitirme_projesi/Entered_Homepage/entered_home_page.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/general_frame.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/navigateToPage.dart';
@@ -26,7 +27,7 @@ class _VotingState extends State<Voting> with NavigatorRoute {
   Color? renk = ProjectColors().background;
   List<CustomCardModel>? model1;
   List<RegisterModel>? model2;
-  final String _baseUrl = "http://192.168.0.16:3000/api/";
+  final String _baseUrl = BackendFeatures.baseUrl;
   late final Dio _dio;
   @override
   void initState() {

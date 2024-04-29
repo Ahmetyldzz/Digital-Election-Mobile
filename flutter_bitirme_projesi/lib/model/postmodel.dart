@@ -65,19 +65,19 @@ class RegisterNewModel {
 }
 
 class AuthModel {
-  String? kimlikNo;
+  String? id;
   String? password;
 
-  AuthModel({this.kimlikNo, this.password});
+  AuthModel({this.id, this.password});
 
   AuthModel.fromJson(Map<String, dynamic> json) {
-    kimlikNo = json['kimlikNo'];
+    id = json['kimlikNo'];
     password = json['password'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['kimlikNo'] = this.kimlikNo;
+    data['kimlikNo'] = this.id;
     data['password'] = this.password;
     return data;
   }
@@ -158,107 +158,120 @@ class AnnouncementModel {
   }
 }
 
-class ElectionModel {
+class ElectionNewModel {
+  String? sId;
   String? initDate;
   String? endDate;
   String? electionTitle;
   String? electionExplanation;
-  String? electionType;
-  String? candidates;
-  String? voter;
+  ElectionType? electionType;
+  List<Candidatess>? candidates;
+  List<Voter>? voter;
+  int? iV;
 
-  ElectionModel(
-      {this.initDate,
+  ElectionNewModel(
+      {this.sId,
+      this.initDate,
       this.endDate,
       this.electionTitle,
       this.electionExplanation,
       this.electionType,
       this.candidates,
-      this.voter});
+      this.voter,
+      this.iV});
 
-  ElectionModel.fromJson(Map<String, dynamic> json) {
+  ElectionNewModel.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
     initDate = json['initDate'];
     endDate = json['endDate'];
     electionTitle = json['electionTitle'];
     electionExplanation = json['electionExplanation'];
-    electionType = json['electionType'];
-    candidates = json['candidates'];
-    voter = json['voter'];
+    electionType = json['electionType'] != null
+        ? new ElectionType.fromJson(json['electionType'])
+        : null;
+    if (json['candidates'] != null) {
+      candidates = <Candidatess>[];
+      json['candidates'].forEach((v) {
+        candidates!.add(new Candidatess.fromJson(v));
+      });
+    }
+    if (json['voter'] != null) {
+      voter = <Voter>[];
+      json['voter'].forEach((v) {
+        voter!.add(new Voter.fromJson(v));
+      });
+    }
+    iV = json['__v'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.sId;
     data['initDate'] = this.initDate;
     data['endDate'] = this.endDate;
     data['electionTitle'] = this.electionTitle;
     data['electionExplanation'] = this.electionExplanation;
-    data['electionType'] = this.electionType;
-    data['candidates'] = this.candidates;
-    data['voter'] = this.voter;
+    if (this.electionType != null) {
+      data['electionType'] = this.electionType!.toJson();
+    }
+    if (this.candidates != null) {
+      data['candidates'] = this.candidates!.map((v) => v.toJson()).toList();
+    }
+    if (this.voter != null) {
+      data['voter'] = this.voter!.map((v) => v.toJson()).toList();
+    }
+    data['__v'] = this.iV;
     return data;
   }
 }
 
-class ElectionsModels {
-  String? initDate;
-  String? endDate;
-  String? electionTitle;
-  String? electionExplanation;
+class ElectionType {
+  String? sId;
   String? electionType;
-  List<String>? candidates;
-  List<String>? voter;
+  int? iV;
 
-  ElectionsModels(
-      {this.initDate,
-      this.endDate,
-      this.electionTitle,
-      this.electionExplanation,
-      this.electionType,
-      this.candidates,
-      this.voter});
+  ElectionType({this.sId, this.electionType, this.iV});
 
-  ElectionsModels.fromJson(Map<String, dynamic> json) {
-    initDate = json['initDate'];
-    endDate = json['endDate'];
-    electionTitle = json['electionTitle'];
-    electionExplanation = json['electionExplanation'];
+  ElectionType.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
     electionType = json['electionType'];
-    candidates = json['candidates'].cast<String?>();
-    voter = json['voter'].cast<String?>();
+    iV = json['__v'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['initDate'] = this.initDate;
-    data['endDate'] = this.endDate;
-    data['electionTitle'] = this.electionTitle;
-    data['electionExplanation'] = this.electionExplanation;
+    data['_id'] = this.sId;
     data['electionType'] = this.electionType;
-    data['candidates'] = this.candidates;
-    data['voter'] = this.voter;
+    data['__v'] = this.iV;
     return data;
   }
 }
 
-class CandidatesModel {
+class Candidatess {
+  String? sId;
   CandidateId? candidateId;
   int? vote;
+  int? iV;
 
-  CandidatesModel({this.candidateId, this.vote});
+  Candidatess({this.sId, this.candidateId, this.vote, this.iV});
 
-  CandidatesModel.fromJson(Map<String, dynamic> json) {
+  Candidatess.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
     candidateId = json['candidateId'] != null
         ? new CandidateId.fromJson(json['candidateId'])
         : null;
     vote = json['vote'];
+    iV = json['__v'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.sId;
     if (this.candidateId != null) {
       data['candidateId'] = this.candidateId!.toJson();
     }
     data['vote'] = this.vote;
+    data['__v'] = this.iV;
     return data;
   }
 }
@@ -308,6 +321,54 @@ class CandidateId {
     data['telNo'] = this.telNo;
     data['isAdmin'] = this.isAdmin;
     data['__v'] = this.iV;
+    return data;
+  }
+}
+
+class Voter {
+  String? sId;
+  String? kimlikNo;
+  bool? isVoted;
+  int? iV;
+
+  Voter({this.sId, this.kimlikNo, this.isVoted, this.iV});
+
+  Voter.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
+    kimlikNo = json['kimlikNo'];
+    isVoted = json['isVoted'];
+    iV = json['__v'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.sId;
+    data['kimlikNo'] = this.kimlikNo;
+    data['isVoted'] = this.isVoted;
+    data['__v'] = this.iV;
+    return data;
+  }
+}
+
+class CandidatesModel {
+  CandidateId? candidateId;
+  int? vote;
+
+  CandidatesModel({this.candidateId, this.vote});
+
+  CandidatesModel.fromJson(Map<String, dynamic> json) {
+    candidateId = json['candidateId'] != null
+        ? new CandidateId.fromJson(json['candidateId'])
+        : null;
+    vote = json['vote'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.candidateId != null) {
+      data['candidateId'] = this.candidateId!.toJson();
+    }
+    data['vote'] = this.vote;
     return data;
   }
 }

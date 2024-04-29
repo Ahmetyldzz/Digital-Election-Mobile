@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bitirme_projesi/Constants/backend_featues.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/general_frame.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
 import 'package:flutter_bitirme_projesi/model/postmodel.dart';
@@ -16,7 +17,7 @@ class ElectionDetailsPage extends StatefulWidget {
 class _ElectionDetailsPageState extends State<ElectionDetailsPage> {
   List<CandidatesModel> candidates = [];
   late final Dio _dio;
-  final String _baseUrl = "http://192.168.0.16:3000/api/";
+  final String _baseUrl = BackendFeatures.baseUrl;
 
   @override
   void initState() {

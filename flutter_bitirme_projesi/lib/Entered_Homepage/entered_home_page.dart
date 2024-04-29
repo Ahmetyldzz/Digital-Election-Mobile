@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bitirme_projesi/Constants/backend_featues.dart';
 import 'package:flutter_bitirme_projesi/Elections/elections.dart';
 import 'package:flutter_bitirme_projesi/Not_Entered_Homepage/home_page.dart';
 import 'package:flutter_bitirme_projesi/Profile/profile.dart';
@@ -25,7 +26,7 @@ class _EnteredHomePageState extends State<EnteredHomePage> with NavigatorRoute {
   int _activePage = 0;
   List<AnnouncementModel>? model1;
   late final Dio _dio;
-  final String _baseUrl = "http://192.168.0.16:3000/api/";
+  final String _baseUrl = BackendFeatures.baseUrl;
   bool _isLoading = false;
 
   @override

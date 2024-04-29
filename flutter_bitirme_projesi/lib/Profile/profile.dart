@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bitirme_projesi/Constants/backend_featues.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/Popup/popup.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/general_frame.dart';
 import 'package:flutter_bitirme_projesi/model/postmodel.dart';
@@ -17,21 +18,23 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   List<RegisterModel>? registersModel;
+  final String _baseUrl = BackendFeatures.baseUrl;
+  late final Dio _dio;
+  @override
+  void initState() {
+    super.initState();
+    _dio = Dio(BaseOptions(baseUrl: _baseUrl));
+    fetchPostItems();
+  }
 
   Future<void> fetchPostItems() async {
-    final response = await Dio().get("http://192.168.23.232:3000/api/register");
+    final response = await _dio.get("register");
     if (response.statusCode == HttpStatus.ok) {
       final datas = response.data;
       if (datas is List) {
         registersModel = datas.map((e) => RegisterModel.fromJson(e)).toList();
       }
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    fetchPostItems();
   }
 
   @override

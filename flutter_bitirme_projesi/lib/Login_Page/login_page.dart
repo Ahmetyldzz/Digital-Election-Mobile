@@ -1,9 +1,11 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bitirme_projesi/Constants/backend_featues.dart';
 import 'package:flutter_bitirme_projesi/Entered_Homepage/entered_home_page.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/general_frame.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/navigateToPage.dart';
@@ -14,6 +16,7 @@ import 'package:flutter_bitirme_projesi/Use_General_Project/project_button.dart'
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
 import 'package:flutter_bitirme_projesi/Sign_Up_Page/sign_up.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -33,8 +36,7 @@ class _LoginPageState extends State<LoginPage> with NavigatorRoute {
   final double textFieldHeight = 40;
   final double fontSize = 28;
   late final Dio _dio;
-  final TextEditingController kimlikNoTextEditingContoller =
-      TextEditingController();
+  final TextEditingController idTextEditingContoller = TextEditingController();
   final TextEditingController passwordTextEditingContoller =
       TextEditingController();
   int? kimlikNo;
@@ -43,18 +45,67 @@ class _LoginPageState extends State<LoginPage> with NavigatorRoute {
   List<RegisterModel>? registersModel;
   var token;
   var response;
-  final String _baseUrl = "http://192.168.1.90:3000/api/";
+  late SharedPreferences prefs;
+  final String _baseUrl = BackendFeatures.baseUrl;
 
   @override
   void initState() {
     super.initState();
+    initSharedPref();
     _dio = Dio(BaseOptions(baseUrl: _baseUrl));
     fetchPostItems();
   }
 
+  void initSharedPref() async {
+    prefs = await SharedPreferences.getInstance();
+  }
+
+  void getTokens() {
+    print(prefs.getString("token"));
+  }
+
+  void loginUser(AuthModel authModel) async {
+    if (idTextEditingContoller.text.isNotEmpty &&
+        passwordTextEditingContoller.text.isNotEmpty) {
+      try {
+        var response =
+            (await _dio.post("signup/auth", data: authModel.toJson()));
+
+        if (response.statusCode == HttpStatus.ok) {
+          var myToken = response;
+          print(myToken);
+
+          prefs.setString("token", myToken.toString());
+          navigateToWidget(context, EnteredHomePage());
+        }
+      } on DioException catch (e) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text("Close"),
+              ),
+            ],
+            title: Text("Hatalı Giriş"),
+            contentPadding: EdgeInsets.all(20.0),
+            content: Text("Hatalı kimlik numarası yada şifre"),
+          ),
+        );
+      }
+    }
+  }
+
   Future<void> _addItemToService(AuthModel authModel) async {
-    response = (await _dio.post('${Paths.signup.name}/${Paths.auth}',
-        data: authModel.toJson()));
+    final response = (await _dio.post("signup/auth", data: authModel.toJson()));
+
+    if (response.statusCode == HttpStatus.badRequest) {
+    } else if (response.statusCode == HttpStatus.ok) {
+      print(response);
+    }
   }
 
   Future<void> fetchPostItems() async {
@@ -66,11 +117,7 @@ class _LoginPageState extends State<LoginPage> with NavigatorRoute {
         registersModel = datas.map((e) => RegisterModel.fromJson(e)).toList();
       }
     }
-  }
-
-  void isLogged(){
-
-
+    print("debug");
   }
 
   String convertDynamicToString(dynamic value) {
@@ -117,7 +164,7 @@ class _LoginPageState extends State<LoginPage> with NavigatorRoute {
                             textInputAction: TextInputAction.next,
                             keyboardType: TextInputType.number,
                             cursorColor: Colors.black,
-                            controller: kimlikNoTextEditingContoller,
+                            controller: idTextEditingContoller,
                             decoration: InputDecoration(
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(12)),
@@ -151,12 +198,13 @@ class _LoginPageState extends State<LoginPage> with NavigatorRoute {
                       Padding(
                         padding: const EdgeInsets.only(top: 30),
                         child: ProjectButtonStyle(
-                            onPressed: () async {
+                            onPressed: () {
                               AuthModel authModel = AuthModel(
-                                  kimlikNo: kimlikNoTextEditingContoller.text,
+                                  id: idTextEditingContoller.text,
                                   password: passwordTextEditingContoller.text);
                               try {
-                                await _addItemToService(authModel);
+                                loginUser(authModel);
+                                /*  print("debug");
 
                                 //print(response);
                                 String tokenAsString =
@@ -166,27 +214,9 @@ class _LoginPageState extends State<LoginPage> with NavigatorRoute {
                                 print(tokenAsString);
 
                                 if (decodedToken.containsValue(
-                                    kimlikNoTextEditingContoller.text)) {
+                                    idTextEditingContoller.text)) {
                                   navigateToWidget(context, EnteredHomePage());
-                                } else {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) => AlertDialog(
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: Text("Close"),
-                                        ),
-                                      ],
-                                      title: Text("Hatalı Giriş"),
-                                      contentPadding: EdgeInsets.all(20.0),
-                                      content: Text(
-                                          "Hatalı kimlik numarası yada şifre"),
-                                    ),
-                                  );
-                                }
+                                } else {} */
                               } catch (e) {
                                 if (kDebugMode) {
                                   print(e);
@@ -217,7 +247,4 @@ class _LoginPageState extends State<LoginPage> with NavigatorRoute {
   }
 }
 
-enum Paths {
-  signup,auth
-}
-                  
+enum Paths { signup, auth }

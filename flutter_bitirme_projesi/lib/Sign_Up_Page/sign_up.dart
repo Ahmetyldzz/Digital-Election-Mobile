@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bcrypt/bcrypt.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bitirme_projesi/Constants/backend_featues.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/general_frame.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/navigateToPage.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/navigate_other_auth.dart';
@@ -37,7 +38,7 @@ class _SignupState extends State<Signup> with NavigatorRoute {
   final double hintTextHeight2 = 40;
   bool _isLoading = false;
   late final Dio _dio;
-  final String _baseUrl = "http://192.168.1.90:3000/api/";
+  final String _baseUrl = BackendFeatures.baseUrl;
   final TextEditingController tcKimlikNoEditingController =
       TextEditingController();
   final TextEditingController isimEditingController = TextEditingController();
