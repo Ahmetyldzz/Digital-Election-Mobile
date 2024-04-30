@@ -1,5 +1,5 @@
 class BackendFeatures {
-  static const String baseUrl = "http://192.168.1.103:3000/api/";
+  static const String baseUrl = "http://192.168.0.10:3000/api/";
   static String election = "$baseUrl + ${Paths.elections.name}";
   static String announcement = "$baseUrl + ${Paths.announcement.name}";
   static String candidate = "$baseUrl + ${Paths.candidate.name}";
@@ -10,5 +10,11 @@ class BackendFeatures {
 }
 
 enum Paths {
-  candidate , elections , electiontypes , signup ,voterlist , directory ,announcement
+  candidate,
+  elections,
+  electiontypes,
+  signup,
+  voterlist,
+  directory,
+  announcement
 }

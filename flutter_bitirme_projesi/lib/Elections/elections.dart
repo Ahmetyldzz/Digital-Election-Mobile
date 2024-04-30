@@ -40,7 +40,6 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
     super.initState();
     Login(authModel);
     fetchPostItems();
-    setList();
   }
 
   void isLoading() {
@@ -77,24 +76,17 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
     }
   }
 
-  void setList() {
-    // print(decodedToken["_id"]);
-    print(electionItems?.length);
-
+  void setList() async {
     for (int i = 0; i < (electionItems?.length ?? 0); i++) {
       for (int j = 0; j < (electionItems?[i].voter?.length ?? 0); j++) {
-        print(electionItems?[i].voter?[j].kimlikNo);
-        print(decodedToken["_id"]);
-        // print("debug");
-
         if (electionItems?[i].voter?[j].kimlikNo == decodedToken["_kimlikNo"]) {
           print("counter");
+          print(electionItems?[i].voter?[j].kimlikNo);
           selectedElectionItems.add((electionItems![i]));
         }
       }
     }
-    //print("setList");
-    //  print(selectedElectionItems.length);
+
     _isGetting = true;
   }
 
@@ -107,6 +99,7 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
       final datas = result.data;
       if (datas is List) {
         electionItems = datas.map((e) => ElectionNewModel.fromJson(e)).toList();
+        setList();
       }
     }
 
@@ -124,40 +117,19 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
         appBar: AppBar(
           backgroundColor: ProjectColors().commonTheme,
         ),
-        body: _isGetting
-            ? ListView.builder(
-                itemCount: selectedElectionItems.length,
-                itemBuilder: (context, index) {
-                  print(selectedElectionItems.length);
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: _customElectionCard(
-                        context: context,
-                        title: selectedElectionItems[index].electionTitle ?? "",
-                        electionDate:
-                            "${selectedElectionItems[index].initDate} - ${selectedElectionItems[index].endDate}"),
-                  );
-                },
-              )
-            : Column(
-                children: [
-                  ElevatedButton(
-                      onPressed: () {
-                        Login(authModel);
-                      },
-                      child: Text("Login")),
-                  ElevatedButton(
-                      onPressed: () {
-                        fetchPostItems();
-                      },
-                      child: Text("getItems")),
-                  ElevatedButton(
-                      onPressed: () {
-                        setList();
-                      },
-                      child: Text("setList")),
-                ],
-              ));
+        body: ListView.builder(
+          itemCount: selectedElectionItems.length,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: _customElectionCard(
+                  context: context,
+                  title: selectedElectionItems[index].electionTitle ?? "",
+                  electionDate:
+                      "${selectedElectionItems[index].initDate} - ${selectedElectionItems[index].endDate}"),
+            );
+          },
+        ));
   }
 
   Card _customElectionCard(
