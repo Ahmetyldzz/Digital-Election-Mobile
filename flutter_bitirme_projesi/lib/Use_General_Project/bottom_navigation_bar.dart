@@ -21,7 +21,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar>
         selectedItemColor: ProjectColors().darkTheme,
         onTap: (value) {
           if (value == 0) {
-            navigateToWidget(context, EnteredHomePage());
+            navigateToWidget(context, EnteredHomePage(idNo: "",password: "",));
           }
           if (value == 1) {
             navigateToWidget(context, Notifications());

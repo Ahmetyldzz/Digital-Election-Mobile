@@ -36,7 +36,7 @@ class _SalomonNavBarState extends State<SalomonNavBar> with NavigatorRoute {
       currentIndex: _currentIndex,
       onTap: (p0) {
         if (p0 == 0) {
-          navigateToWidget(context, EnteredHomePage());
+         // navigateToWidget(context, EnteredHomePage());
         }
 
         if (p0 == 1) {
@@ -44,7 +44,7 @@ class _SalomonNavBarState extends State<SalomonNavBar> with NavigatorRoute {
         }
 
         if (p0 == 2) {
-          navigateToWidget(context, Voting());
+          navigateToWidget(context, Voting(electionID: "", idNo: "",password: "", ));
         }
 
         if (p0 == 3) {

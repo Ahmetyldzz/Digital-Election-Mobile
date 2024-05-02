@@ -13,7 +13,9 @@ import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart'
 import 'package:flutter_bitirme_projesi/Use_General_Project/salomon_navbar.dart';
 
 class EnteredHomePage extends StatefulWidget {
-  const EnteredHomePage({super.key});
+  const EnteredHomePage({super.key, required this.idNo, required this.password});
+  final String idNo;
+  final String password;
 
   @override
   State<EnteredHomePage> createState() => _EnteredHomePageState();
@@ -72,7 +74,7 @@ class _EnteredHomePageState extends State<EnteredHomePage> with NavigatorRoute {
                         shape: StadiumBorder(),
                         backgroundColor: ProjectColors().darkTheme),
                     onPressed: () {
-                      navigateToWidget(context, Elections());
+                      navigateToWidget(context, Elections(idNo: widget.idNo,  password: widget.password,));
                     },
                     child: Text(
                       "Seçimler",

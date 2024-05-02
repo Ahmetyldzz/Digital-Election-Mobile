@@ -8,7 +8,8 @@ import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart'
 import 'package:flutter_bitirme_projesi/model/postmodel.dart';
 
 class ElectionDetailsPage extends StatefulWidget {
-  const ElectionDetailsPage({super.key});
+  const ElectionDetailsPage({super.key, required this.electionNewModel});
+  final ElectionNewModel electionNewModel;
 
   @override
   State<ElectionDetailsPage> createState() => _ElectionDetailsPageState();

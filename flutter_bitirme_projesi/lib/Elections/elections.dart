@@ -13,7 +13,9 @@ import 'package:flutter_bitirme_projesi/Voting_Page/voting.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 class Elections extends StatefulWidget {
-  const Elections({super.key});
+  const Elections({super.key, required this.idNo, required this.password});
+  final String idNo;
+  final String password;
 
   @override
   State<Elections> createState() => _ElectionsState();
@@ -32,13 +34,19 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
   bool _isLoading = false;
   bool _isGetting = false;
 
-  AuthModel authModel = AuthModel(id: "12345678901", password: "alpersonat123");
+  //AuthModel authModel = AuthModel(id: id, password: "alpersonat123");
+
+  AuthModel initModel() {
+    print(widget.idNo);
+    return AuthModel(id: widget.idNo, password: widget.password);
+  }
 
   @override
   void initState() {
     _dio = Dio(BaseOptions(baseUrl: _baseUrl));
     super.initState();
-    Login(authModel);
+
+    Login();
     fetchPostItems();
   }
 
@@ -46,7 +54,8 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
     _isLoading = !_isLoading;
   }
 
-  void Login(AuthModel authModel) async {
+  void Login() async {
+    AuthModel authModel = initModel();
     try {
       var response = (await _dio.post("signup/auth", data: authModel.toJson()));
 
@@ -123,6 +132,8 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: _customElectionCard(
+                electionNewModel: selectedElectionItems[index],
+                  selectedElectionID: selectedElectionItems[index].sId ?? "",
                   context: context,
                   title: selectedElectionItems[index].electionTitle ?? "",
                   electionDate:
@@ -135,7 +146,10 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
   Card _customElectionCard(
       {required BuildContext context,
       required String title,
-      required String electionDate}) {
+      required String electionDate,
+      required String selectedElectionID,
+      required ElectionNewModel electionNewModel,
+      }) {
     return Card(
       elevation: 5,
       child: Container(
@@ -154,7 +168,7 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
                   .headlineSmall
                   ?.copyWith(color: ProjectColors().background),
             ),
-            trailing: _customTrailingColumn(context),
+            trailing: _customTrailingColumn(context, selectedElectionID , electionNewModel),
             subtitle: Container(
                 //color: Colors.amber,
                 child: Text(
@@ -170,7 +184,7 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
     );
   }
 
-  Column _customTrailingColumn(BuildContext context) {
+  Column _customTrailingColumn(BuildContext context, String electionID , ElectionNewModel electionNewModel) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
@@ -179,7 +193,13 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
             padding: const EdgeInsets.only(top: 0),
             child: InkWell(
               onTap: () {
-                navigateToWidget(context, Voting());
+                navigateToWidget(
+                    context,
+                    Voting(
+                      electionID: electionID,
+                      idNo: widget.idNo,
+                      password: widget.password,
+                    ));
               },
               child: CircleAvatar(
                 backgroundColor: ProjectColors().darkTheme,
@@ -194,7 +214,7 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
         Expanded(
           child: IconButton(
               onPressed: () {
-                navigateToWidget(context, ElectionDetailsPage());
+                navigateToWidget(context, ElectionDetailsPage(electionNewModel: electionNewModel,));
               },
               icon: Icon(
                 Icons.info_outlined,

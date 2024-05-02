@@ -12,7 +12,10 @@ import 'package:flutter_bitirme_projesi/model/postmodel.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 class Voting extends StatefulWidget {
-  const Voting({super.key});
+  const Voting({super.key, required this.electionID, required this.idNo, required this.password});
+  final String electionID;
+  final String idNo;
+  final String password;
 
   @override
   State<Voting> createState() => _VotingState();
@@ -26,7 +29,9 @@ class _VotingState extends State<Voting> with NavigatorRoute {
   bool _isSelected = false;
   Color? renk = ProjectColors().background;
   List<CustomCardModel>? model1;
-  List<RegisterModel>? model2;
+  List<RegisterModel>? signupItems;
+  List<ElectionNewModel>? electionItems;
+  ElectionNewModel? selecetedElection;
   final String _baseUrl = BackendFeatures.baseUrl;
   late final Dio _dio;
   @override
@@ -34,12 +39,22 @@ class _VotingState extends State<Voting> with NavigatorRoute {
     super.initState();
     _dio = Dio(BaseOptions(baseUrl: _baseUrl));
     fetchPostItems();
+    getElecetionItems();
+    print(widget.electionID);
   }
 
   void isLoading() {
     setState(() {
       _isLoading = !_isLoading;
     });
+  }
+
+  void selectedElection() {
+    for (int i = 0; i < (electionItems?.length ?? 0); i++) {
+      if (electionItems?[i].sId == widget.electionID) {
+        selecetedElection = electionItems?[i];
+      }
+    }
   }
 
   onIndexChanged(int index) {
@@ -50,12 +65,26 @@ class _VotingState extends State<Voting> with NavigatorRoute {
 
   Future<void> fetchPostItems() async {
     isLoading();
-    final result = await _dio.get(paths.register.name);
+    final result = await _dio.get(paths.signup.name);
 
     if (result.statusCode == HttpStatus.ok) {
       final datas = result.data;
       if (datas is List) {
-        model2 = datas.map((e) => RegisterModel.fromJson(e)).toList();
+        signupItems = datas.map((e) => RegisterModel.fromJson(e)).toList();
+      }
+    }
+    isLoading();
+  }
+
+  Future<void> getElecetionItems() async {
+    isLoading();
+    final result = await _dio.get(paths.elections.name);
+
+    if (result.statusCode == HttpStatus.ok) {
+      final datas = result.data;
+      if (datas is List) {
+        electionItems = datas.map((e) => ElectionNewModel.fromJson(e)).toList();
+        selectedElection();
       }
     }
     isLoading();
@@ -88,141 +117,145 @@ class _VotingState extends State<Voting> with NavigatorRoute {
               child: Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: ListView.builder(
-                  itemCount: model2?.length ?? 10,
+                  itemCount: selecetedElection?.candidates?.length ?? 10,
                   itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        height: 150,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: (_activeCard == index
-                                ? ProjectColors().likePink
-                                : ProjectColors().background)),
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              SizedBox(
-                                  width: 40,
-                                  height: 40,
-                                  child: FittedBox(
-                                      child: Icon(
-                                    Icons.account_circle_rounded,
-                                    color: ProjectColors().darkTheme,
-                                  ))),
-                              Text(
-                                model2?[index].name ?? "",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headlineSmall
-                                    ?.copyWith(
-                                        color: ProjectColors().darkTheme),
-                              ),
-                              ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor:
-                                          ProjectColors().darkTheme),
-                                  onPressed: () {
-                                    onIndexChanged(index);
-                                  },
-                                  child: Text(
-                                    "Oy kullanabilirsiniz",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge
-                                        ?.copyWith(
-                                            color: ProjectColors().background),
-                                  )),
-                            ]),
-                      ),
-                    );
+                    return _customVotingCards(index, context);
                   },
                 ),
               ),
             ),
-            Expanded(
-                flex: 2,
-                child: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: SizedBox(
-                    // color: Colors.red,
-                    width: width2,
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          right: 15, left: 15, top: 15, bottom: 15),
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: ProjectColors().darkTheme,
-                              maximumSize: Size(100, 50)),
-                          onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) => AlertDialog.adaptive(
-                                title: Text(
-                                  "Deneme",
-                                  style: TextStyle(color: Colors.red),
-                                ),
-                                content: Text(
-                                  "${model2?[_activeCard].name?.toUpperCase()} adlı adaya oy kullanmak üzeresiniz EMİN misiniz? ",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge
-                                      ?.copyWith(fontSize: 20),
-                                ),
-                                actions: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(12)),
-                                          backgroundColor:
-                                              ProjectColors().darkTheme,
-                                        ),
-                                        onPressed: () {
-                                          setState(() {
-                                            _isSelected = true;
-                                          });
-                                          Navigator.of(context).pop();
-                                          if (_isSelected == true) {
-                                            navigateToWidget(
-                                                context, EnteredHomePage());
-                                          }
-                                        },
-                                        child: Text("Evet")),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(12)),
-                                          backgroundColor:
-                                              ProjectColors().darkTheme,
-                                        ),
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Text("Hayır")),
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                          child: Text(
-                            "Oy Kullanma işlemini tamamla",
-                            style:
-                                Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                      color: ProjectColors().background,
-                                    ),
-                          )),
-                    ),
-                  ),
-                ))
+            _votingFinishButton(width2, context),
           ],
         ),
+      ),
+    );
+  }
+
+  _votingFinishButton(double width2, BuildContext context) {
+    return Expanded(
+      flex: 2,
+      child: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: SizedBox(
+          // color: Colors.red,
+          width: width2,
+          child: Padding(
+            padding:
+                const EdgeInsets.only(right: 15, left: 15, top: 15, bottom: 15),
+            child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: ProjectColors().darkTheme,
+                    maximumSize: Size(100, 50)),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog.adaptive(
+                      title: Text(
+                        "Deneme",
+                        style: TextStyle(color: Colors.red),
+                      ),
+                      content: Text(
+                        "${signupItems?[_activeCard].name?.toUpperCase()} adlı adaya oy kullanmak üzeresiniz EMİN misiniz? ",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyLarge
+                            ?.copyWith(fontSize: 20),
+                      ),
+                      actions: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12)),
+                                backgroundColor: ProjectColors().darkTheme,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _isSelected = true;
+                                });
+                                Navigator.of(context).pop();
+                                if (_isSelected == true) {
+                                  navigateToWidget(
+                                      context,
+                                      EnteredHomePage(
+                                        idNo: widget.idNo,
+                                        password: widget.password,
+                                      ));
+                                }
+                              },
+                              child: Text("Evet")),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12)),
+                                backgroundColor: ProjectColors().darkTheme,
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text("Hayır")),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                child: Text(
+                  "Oy Kullanma işlemini tamamla",
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        color: ProjectColors().background,
+                      ),
+                )),
+          ),
+        ),
+      ),
+    );
+  }
+
+  _customVotingCards(int index, BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        height: 150,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            color: (_activeCard == index
+                ? ProjectColors().likePink
+                : ProjectColors().background)),
+        child:
+            Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+          SizedBox(
+              width: 40,
+              height: 40,
+              child: FittedBox(
+                  child: Icon(
+                Icons.account_circle_rounded,
+                color: ProjectColors().darkTheme,
+              ))),
+          Text(
+            "${selecetedElection?.candidates?[index].candidateId?.name} ${selecetedElection?.candidates?[index].candidateId?.surname}",
+            style: Theme.of(context)
+                .textTheme
+                .headlineSmall
+                ?.copyWith(color: ProjectColors().darkTheme),
+          ),
+          ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: ProjectColors().darkTheme),
+              onPressed: () {
+                onIndexChanged(index);
+              },
+              child: Text(
+                "Oy kullanabilirsiniz",
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyLarge
+                    ?.copyWith(color: ProjectColors().background),
+              )),
+        ]),
       ),
     );
   }

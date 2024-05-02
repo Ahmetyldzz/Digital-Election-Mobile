@@ -76,7 +76,7 @@ class _LoginPageState extends State<LoginPage> with NavigatorRoute {
           print(myToken);
 
           prefs.setString("token", myToken.toString());
-          navigateToWidget(context, EnteredHomePage());
+          navigateToWidget(context, EnteredHomePage(idNo: idTextEditingContoller.text, password: passwordTextEditingContoller.text,));
         }
       } on DioException catch (e) {
         showDialog(
