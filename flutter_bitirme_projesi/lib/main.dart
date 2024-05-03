@@ -18,7 +18,6 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-  
 
   // This widget is the root of your application.
   @override
@@ -31,7 +30,10 @@ class MyApp extends StatelessWidget {
           appBarTheme: AppBarTheme(
         color: Color.fromRGBO(70, 139, 151, 1),
       )),
-      home: VotingResults(electionNewModel: electionNewModel,),
+      home: /* Elections(
+        idNo: "99988877724",
+        password: "alperen123",
+      ), */PieChartSample2(),
     );
   }
 }

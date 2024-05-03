@@ -9,6 +9,7 @@ import 'package:flutter_bitirme_projesi/views/Elections/election_details_page.da
 import 'package:flutter_bitirme_projesi/Use_General_Project/navigateToPage.dart';
 import 'package:flutter_bitirme_projesi/model/postmodel.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
+import 'package:flutter_bitirme_projesi/views/Result_Page/voting_result.dart';
 import 'package:flutter_bitirme_projesi/views/Voting_Page/voting.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
@@ -85,15 +86,16 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
 
   void setList() async {
     for (int i = 0; i < (electionItems?.length ?? 0); i++) {
+      print(electionItems?.length);
       for (int j = 0; j < (electionItems?[i].voter?.length ?? 0); j++) {
         if (electionItems?[i].voter?[j].kimlikNo == decodedToken["_kimlikNo"]) {
           print("counter");
+          print(electionItems?.length);
           print(electionItems?[i].voter?[j].kimlikNo);
           selectedElectionItems.add((electionItems![i]));
         }
       }
     }
-
   }
 
   Future<void> fetchPostItems() async {
@@ -129,7 +131,7 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: _customElectionCard(
-                  electionNewModel: selectedElectionItems[index],
+                  selectedElectionModel: selectedElectionItems[index],
                   selectedElectionID: selectedElectionItems[index].sId ?? "",
                   context: context,
                   title: selectedElectionItems[index].electionTitle ?? "",
@@ -145,7 +147,7 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
     required String title,
     required String electionDate,
     required String selectedElectionID,
-    required ElectionNewModel electionNewModel,
+    required ElectionNewModel selectedElectionModel,
   }) {
     return Card(
       elevation: 5,
@@ -166,7 +168,7 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
                   ?.copyWith(color: ProjectColors().background),
             ),
             trailing: _customTrailingColumn(
-                context, selectedElectionID, electionNewModel),
+                context, selectedElectionID, selectedElectionModel),
             subtitle: Container(
                 //color: Colors.amber,
                 child: Text(
@@ -183,7 +185,7 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
   }
 
   Column _customTrailingColumn(BuildContext context, String electionID,
-      ElectionNewModel electionNewModel) {
+      ElectionNewModel selectedElectionModel) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
@@ -192,13 +194,14 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
             padding: const EdgeInsets.only(top: 0),
             child: InkWell(
               onTap: () {
-                navigateToWidget(
-                    context,
-                    Voting(
+                /* navigateToWidget(context,
+                    VotingResults(electionNewModel: selectedElectionModel)
+                    /*  Voting(
                       electionID: electionID,
                       idNo: widget.idNo,
                       password: widget.password,
-                    ));
+                    ), */
+                    ); */
               },
               child: CircleAvatar(
                 backgroundColor: ProjectColors().darkTheme,
@@ -216,7 +219,7 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
                 navigateToWidget(
                     context,
                     ElectionDetailsPage(
-                      electionNewModel: electionNewModel,
+                      electionNewModel: selectedElectionModel,
                     ));
               },
               icon: Icon(
