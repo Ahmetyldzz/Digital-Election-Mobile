@@ -132,7 +132,7 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: _customElectionCard(
-                electionNewModel: selectedElectionItems[index],
+                  electionNewModel: selectedElectionItems[index],
                   selectedElectionID: selectedElectionItems[index].sId ?? "",
                   context: context,
                   title: selectedElectionItems[index].electionTitle ?? "",
@@ -143,13 +143,13 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
         ));
   }
 
-  Card _customElectionCard(
-      {required BuildContext context,
-      required String title,
-      required String electionDate,
-      required String selectedElectionID,
-      required ElectionNewModel electionNewModel,
-      }) {
+  Card _customElectionCard({
+    required BuildContext context,
+    required String title,
+    required String electionDate,
+    required String selectedElectionID,
+    required ElectionNewModel electionNewModel,
+  }) {
     return Card(
       elevation: 5,
       child: Container(
@@ -168,7 +168,8 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
                   .headlineSmall
                   ?.copyWith(color: ProjectColors().background),
             ),
-            trailing: _customTrailingColumn(context, selectedElectionID , electionNewModel),
+            trailing: _customTrailingColumn(
+                context, selectedElectionID, electionNewModel),
             subtitle: Container(
                 //color: Colors.amber,
                 child: Text(
@@ -184,7 +185,8 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
     );
   }
 
-  Column _customTrailingColumn(BuildContext context, String electionID , ElectionNewModel electionNewModel) {
+  Column _customTrailingColumn(BuildContext context, String electionID,
+      ElectionNewModel electionNewModel) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
@@ -214,7 +216,11 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
         Expanded(
           child: IconButton(
               onPressed: () {
-                navigateToWidget(context, ElectionDetailsPage(electionNewModel: electionNewModel,));
+                navigateToWidget(
+                    context,
+                    ElectionDetailsPage(
+                      electionNewModel: electionNewModel,
+                    ));
               },
               icon: Icon(
                 Icons.info_outlined,

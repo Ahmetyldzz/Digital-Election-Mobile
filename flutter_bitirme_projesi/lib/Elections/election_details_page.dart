@@ -19,22 +19,22 @@ class _ElectionDetailsPageState extends State<ElectionDetailsPage> {
   List<CandidatesModel> candidates = [];
   late final Dio _dio;
   final String _baseUrl = BackendFeatures.baseUrl;
+  List<PopupMenuItem<dynamic>> popupMenuList = [];
 
   @override
   void initState() {
     super.initState();
     _dio = Dio(BaseOptions(baseUrl: _baseUrl));
-    fetchPostItems();
+    setList();
+    print(popupMenuList.length);
   }
 
-  Future<void> fetchPostItems() async {
-    final response = await _dio.get('candidate');
-
-    if (response.statusCode == HttpStatus.ok) {
-      final data = response.data;
-      if (data is List) {
-        candidates = data.map((e) => CandidatesModel.fromJson(e)).toList();
-      }
+  void setList() {
+    for (int i = 0;
+        i < (widget.electionNewModel.candidates?.length ?? 0);
+        i++) {
+      popupMenuList.add(_customPopupMenuItem(context,
+          (widget.electionNewModel.candidates?[i].candidateId?.name ?? "")));
     }
   }
 
@@ -48,7 +48,7 @@ class _ElectionDetailsPageState extends State<ElectionDetailsPage> {
           child: Column(
             children: [
               Text(
-                "2018 Cumhurbaşkanlığı\nSeçimi",
+                "${widget.electionNewModel.electionTitle}",
                 style: Theme.of(context)
                     .textTheme
                     .headlineMedium
@@ -58,9 +58,9 @@ class _ElectionDetailsPageState extends State<ElectionDetailsPage> {
                 child: ListView(
                   children: [
                     _customElectionInformation(
-                        context, "Seçim Başlangıç Tarihi : 12 - 04 -2018"),
+                        context, "${widget.electionNewModel.initDate}"),
                     _customElectionInformation(
-                        context, "Seçim Bitiş Tarihi : 12 - 04 -2018"),
+                        context, "${widget.electionNewModel.endDate}"),
                     _customElectionInformation2(context, "Adaylar"),
                     _customElectionInformation(
                         context, "Kazanma Koşulu : 50+1"),
@@ -120,44 +120,40 @@ class _ElectionDetailsPageState extends State<ElectionDetailsPage> {
                   elevation: 10,
                   icon: Icon(Icons.account_box_rounded),
                   onSelected: (value) {
-                    print("value.toString()");
+                    print(value);
                   },
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12)),
+                  initialValue: Text("sd"),
                   itemBuilder: (context) {
-                    return [
-                      PopupMenuItem(
-                        child: Text(candidates[0].candidateId?.name ?? ""),
-                        onTap: () {
-                          _showDialog(
-                              context, Candidates.RecepTayyipErdogan.name);
-                        },
-                      ),
-                      PopupMenuItem(
-                        child: Text("KK"),
-                        onTap: () {
-                          _showDialog(
-                              context, Candidates.KemalKilicdaroglu.name);
-                        },
-                      ),
-                      PopupMenuItem(
-                        child: Text("MİNCE"),
-                        onTap: () {
-                          _showDialog(context, Candidates.MuharremInce.name);
-                        },
-                      ),
-                      PopupMenuItem(
-                        child: Text("SOĞAN"),
-                        onTap: () {
-                          _showDialog(context, Candidates.SinanOgan.name);
-                        },
-                      ),
-                    ];
+                    return popupMenuList;
                   },
                 )
               ],
             ),
           )),
+    );
+  }
+
+  ListView popupMenuItmesBuilder() {
+    return ListView.builder(
+      itemCount: widget.electionNewModel.candidates?.length ?? 2,
+      itemBuilder: (context, index) {
+        return _customPopupMenuItem(
+            context,
+            widget.electionNewModel.candidates?[index].candidateId?.name ??
+                "başarısız");
+      },
+    );
+  }
+
+  PopupMenuItem<dynamic> _customPopupMenuItem(
+      BuildContext context, String candidateName) {
+    return PopupMenuItem(
+      child: Text(candidateName),
+      onTap: () {
+        _showDialog(context, candidateName);
+      },
     );
   }
 
@@ -177,7 +173,34 @@ class _ElectionDetailsPageState extends State<ElectionDetailsPage> {
         ],
         title: Text(candidateName),
         contentPadding: EdgeInsets.all(20.0),
-        content: Text("Hatalı kimlik numarası yada şifre" * 15),
+        content:
+            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Card(
+            color: ProjectColors().commonTheme,
+            elevation: 4,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "Adayın ismi: ${candidateName}",
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      color: Colors.black,
+                    ),
+              ),
+            ),
+          ),
+          Text(
+            "Adayın Soyadı: ${widget.electionNewModel.candidates?[0].candidateId?.surname}",
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  color: Colors.black,
+                ),
+          ),
+          Text(
+            "Adayın Doğum Tarihi: ${widget.electionNewModel.candidates?[0].candidateId?.dogumTrh}",
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  color: Colors.black,
+                ),
+          ),
+        ]),
       ),
     );
   }
