@@ -6,8 +6,8 @@ import 'package:flutter_bitirme_projesi/Use_General_Project/general_frame.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/navigateToPage.dart';
 import 'package:flutter_bitirme_projesi/model/postmodel.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
-import 'package:flutter_bitirme_projesi/Login_Page/login_page.dart';
-import 'package:flutter_bitirme_projesi/Sign_Up_Page/sign_up.dart';
+import 'package:flutter_bitirme_projesi/views/Login_Page/login_page.dart';
+import 'package:flutter_bitirme_projesi/views/Sign_Up_Page/sign_up.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

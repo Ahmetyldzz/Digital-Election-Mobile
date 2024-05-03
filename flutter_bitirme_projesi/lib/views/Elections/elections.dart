@@ -5,11 +5,11 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bitirme_projesi/Constants/backend_featues.dart';
-import 'package:flutter_bitirme_projesi/Elections/election_details_page.dart';
+import 'package:flutter_bitirme_projesi/views/Elections/election_details_page.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/navigateToPage.dart';
 import 'package:flutter_bitirme_projesi/model/postmodel.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
-import 'package:flutter_bitirme_projesi/Voting_Page/voting.dart';
+import 'package:flutter_bitirme_projesi/views/Voting_Page/voting.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 class Elections extends StatefulWidget {
@@ -28,11 +28,9 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
   List<Voter>? voterList;
   late Map<String, dynamic> decodedToken;
 
-  var response;
   final String _baseUrl = BackendFeatures.baseUrl;
   late final Dio _dio;
   bool _isLoading = false;
-  bool _isGetting = false;
 
   //AuthModel authModel = AuthModel(id: id, password: "alpersonat123");
 
@@ -46,7 +44,7 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
     _dio = Dio(BaseOptions(baseUrl: _baseUrl));
     super.initState();
 
-    Login();
+    login();
     fetchPostItems();
   }
 
@@ -54,7 +52,7 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
     _isLoading = !_isLoading;
   }
 
-  void Login() async {
+  void login() async {
     AuthModel authModel = initModel();
     try {
       var response = (await _dio.post("signup/auth", data: authModel.toJson()));
@@ -96,7 +94,6 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
       }
     }
 
-    _isGetting = true;
   }
 
   Future<void> fetchPostItems() async {

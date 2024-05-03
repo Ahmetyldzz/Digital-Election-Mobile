@@ -11,7 +11,7 @@ import 'package:flutter_bitirme_projesi/Use_General_Project/padding_sizes.dart';
 import 'package:flutter_bitirme_projesi/model/postmodel.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_button.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
-import 'package:flutter_bitirme_projesi/Login_Page/login_page.dart';
+import 'package:flutter_bitirme_projesi/views/Login_Page/login_page.dart';
 
 class Signup extends StatefulWidget {
   const Signup({super.key});

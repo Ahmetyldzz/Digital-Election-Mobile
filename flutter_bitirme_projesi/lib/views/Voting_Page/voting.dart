@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bitirme_projesi/Constants/backend_featues.dart';
-import 'package:flutter_bitirme_projesi/Entered_Homepage/entered_home_page.dart';
+import 'package:flutter_bitirme_projesi/views/Entered_Homepage/entered_home_page.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/general_frame.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/navigateToPage.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
@@ -12,7 +12,11 @@ import 'package:flutter_bitirme_projesi/model/postmodel.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 class Voting extends StatefulWidget {
-  const Voting({super.key, required this.electionID, required this.idNo, required this.password});
+  const Voting(
+      {super.key,
+      required this.electionID,
+      required this.idNo,
+      required this.password});
   final String electionID;
   final String idNo;
   final String password;
@@ -66,6 +70,7 @@ class _VotingState extends State<Voting> with NavigatorRoute {
   Future<void> fetchPostItems() async {
     isLoading();
     final result = await _dio.get(paths.signup.name);
+    print("object");
 
     if (result.statusCode == HttpStatus.ok) {
       final datas = result.data;
@@ -74,6 +79,15 @@ class _VotingState extends State<Voting> with NavigatorRoute {
       }
     }
     isLoading();
+  }
+
+  Future<void> putItems(int index) async {
+    final result = await _dio
+        .put("candidate/vote/${selecetedElection?.candidates?[index].sId}");
+
+    if (result.statusCode == HttpStatus.ok) {
+      print("başarılı");
+    }
   }
 
   Future<void> getElecetionItems() async {
@@ -147,61 +161,83 @@ class _VotingState extends State<Voting> with NavigatorRoute {
                     backgroundColor: ProjectColors().darkTheme,
                     maximumSize: Size(100, 50)),
                 onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog.adaptive(
-                      title: Text(
-                        "Deneme",
-                        style: TextStyle(color: Colors.red),
-                      ),
-                      content: Text(
-                        "${signupItems?[_activeCard].name?.toUpperCase()} adlı adaya oy kullanmak üzeresiniz EMİN misiniz? ",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyLarge
-                            ?.copyWith(fontSize: 20),
-                      ),
-                      actions: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12)),
-                                backgroundColor: ProjectColors().darkTheme,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  _isSelected = true;
-                                });
-                                Navigator.of(context).pop();
-                                if (_isSelected == true) {
-                                  navigateToWidget(
-                                      context,
-                                      EnteredHomePage(
-                                        idNo: widget.idNo,
-                                        password: widget.password,
-                                      ));
-                                }
-                              },
-                              child: Text("Evet")),
+                  if (_activeCard != -1) {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog.adaptive(
+                        title: Text(
+                          "Deneme",
+                          style: TextStyle(color: Colors.red),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12)),
-                                backgroundColor: ProjectColors().darkTheme,
-                              ),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Text("Hayır")),
+                        content: Text(
+                          "${signupItems?[_activeCard].name?.toUpperCase()} adlı adaya oy kullanmak üzeresiniz EMİN misiniz? ",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge
+                              ?.copyWith(fontSize: 20),
                         ),
-                      ],
-                    ),
-                  );
+                        actions: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12)),
+                                  backgroundColor: ProjectColors().darkTheme,
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _isSelected = true;
+                                  });
+                                  putItems(_activeCard);
+
+                                   Navigator.of(context).pop();
+                                  if (_isSelected == true) {
+                                    navigateToWidget(
+                                        context,
+                                        EnteredHomePage(
+                                          idNo: widget.idNo,
+                                          password: widget.password,
+                                        ));
+                                  }
+                                },
+                                child: Text("Evet")),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12)),
+                                  backgroundColor: ProjectColors().darkTheme,
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text("Hayır")),
+                          ),
+                        ],
+                      ),
+                    );
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog.adaptive(
+                          content: Text(
+                            "Lütfen herhangi bir adayı seçiniz !",
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineLarge
+                                ?.copyWith(
+                                  color: Colors.black,
+                                  fontSize: 24,
+                                ),
+                          ),
+                        );
+                      },
+                    );
+                  }
                 },
                 child: Text(
                   "Oy Kullanma işlemini tamamla",
@@ -247,6 +283,7 @@ class _VotingState extends State<Voting> with NavigatorRoute {
                   backgroundColor: ProjectColors().darkTheme),
               onPressed: () {
                 onIndexChanged(index);
+                print(index);
               },
               child: Text(
                 "Oy kullanabilirsiniz",

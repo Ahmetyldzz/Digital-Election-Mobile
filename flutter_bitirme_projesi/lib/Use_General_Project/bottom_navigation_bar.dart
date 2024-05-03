@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bitirme_projesi/Entered_Homepage/entered_home_page.dart';
-import 'package:flutter_bitirme_projesi/Notification_Page/notification.dart';
+import 'package:flutter_bitirme_projesi/views/Entered_Homepage/entered_home_page.dart';
+import 'package:flutter_bitirme_projesi/views/Result_Page/voting_result.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/navigateToPage.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
 
@@ -21,10 +21,15 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar>
         selectedItemColor: ProjectColors().darkTheme,
         onTap: (value) {
           if (value == 0) {
-            navigateToWidget(context, EnteredHomePage(idNo: "",password: "",));
+            navigateToWidget(
+                context,
+                EnteredHomePage(
+                  idNo: "",
+                  password: "",
+                ));
           }
           if (value == 1) {
-            navigateToWidget(context, Notifications());
+            //navigateToWidget(context, VotingResults());
           }
         },
         backgroundColor: ProjectColors().commonTheme,

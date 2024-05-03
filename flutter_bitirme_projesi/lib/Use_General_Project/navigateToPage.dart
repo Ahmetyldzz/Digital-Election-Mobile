@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bitirme_projesi/Entered_Homepage/entered_home_page.dart';
-import 'package:flutter_bitirme_projesi/Login_Page/login_page.dart';
-import 'package:flutter_bitirme_projesi/Notification_Page/notification.dart';
+import 'package:flutter_bitirme_projesi/views/Entered_Homepage/entered_home_page.dart';
+import 'package:flutter_bitirme_projesi/views/Login_Page/login_page.dart';
+import 'package:flutter_bitirme_projesi/views/Result_Page/voting_result.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
-import 'package:flutter_bitirme_projesi/Voting_Page/voting.dart';
+import 'package:flutter_bitirme_projesi/views/Voting_Page/voting.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 mixin NavigatorRoute {
@@ -36,7 +36,7 @@ class _SalomonNavBarState extends State<SalomonNavBar> with NavigatorRoute {
       currentIndex: _currentIndex,
       onTap: (p0) {
         if (p0 == 0) {
-         // navigateToWidget(context, EnteredHomePage());
+          // navigateToWidget(context, EnteredHomePage());
         }
 
         if (p0 == 1) {
@@ -44,11 +44,17 @@ class _SalomonNavBarState extends State<SalomonNavBar> with NavigatorRoute {
         }
 
         if (p0 == 2) {
-          navigateToWidget(context, Voting(electionID: "", idNo: "",password: "", ));
+          navigateToWidget(
+              context,
+              Voting(
+                electionID: "",
+                idNo: "",
+                password: "",
+              ));
         }
 
         if (p0 == 3) {
-          navigateToWidget(context, Notifications());
+         // navigateToWidget(context, VotingResults());
         }
         setState(() {
           _currentIndex = p0;
