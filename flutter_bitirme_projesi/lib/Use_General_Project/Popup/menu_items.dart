@@ -15,38 +15,34 @@ class _MenuItemsState extends State<MenuItems> {
       children: [
         InkWell(
           onTap: () {},
-          child: Expanded(
-            child: Container(
-              height: 50,
-              width: 250,
-              color: ProjectColors().darkTheme,
-              child: Center(
-                child: Text(
-                  "Çıkış Yap",
-                  style: Theme.of(context)
-                      .textTheme
-                      .headlineSmall
-                      ?.copyWith(color: ProjectColors().background),
-                ),
+          child: Container(
+            height: 20,
+            width: 250,
+            color: ProjectColors().darkTheme,
+            child: Center(
+              child: Text(
+                "Çıkış Yap",
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineSmall
+                    ?.copyWith(color: ProjectColors().background),
               ),
             ),
           ),
         ),
         InkWell(
           onTap: () {},
-          child: Expanded(
-            child: Container(
-              height: 50,
-              width: 250,
-              color: ProjectColors().darkTheme,
-              child: Center(
-                child: Text(
-                  "Çıkış Yap",
-                  style: Theme.of(context)
-                      .textTheme
-                      .headlineSmall
-                      ?.copyWith(color: ProjectColors().background),
-                ),
+          child: Container(
+            height: 50,
+            width: 250,
+            color: ProjectColors().darkTheme,
+            child: Center(
+              child: Text(
+                "Giriş Yap",
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineSmall
+                    ?.copyWith(color: ProjectColors().background),
               ),
             ),
           ),

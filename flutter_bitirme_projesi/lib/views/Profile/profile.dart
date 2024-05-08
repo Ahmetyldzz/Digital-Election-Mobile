@@ -8,9 +8,11 @@ import 'package:flutter_bitirme_projesi/Use_General_Project/general_frame.dart';
 import 'package:flutter_bitirme_projesi/model/postmodel.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/salomon_navbar.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+  const ProfilePage({super.key, required this.token});
+  final String token;
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -20,27 +22,39 @@ class _ProfilePageState extends State<ProfilePage> {
   List<RegisterModel>? registersModel;
   final String _baseUrl = BackendFeatures.baseUrl;
   late final Dio _dio;
+  bool _isLoading = false;
+  late Map<String, dynamic> decodedToken;
   @override
   void initState() {
     super.initState();
     _dio = Dio(BaseOptions(baseUrl: _baseUrl));
     fetchPostItems();
+    decodedToken = JwtDecoder.decode(widget.token);
   }
 
+  void isLoading() {
+    setState(() {
+      _isLoading = !_isLoading;
+    });
+  }
+
+  void setList() {}
+
   Future<void> fetchPostItems() async {
-    final response = await _dio.get("register");
+    isLoading();
+    final response = await _dio.get("signup");
     if (response.statusCode == HttpStatus.ok) {
       final datas = response.data;
       if (datas is List) {
         registersModel = datas.map((e) => RegisterModel.fromJson(e)).toList();
       }
     }
+    isLoading();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: SalomonBar(),
       backgroundColor: ProjectColors().background,
       appBar: AppBar(
         backgroundColor: ProjectColors().commonTheme,
@@ -48,74 +62,76 @@ class _ProfilePageState extends State<ProfilePage> {
           Popup(),
         ],
       ),
-      body: GeneralFrame(
-        child: Column(children: [
-          SizedBox(
-            height: 20,
-          ),
-          SizedBox(
-            width: 50,
-            height: 50,
-            child: FittedBox(
-              child: Icon(
-                Icons.account_circle,
-                color: ProjectColors().darkTheme,
-              ),
+      body: _isLoading
+          ? Center(child: CircularProgressIndicator.adaptive())
+          : GeneralFrame(
+              child: Column(children: [
+                SizedBox(
+                  height: 10,
+                ),
+                SizedBox(
+                  width: 50,
+                  height: 50,
+                  child: FittedBox(
+                    child: Icon(
+                      Icons.account_circle,
+                      color: ProjectColors().darkTheme,
+                    ),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Expanded(
+                      child: CustomText(
+                        headText: "Name",
+                        text: registersModel?[0].name ?? "",
+                      ),
+                    ),
+                    Expanded(
+                      child: CustomText(
+                        headText: "Surname",
+                        text: registersModel?[0].surname ?? "",
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Expanded(
+                      child: CustomText(
+                        headText: "T.C.",
+                        text: registersModel?[0].kimlikNo.toString() ?? "",
+                      ),
+                    ),
+                    Expanded(
+                      child: CustomTextPassword(
+                        label: "Password",
+                        text: "asdas",
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Expanded(
+                      child: CustomText(
+                        headText: "Phone",
+                        text: registersModel?[0].telNo.toString() ?? "",
+                      ),
+                    ),
+                    Expanded(
+                      child: CustomText(
+                        headText: "Date of Birth",
+                        text: registersModel?[0].dogumTrh ?? "",
+                      ),
+                    ),
+                  ],
+                ),
+              ]),
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Expanded(
-                child: CustomText(
-                  headText: "Name",
-                  text: registersModel?[0].name ?? "",
-                ),
-              ),
-              Expanded(
-                child: CustomText(
-                  headText: "Surname",
-                  text: registersModel?[0].surname ?? "",
-                ),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Expanded(
-                child: CustomText(
-                  headText: "T.C.",
-                  text: registersModel?[0].kimlikNo.toString() ?? "",
-                ),
-              ),
-              Expanded(
-                child: CustomTextPassword(
-                  label: "Password",
-                  text: "asdas",
-                ),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Expanded(
-                child: CustomText(
-                  headText: "Phone",
-                  text: registersModel?[0].telNo.toString() ?? "",
-                ),
-              ),
-              Expanded(
-                child: CustomText(
-                  headText: "Date of Birth",
-                  text: registersModel?[0].dogumTrh ?? "",
-                ),
-              ),
-            ],
-          ),
-        ]),
-      ),
     );
   }
 }
@@ -132,7 +148,7 @@ class CustomText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 25),
+      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 18),
       child: Column(
         children: [
           Padding(

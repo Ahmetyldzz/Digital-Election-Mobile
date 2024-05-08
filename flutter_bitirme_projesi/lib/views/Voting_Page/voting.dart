@@ -116,7 +116,6 @@ class _VotingState extends State<Voting> with NavigatorRoute {
 
     return Scaffold(
       backgroundColor: ProjectColors().background,
-      bottomNavigationBar: customSolomonNavigationBar(),
       appBar: AppBar(
         actions: [
           _isLoading ? CircularProgressIndicator.adaptive() : SizedBox.shrink()
@@ -155,11 +154,13 @@ class _VotingState extends State<Voting> with NavigatorRoute {
           width: width2,
           child: Padding(
             padding:
-                const EdgeInsets.only(right: 15, left: 15, top: 15, bottom: 15),
+                const EdgeInsets.only(right: 15, left: 15, top: 5, bottom: 15),
             child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     backgroundColor: ProjectColors().darkTheme,
-                    maximumSize: Size(100, 50)),
+                    fixedSize: Size(100, 100),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12))),
                 onPressed: () {
                   if (_activeCard != -1) {
                     showDialog(
@@ -191,17 +192,22 @@ class _VotingState extends State<Voting> with NavigatorRoute {
                                   });
                                   putItems(_activeCard);
 
-                                   Navigator.of(context).pop();
+                                  Navigator.of(context).pop();
                                   if (_isSelected == true) {
                                     navigateToWidget(
                                         context,
                                         EnteredHomePage(
                                           idNo: widget.idNo,
                                           password: widget.password,
+                                          token: "",
                                         ));
                                   }
                                 },
-                                child: Text("Evet")),
+                                child: Text(
+                                  "Evet",
+                                  style: TextStyle(
+                                      color: ProjectColors().background),
+                                )),
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -214,7 +220,11 @@ class _VotingState extends State<Voting> with NavigatorRoute {
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                 },
-                                child: Text("Hayır")),
+                                child: Text(
+                                  "Hayır",
+                                  style: TextStyle(
+                                      color: ProjectColors().background),
+                                )),
                           ),
                         ],
                       ),
@@ -280,7 +290,10 @@ class _VotingState extends State<Voting> with NavigatorRoute {
           ),
           ElevatedButton(
               style: ElevatedButton.styleFrom(
-                  backgroundColor: ProjectColors().darkTheme),
+                  backgroundColor: ProjectColors().darkTheme,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  )),
               onPressed: () {
                 onIndexChanged(index);
                 print(index);

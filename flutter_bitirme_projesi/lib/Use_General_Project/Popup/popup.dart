@@ -10,18 +10,18 @@ class Popup extends StatefulWidget {
 }
 
 class _PopupState extends State<Popup> {
+
+  _cikisYap () {
+      
+  }
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => showPopover(
-        context: context,
-        bodyBuilder: (context) {
-          return MenuItems();
-        },
-        width: 175,
-        height: 100,
-      ),
-      child: Icon(Icons.more_vert_rounded),
+    return PopupMenuButton(
+      itemBuilder: (context) {
+        return [
+          PopupMenuItem(child: _cikisYap()),
+        ];
+      },
     );
   }
 }

@@ -26,6 +26,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar>
                 EnteredHomePage(
                   idNo: "",
                   password: "",
+                  token: "",
                 ));
           }
           if (value == 1) {

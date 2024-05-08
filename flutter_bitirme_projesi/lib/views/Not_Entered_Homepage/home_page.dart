@@ -27,6 +27,7 @@ class _HomePageState extends State<HomePage> with NavigatorRoute {
     super.initState();
     _dio = Dio(BaseOptions(baseUrl: _baseUrl));
     fetchPostItems();
+    print(widget.key);
   }
 
   Future<void> fetchPostItems() async {
@@ -43,6 +44,7 @@ class _HomePageState extends State<HomePage> with NavigatorRoute {
 
   @override
   Widget build(BuildContext context) {
+    
     return GeneralFrame(
       bottomNavigationBar: SalomonNavBar(),
       appBar: AppBar(

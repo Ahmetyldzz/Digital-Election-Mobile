@@ -76,7 +76,7 @@ class _LoginPageState extends State<LoginPage> with NavigatorRoute {
           print(myToken);
 
           prefs.setString("token", myToken.toString());
-          navigateToWidget(context, EnteredHomePage(idNo: idTextEditingContoller.text, password: passwordTextEditingContoller.text,));
+          navigateToWidget(context, EnteredHomePage(idNo: idTextEditingContoller.text, password: passwordTextEditingContoller.text,token: myToken.toString(),));
         }
       } on DioException catch (e) {
         showDialog(
@@ -118,15 +118,6 @@ class _LoginPageState extends State<LoginPage> with NavigatorRoute {
       }
     }
     print("debug");
-  }
-
-  String convertDynamicToString(dynamic value) {
-    if (value is String) {
-      return value;
-    } else {
-      // İstediğiniz dönüşümü burada yapabilirsiniz.
-      return value.toString();
-    }
   }
 
   @override
@@ -204,19 +195,7 @@ class _LoginPageState extends State<LoginPage> with NavigatorRoute {
                                   password: passwordTextEditingContoller.text);
                               try {
                                 loginUser(authModel);
-                                /*  print("debug");
-
-                                //print(response);
-                                String tokenAsString =
-                                    convertDynamicToString(response);
-                                Map<String, dynamic> decodedToken =
-                                    JwtDecoder.decode(tokenAsString);
-                                print(tokenAsString);
-
-                                if (decodedToken.containsValue(
-                                    idTextEditingContoller.text)) {
-                                  navigateToWidget(context, EnteredHomePage());
-                                } else {} */
+                               
                               } catch (e) {
                                 if (kDebugMode) {
                                   print(e);

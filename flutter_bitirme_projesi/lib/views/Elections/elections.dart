@@ -50,10 +50,14 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
   }
 
   void isLoading() {
-    _isLoading = !_isLoading;
+    setState(() {
+      _isLoading = !_isLoading;
+    });
   }
 
   void login() async {
+    
+    print("login");
     AuthModel authModel = initModel();
     try {
       var response = (await _dio.post("signup/auth", data: authModel.toJson()));
@@ -82,9 +86,12 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
         ),
       );
     }
+    
   }
 
   void setList() async {
+   // isLoading();
+    print("setList");
     for (int i = 0; i < (electionItems?.length ?? 0); i++) {
       print(electionItems?.length);
       for (int j = 0; j < (electionItems?[i].voter?.length ?? 0); j++) {
@@ -96,10 +103,12 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
         }
       }
     }
+   // isLoading();
   }
 
   Future<void> fetchPostItems() async {
     isLoading();
+    print("fetchPostItems");
     final result = await _dio.get(paths.elections.name);
 
     if (result.statusCode == HttpStatus.ok) {
@@ -110,7 +119,6 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
         setList();
       }
     }
-
     isLoading();
   }
 
@@ -121,25 +129,29 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: ProjectColors().background,
-        appBar: AppBar(
-          backgroundColor: ProjectColors().commonTheme,
-        ),
-        body: ListView.builder(
-          itemCount: selectedElectionItems.length,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: _customElectionCard(
-                  selectedElectionModel: selectedElectionItems[index],
-                  selectedElectionID: selectedElectionItems[index].sId ?? "",
-                  context: context,
-                  title: selectedElectionItems[index].electionTitle ?? "",
-                  electionDate:
-                      "${selectedElectionItems[index].initDate} - ${selectedElectionItems[index].endDate}"),
-            );
-          },
-        ));
+      backgroundColor: ProjectColors().background,
+      appBar: AppBar(
+        backgroundColor: ProjectColors().commonTheme,
+      ),
+      body: _isLoading
+          ? Center(child: CircularProgressIndicator.adaptive())
+          : ListView.builder(
+              itemCount: selectedElectionItems.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: _customElectionCard(
+                      selectedElectionModel: selectedElectionItems[index],
+                      selectedElectionID:
+                          selectedElectionItems[index].sId ?? "",
+                      context: context,
+                      title: selectedElectionItems[index].electionTitle ?? "",
+                      electionDate:
+                          "${selectedElectionItems[index].initDate} - ${selectedElectionItems[index].endDate}"),
+                );
+              },
+            ),
+    );
   }
 
   Card _customElectionCard({
@@ -194,14 +206,15 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
             padding: const EdgeInsets.only(top: 0),
             child: InkWell(
               onTap: () {
-                /* navigateToWidget(context,
-                    VotingResults(electionNewModel: selectedElectionModel)
-                    /*  Voting(
-                      electionID: electionID,
-                      idNo: widget.idNo,
-                      password: widget.password,
-                    ), */
-                    ); */
+                navigateToWidget(
+                  context,
+                  /* VotingResults(electionNewModel: selectedElectionModel) */
+                  Voting(
+                    electionID: electionID,
+                    idNo: widget.idNo,
+                    password: widget.password,
+                  ),
+                );
               },
               child: CircleAvatar(
                 backgroundColor: ProjectColors().darkTheme,
@@ -235,18 +248,12 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
 
 enum paths { elections }
 
-/* 
-ListView.builder(
-          itemCount: selectedElectionItems.length,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: _customElectionCard(
+ /* _customElectionCard(
+                  selectedElectionModel: selectedElectionItems[index],
+                  selectedElectionID: selectedElectionItems[index].sId ?? "",
                   context: context,
                   title: selectedElectionItems[index].electionTitle ?? "",
                   electionDate:
-                      "${selectedElectionItems[index].initDate} - ${selectedElectionItems[index].endDate}"),
-            );
-          },
-        )
- */
+                      "${selectedElectionItems[index].initDate} - ${selectedElectionItems[index].endDate}") */
+
+ 

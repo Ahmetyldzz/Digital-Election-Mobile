@@ -45,6 +45,7 @@ dependencies:
   bcrypt: 1.1.3
   fl_chart: 0.65.0
   d_chart: 2.6.4
+  go_router: ^14.0.2
   
 
 dev_dependencies:
