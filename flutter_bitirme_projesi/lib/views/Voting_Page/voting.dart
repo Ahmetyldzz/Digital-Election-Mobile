@@ -9,6 +9,7 @@ import 'package:flutter_bitirme_projesi/Use_General_Project/navigateToPage.dart'
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
 import 'package:flutter_bitirme_projesi/model/custom_card_model.dart';
 import 'package:flutter_bitirme_projesi/model/postmodel.dart';
+import 'package:go_router/go_router.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 class Voting extends StatefulWidget {
@@ -201,6 +202,7 @@ class _VotingState extends State<Voting> with NavigatorRoute {
                                           password: widget.password,
                                           token: "",
                                         ));
+                                    //context.goNamed("EnteredHomePage");
                                   }
                                 },
                                 child: Text(

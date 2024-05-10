@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:bcrypt/bcrypt.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bitirme_projesi/Constants/backend_featues.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/general_frame.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/navigateToPage.dart';
@@ -12,6 +14,7 @@ import 'package:flutter_bitirme_projesi/model/postmodel.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_button.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
 import 'package:flutter_bitirme_projesi/views/Login_Page/login_page.dart';
+import 'package:go_router/go_router.dart';
 
 class Signup extends StatefulWidget {
   const Signup({super.key});
@@ -63,9 +66,8 @@ class _SignupState extends State<Signup> with NavigatorRoute {
 
   Future<void> _addItemToService(RegisterNewModel registerModel) async {
     _changeLoading();
-    final response = await _dio.post(
-        'signup/create',
-        data: registerModel.toJson());
+    final response =
+        await _dio.post('signup/create', data: registerModel.toJson());
     if (response.statusCode == HttpStatus.ok) {
       print(response);
     }
@@ -74,11 +76,15 @@ class _SignupState extends State<Signup> with NavigatorRoute {
 
   @override
   Widget build(BuildContext context) {
+    return _customGeneralFrame(context);
+  }
+
+  GeneralFrame _customGeneralFrame(BuildContext context) {
     return GeneralFrame(
       child: Padding(
         padding: PaddingSizes().innerFrame,
         child: Container(
-          //color: ProjectColors().koyuTema,
+          //color: ProjectColors().darkTheme,
           child: Column(
             children: [
               Text(
@@ -88,26 +94,34 @@ class _SignupState extends State<Signup> with NavigatorRoute {
                       fontSize: fontSize,
                     ),
               ),
-              customTextField(
-                  hintText: "T.C Kimlik Numarası",
-                  textEditingController: tcKimlikNoEditingController,
-                  textInputType: TextInputType.phone,
-                  textInputAction: TextInputAction.next),
-              customTextField(
-                hintText: "İsim",
-                textEditingController: isimEditingController,
-                textInputAction: TextInputAction.next,
+              Expanded(
+                child: customTextField(
+                    hintText: "T.C Kimlik Numarası",
+                    textEditingController: tcKimlikNoEditingController,
+                    textInputType: TextInputType.phone,
+                    textInputAction: TextInputAction.next),
               ),
-              customTextField(
-                hintText: "Soyisim",
-                textEditingController: soyisimEditingController,
-                textInputAction: TextInputAction.next,
-              ),
-              customTextField(
-                  hintText: "Parola",
-                  textEditingController: sifreEditingController,
+              Expanded(
+                child: customTextField(
+                  hintText: "İsim",
+                  textEditingController: isimEditingController,
                   textInputAction: TextInputAction.next,
-                  isObscure: true),
+                ),
+              ),
+              Expanded(
+                child: customTextField(
+                  hintText: "Soyisim",
+                  textEditingController: soyisimEditingController,
+                  textInputAction: TextInputAction.next,
+                ),
+              ),
+              Expanded(
+                child: customTextField(
+                    hintText: "Parola",
+                    textEditingController: sifreEditingController,
+                    textInputAction: TextInputAction.next,
+                    isObscure: true),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -177,6 +191,7 @@ class _SignupState extends State<Signup> with NavigatorRoute {
             color: ProjectColors().background,
             borderRadius: BorderRadius.circular(12)),
         child: TextField(
+          autofocus: true,
           obscureText: isObscure,
           textInputAction: textInputAction,
           keyboardType: textInputType,

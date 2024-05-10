@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/Navigation_router/app_navigation.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/Navigation_router/main_wrapper.dart';
+import 'package:flutter_bitirme_projesi/Use_General_Project/frame.dart';
 import 'package:flutter_bitirme_projesi/model/postmodel.dart';
 import 'package:flutter_bitirme_projesi/views/Elections/election_details_page.dart';
 import 'package:flutter_bitirme_projesi/views/Elections/elections.dart';
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ElectionNewModel electionNewModel = ElectionNewModel();
-    return MaterialApp.router(
+    /* return MaterialApp.router(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -33,19 +34,15 @@ class MyApp extends StatelessWidget {
         color: Color.fromRGBO(70, 139, 151, 1),
       )),
       routerConfig: AppNavigation.goRouter,
-    );
-    /* return MaterialApp(
+    ); */
+    return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
           appBarTheme: AppBarTheme(
         color: Color.fromRGBO(70, 139, 151, 1),
       )),
-      home: EnteredHomePage(
-        idNo: "99988877724",
-        password: "alperen123",
-        token: "",
-      ),
-    ); */
+      home: HomePage(),
+    );
   }
 }

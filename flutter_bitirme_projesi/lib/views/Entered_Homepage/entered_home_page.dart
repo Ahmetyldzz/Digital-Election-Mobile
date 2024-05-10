@@ -1,8 +1,8 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bitirme_projesi/Constants/backend_featues.dart';
+import 'package:flutter_bitirme_projesi/Use_General_Project/frame.dart';
 import 'package:flutter_bitirme_projesi/views/Elections/elections.dart';
 import 'package:flutter_bitirme_projesi/views/Not_Entered_Homepage/home_page.dart';
 import 'package:flutter_bitirme_projesi/views/Profile/profile.dart';
@@ -68,7 +68,7 @@ class _EnteredHomePageState extends State<EnteredHomePage> with NavigatorRoute {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
       backgroundColor: ProjectColors().background,
       appBar: AppBar(
         actions: [
@@ -79,12 +79,11 @@ class _EnteredHomePageState extends State<EnteredHomePage> with NavigatorRoute {
                     shape: StadiumBorder(),
                     backgroundColor: ProjectColors().darkTheme),
                 onPressed: () {
-                  //context.goNamed('SubEnteredHomePage');
                   navigateToWidget(
                       context,
                       Elections(
-                        idNo: "99988877724",
-                        password: "alperen123",
+                        idNo: widget.idNo,
+                        password: widget.password,
                         //key: state.pageKey,
                       ));
                 },
@@ -103,8 +102,7 @@ class _EnteredHomePageState extends State<EnteredHomePage> with NavigatorRoute {
                   navigateToWidget(
                       context,
                       ProfilePage(
-                        token:
-                            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjMzYjMwNzkzODdjMzkxZjBhZWY0ZTYiLCJfa2ltbGlrTm8iOiI5OTk4ODg3NzcyNCIsIl9wYXNzd29yZCI6IiQyYSQxMCRBa0hIYXZ0MjlyNENTaGxTZi5nbUJPeklpWFViQ1U0bEJwNHdCQ3NCT1Yvd21yOFI5LmFaSyIsImlhdCI6MTcxNTE5NDUzNn0.mo95JPspbHXx3QgPVb_dxJ55Jzn49Uf15SidO1GvSy0",
+                        token: widget.token,
                       ));
                 },
                 icon: Icon(
@@ -118,36 +116,156 @@ class _EnteredHomePageState extends State<EnteredHomePage> with NavigatorRoute {
       ),
       body: _isLoading
           ? Center(child: CircularProgressIndicator.adaptive())
-          : GeneralFrame(
-              child: Column(
-                children: [
-                  Expanded(
-                    flex: 9,
-                    child: Padding(
-                        padding: const EdgeInsets.only(left: 15, right: 15),
-                        child: PageView.builder(
-                          controller: _pageController,
-                          onPageChanged: (int page) {
-                            setState(() {
-                              _activePage = page;
-                            });
-                          },
-                          itemCount: model1?.length,
-                          itemBuilder: (context, index) {
-                            return UstKisim(
-                                text: model1?[index].announcementBody ?? "");
-                          },
-                        )),
+          : _customGeneralFrame(),
+    );
+  }
+
+  SingleChildScrollView _customSingleChildScrollView(BuildContext context) {
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        child: Container(
+          decoration: BoxDecoration(
+              color: ProjectColors().commonTheme,
+              borderRadius: BorderRadius.circular(12)),
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  height: 50,
+                  color: Colors.amber,
+                  child: TextField(
+                    textInputAction: TextInputAction.next,
                   ),
-                  Expanded(
-                      flex: 1,
-                      child: AltKisim(
-                          pages: model1,
-                          pageController: _pageController,
-                          activePage: _activePage)),
-                ],
+                ),
               ),
-            ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    color: Colors.amber,
+                    child: TextField(
+                      textInputAction: TextInputAction.next,
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    color: Colors.amber,
+                    child: TextField(
+                      textInputAction: TextInputAction.next,
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    color: Colors.amber,
+                    child: TextField(
+                      textInputAction: TextInputAction.next,
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    color: Colors.amber,
+                    child: TextField(
+                      textInputAction: TextInputAction.next,
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                      color: Colors.amber,
+                      child: TextField(
+                        autofocus: true,
+                      )),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  GeneralFrame _customGeneralFrame() {
+    return GeneralFrame(
+      child: Column(
+        children: [
+          Expanded(
+            flex: 9,
+            child: Padding(
+                padding: const EdgeInsets.only(left: 15, right: 15),
+                child: PageView.builder(
+                  controller: _pageController,
+                  onPageChanged: (int page) {
+                    setState(() {
+                      _activePage = page;
+                    });
+                  },
+                  itemCount: model1?.length,
+                  itemBuilder: (context, index) {
+                    return UstKisim(
+                        text: model1?[index].announcementBody ?? "");
+                  },
+                )),
+          ),
+          Expanded(
+              flex: 1,
+              child: AltKisim(
+                  pages: model1,
+                  pageController: _pageController,
+                  activePage: _activePage)),
+        ],
+      ),
+    );
+  }
+
+  GeneralFrame _customGeneralFrame2() {
+    return GeneralFrame(
+      child: Column(
+        children: [
+          Expanded(
+            flex: 9,
+            child: Padding(
+                padding: const EdgeInsets.only(left: 15, right: 15),
+                child: PageView.builder(
+                  controller: _pageController,
+                  onPageChanged: (int page) {
+                    setState(() {
+                      _activePage = page;
+                    });
+                  },
+                  itemCount: model1?.length,
+                  itemBuilder: (context, index) {
+                    return UstKisim(
+                        text: model1?[index].announcementBody ?? "");
+                  },
+                )),
+          ),
+          Expanded(
+              flex: 1,
+              child: AltKisim(
+                  pages: model1,
+                  pageController: _pageController,
+                  activePage: _activePage)),
+        ],
+      ),
     );
   }
 }

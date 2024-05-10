@@ -8,6 +8,7 @@ import 'package:flutter_bitirme_projesi/model/postmodel.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
 import 'package:flutter_bitirme_projesi/views/Login_Page/login_page.dart';
 import 'package:flutter_bitirme_projesi/views/Sign_Up_Page/sign_up.dart';
+import 'package:go_router/go_router.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -20,6 +21,7 @@ class _HomePageState extends State<HomePage> with NavigatorRoute {
   final PageController _pageController = PageController(initialPage: 0);
   int _activePage = 0;
   List<AnnouncementModel>? model1;
+  bool _isLoading = false;
   late final Dio _dio;
   final String _baseUrl = BackendFeatures.baseUrl;
   @override
@@ -30,7 +32,14 @@ class _HomePageState extends State<HomePage> with NavigatorRoute {
     print(widget.key);
   }
 
+  void isLoading() {
+    setState(() {
+      _isLoading = !_isLoading;
+    });
+  }
+
   Future<void> fetchPostItems() async {
+    isLoading();
     final response = await _dio.get("announcement");
 
     if (response.statusCode == HttpStatus.ok) {
@@ -40,13 +49,12 @@ class _HomePageState extends State<HomePage> with NavigatorRoute {
         model1 = datas.map((e) => AnnouncementModel.fromJson(e)).toList();
       }
     }
+    isLoading();
   }
 
   @override
   Widget build(BuildContext context) {
-    
     return GeneralFrame(
-      bottomNavigationBar: SalomonNavBar(),
       appBar: AppBar(
         title: Text(
           "Anasayfa",
@@ -57,6 +65,7 @@ class _HomePageState extends State<HomePage> with NavigatorRoute {
             padding: EdgeInsets.only(bottom: 12, top: 12, right: 20),
             child: ElevatedButton(
                 onPressed: () {
+                  //context.goNamed('Signup');
                   navigateToWidget(context, Signup());
                 },
                 style: ElevatedButton.styleFrom(
@@ -86,34 +95,51 @@ class _HomePageState extends State<HomePage> with NavigatorRoute {
           ),
         ],
       ),
-      child: Column(
-        children: [
-          Expanded(
-            flex: 9,
-            child: Padding(
-                padding: const EdgeInsets.only(left: 15, right: 15),
-                child: PageView.builder(
-                  controller: _pageController,
-                  onPageChanged: (int page) {
-                    setState(() {
-                      _activePage = page;
-                    });
-                  },
-                  itemCount: model1?.length,
-                  itemBuilder: (context, index) {
-                    return UstKisim(
-                        text: model1?[index].announcementTitle ?? "");
-                  },
-                )),
-          ),
-          Expanded(
-              flex: 1,
-              child: AltKisim(
-                  pages: model1,
-                  pageController: _pageController,
-                  activePage: _activePage)),
-        ],
-      ),
+      child: _isLoading
+          ? Center(child: CircularProgressIndicator.adaptive())
+          : _notEnteredHomePageContent(),
+    );
+  }
+
+  Column _notEnteredHomePageContent() {
+    return Column(
+      children: [
+        SizedBox(
+          height: 40,
+        ),
+        Expanded(
+            flex: 1,
+            child: Text(
+              "Yaklaşan 2024 Seçimleri",
+              style: Theme.of(context)
+                  .textTheme
+                  .headlineMedium
+                  ?.copyWith(color: ProjectColors().background, fontSize: 24),
+            )),
+        Expanded(
+          flex: 8,
+          child: Padding(
+              padding: const EdgeInsets.only(left: 15, right: 15),
+              child: PageView.builder(
+                controller: _pageController,
+                onPageChanged: (int page) {
+                  setState(() {
+                    _activePage = page;
+                  });
+                },
+                itemCount: model1?.length,
+                itemBuilder: (context, index) {
+                  return UstKisim(text: model1?[index].announcementTitle ?? "");
+                },
+              )),
+        ),
+        Expanded(
+            flex: 1,
+            child: AltKisim(
+                pages: model1,
+                pageController: _pageController,
+                activePage: _activePage)),
+      ],
     );
   }
 }
@@ -171,7 +197,7 @@ class UstKisim extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.only(top: 40, bottom: 15),
+        padding: const EdgeInsets.only(top: 0, bottom: 15),
         child: Container(
           width: 300,
           height: 370,

@@ -21,22 +21,31 @@ class GeneralFrame extends StatefulWidget {
 class _GeneralFrameState extends State<GeneralFrame> {
   @override
   Widget build(BuildContext context) {
+    final double width = MediaQuery.of(context).size.width;
+    final double height = MediaQuery.of(context).size.height;
+    print(width);
     return Scaffold(
       bottomNavigationBar: widget.bottomNavigationBar,
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       backgroundColor: ProjectColors().background,
       appBar: widget.appBar,
       body: Padding(
-        padding: PaddingSizes().generalFrame,
+        padding: EdgeInsets.symmetric(
+            horizontal: width * 0.05, vertical: height * 0.05),
         child: Center(
-          child: Container(
-            width: ContainerSizes().width,
-            height: ContainerSizes().height,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: ProjectColors().commonTheme,
+          child: SingleChildScrollView(
+
+            child: Container(     
+              width: /* ContainerSizes().width */
+                  width,
+              height: /* ContainerSizes().height */
+                  height * 0.9,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: ProjectColors().commonTheme,
+              ),
+              child: widget.child,
             ),
-            child: widget.child,
           ),
         ),
       ),

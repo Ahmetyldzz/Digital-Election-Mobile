@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bitirme_projesi/Constants/backend_featues.dart';
 import 'package:flutter_bitirme_projesi/views/Entered_Homepage/entered_home_page.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/general_frame.dart';
@@ -15,6 +16,7 @@ import 'package:flutter_bitirme_projesi/model/postmodel.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_button.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
 import 'package:flutter_bitirme_projesi/views/Sign_Up_Page/sign_up.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -76,7 +78,15 @@ class _LoginPageState extends State<LoginPage> with NavigatorRoute {
           print(myToken);
 
           prefs.setString("token", myToken.toString());
-          navigateToWidget(context, EnteredHomePage(idNo: idTextEditingContoller.text, password: passwordTextEditingContoller.text,token: myToken.toString(),));
+
+          navigateToWidget(
+              context,
+              EnteredHomePage(
+                idNo: idTextEditingContoller.text,
+                password: passwordTextEditingContoller.text,
+                token: myToken.toString(),
+              ));
+          
         }
       } on DioException catch (e) {
         showDialog(
@@ -141,6 +151,9 @@ class _LoginPageState extends State<LoginPage> with NavigatorRoute {
                         ),
                   ),
                 ),
+                SizedBox(
+                  height: 50,
+                ),
                 Padding(
                   padding: const EdgeInsets.only(top: 70),
                   child: Column(
@@ -195,7 +208,6 @@ class _LoginPageState extends State<LoginPage> with NavigatorRoute {
                                   password: passwordTextEditingContoller.text);
                               try {
                                 loginUser(authModel);
-                               
                               } catch (e) {
                                 if (kDebugMode) {
                                   print(e);
@@ -207,8 +219,11 @@ class _LoginPageState extends State<LoginPage> with NavigatorRoute {
                             textColor: ProjectColors().darkTheme,
                             buttonColor: ProjectColors().likePink),
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 90),
+                      SizedBox(
+                        height: 120,
+                      ),
+                      Align(
+                        alignment: Alignment.bottomCenter,
                         child: NavigateToOtherAuth(
                             widget: Signup(),
                             title: underText,

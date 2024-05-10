@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 
 class PaddingSizes {
-  final EdgeInsets generalFrame = EdgeInsets.only(
-    top: 40,
-    bottom: 40,
+  final EdgeInsets generalFrame = EdgeInsets.symmetric(
+    horizontal: 20,
+    vertical: 20,
   );
 
-  
   final EdgeInsets innerFrame = EdgeInsets.only(
     top: 15,
     bottom: 15,

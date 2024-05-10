@@ -56,7 +56,6 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
   }
 
   void login() async {
-    
     print("login");
     AuthModel authModel = initModel();
     try {
@@ -86,11 +85,10 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
         ),
       );
     }
-    
   }
 
   void setList() async {
-   // isLoading();
+    // isLoading();
     print("setList");
     for (int i = 0; i < (electionItems?.length ?? 0); i++) {
       print(electionItems?.length);
@@ -103,7 +101,7 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
         }
       }
     }
-   // isLoading();
+    // isLoading();
   }
 
   Future<void> fetchPostItems() async {
@@ -135,22 +133,31 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
       ),
       body: _isLoading
           ? Center(child: CircularProgressIndicator.adaptive())
-          : ListView.builder(
-              itemCount: selectedElectionItems.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: _customElectionCard(
-                      selectedElectionModel: selectedElectionItems[index],
-                      selectedElectionID:
-                          selectedElectionItems[index].sId ?? "",
-                      context: context,
-                      title: selectedElectionItems[index].electionTitle ?? "",
-                      electionDate:
-                          "${selectedElectionItems[index].initDate} - ${selectedElectionItems[index].endDate}"),
-                );
-              },
-            ),
+          : selectedElectionItems.isEmpty
+              ? Center(
+                  child: Text(
+                    textAlign: TextAlign.center,
+                    "Oy Kullanabileceğiniz Herhangi Bir Seçim Bulunmamaktadır!!",
+                    style: Theme.of(context).textTheme.headlineLarge,
+                  ),
+                )
+              : ListView.builder(
+                  itemCount: selectedElectionItems.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: _customElectionCard(
+                          selectedElectionModel: selectedElectionItems[index],
+                          selectedElectionID:
+                              selectedElectionItems[index].sId ?? "",
+                          context: context,
+                          title:
+                              selectedElectionItems[index].electionTitle ?? "",
+                          electionDate:
+                              "${selectedElectionItems[index].initDate} - ${selectedElectionItems[index].endDate}"),
+                    );
+                  },
+                ),
     );
   }
 
