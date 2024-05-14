@@ -7,15 +7,15 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bitirme_projesi/Constants/backend_featues.dart';
-import 'package:flutter_bitirme_projesi/views/Entered_Homepage/entered_home_page.dart';
-import 'package:flutter_bitirme_projesi/Use_General_Project/general_frame.dart';
+import 'package:flutter_bitirme_projesi/Views/Entered_Homepage/entered_home_page.dart';
+import 'package:flutter_bitirme_projesi/widgets/general_frame.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/navigateToPage.dart';
-import 'package:flutter_bitirme_projesi/Use_General_Project/navigate_other_auth.dart';
-import 'package:flutter_bitirme_projesi/Use_General_Project/padding_sizes.dart';
+import 'package:flutter_bitirme_projesi/widgets/navigate_other_auth.dart';
+import 'package:flutter_bitirme_projesi/Constants/padding_sizes.dart';
 import 'package:flutter_bitirme_projesi/model/postmodel.dart';
-import 'package:flutter_bitirme_projesi/Use_General_Project/project_button.dart';
+import 'package:flutter_bitirme_projesi/widgets/project_button.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
-import 'package:flutter_bitirme_projesi/views/Sign_Up_Page/sign_up.dart';
+import 'package:flutter_bitirme_projesi/Views/Sign_Up_Page/sign_up.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -135,7 +135,7 @@ class _LoginPageState extends State<LoginPage> with NavigatorRoute {
   Widget build(BuildContext context) {
     return GeneralFrame(
       child: Padding(
-        padding: PaddingSizes().innerFrame,
+        padding: PaddingSizes.innerFrame,
         child: Container(
           //color: ProjectColors().darkTheme,
           child: Center(

@@ -1,22 +1,24 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bitirme_projesi/Constants/backend_featues.dart';
-import 'package:flutter_bitirme_projesi/views/Elections/election_details_page.dart';
+import 'package:flutter_bitirme_projesi/Constants/padding_sizes.dart';
+import 'package:flutter_bitirme_projesi/Constants/sizes.dart';
+import 'package:flutter_bitirme_projesi/Views/Elections/election_details_page.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/navigateToPage.dart';
 import 'package:flutter_bitirme_projesi/model/postmodel.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
-import 'package:flutter_bitirme_projesi/views/Result_Page/voting_result.dart';
-import 'package:flutter_bitirme_projesi/views/Voting_Page/voting.dart';
+import 'package:flutter_bitirme_projesi/Views/Result_Page/voting_result.dart';
+import 'package:flutter_bitirme_projesi/Views/Voting_Page/voting.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 class Elections extends StatefulWidget {
-  const Elections({super.key, required this.idNo, required this.password});
+  const Elections({super.key, required this.idNo, required this.password, required this.token});
   final String idNo;
   final String password;
+  final String token;
 
   @override
   State<Elections> createState() => _ElectionsState();
@@ -25,7 +27,7 @@ class Elections extends StatefulWidget {
 class _ElectionsState extends State<Elections> with NavigatorRoute {
   List<ElectionNewModel>? electionItems;
   List<ElectionNewModel> selectedElectionItems = [];
-  List<Candidatess>? candidateItems;
+  List<Candidates>? candidateItems;
   List<Voter>? voterList;
   late Map<String, dynamic> decodedToken;
 
@@ -36,7 +38,6 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
   //AuthModel authModel = AuthModel(id: id, password: "alpersonat123");
 
   AuthModel initModel() {
-    print(widget.idNo);
     return AuthModel(id: widget.idNo, password: widget.password);
   }
 
@@ -56,18 +57,15 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
   }
 
   void login() async {
-    print("login");
     AuthModel authModel = initModel();
     try {
       var response = (await _dio.post("signup/auth", data: authModel.toJson()));
 
       if (response.statusCode == HttpStatus.ok) {
         var myToken = response;
-        print(myToken);
         decodedToken = JwtDecoder.decode(myToken.toString());
       }
     } on DioException catch (e) {
-      print(e.message);
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -89,14 +87,9 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
 
   void setList() async {
     // isLoading();
-    print("setList");
     for (int i = 0; i < (electionItems?.length ?? 0); i++) {
-      print(electionItems?.length);
       for (int j = 0; j < (electionItems?[i].voter?.length ?? 0); j++) {
         if (electionItems?[i].voter?[j].kimlikNo == decodedToken["_kimlikNo"]) {
-          print("counter");
-          print(electionItems?.length);
-          print(electionItems?[i].voter?[j].kimlikNo);
           selectedElectionItems.add((electionItems![i]));
         }
       }
@@ -145,7 +138,7 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
                   itemCount: selectedElectionItems.length,
                   itemBuilder: (context, index) {
                     return Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: PaddingSizes.electionBodyPadding,
                       child: _customElectionCard(
                           selectedElectionModel: selectedElectionItems[index],
                           selectedElectionID:
@@ -174,10 +167,10 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
         decoration: BoxDecoration(
             color: ProjectColors().commonTheme,
             borderRadius: BorderRadius.circular(5)),
-        width: 200,
-        height: 100,
+        width: ElectionSizes.electionCardWidth,
+        height: ElectionSizes.electionCardHeight,
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: PaddingSizes.customElectionCardPadding,
           child: ListTile(
             title: Text(
               title,
@@ -210,7 +203,7 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
       children: [
         Expanded(
           child: Padding(
-            padding: const EdgeInsets.only(top: 0),
+            padding: PaddingSizes.customElectionCardTrailingColumnPadding,
             child: InkWell(
               onTap: () {
                 navigateToWidget(
@@ -220,6 +213,7 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
                     electionID: electionID,
                     idNo: widget.idNo,
                     password: widget.password,
+                    token: widget.token,
                   ),
                 );
               },
@@ -254,13 +248,5 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
 }
 
 enum paths { elections }
-
- /* _customElectionCard(
-                  selectedElectionModel: selectedElectionItems[index],
-                  selectedElectionID: selectedElectionItems[index].sId ?? "",
-                  context: context,
-                  title: selectedElectionItems[index].electionTitle ?? "",
-                  electionDate:
-                      "${selectedElectionItems[index].initDate} - ${selectedElectionItems[index].endDate}") */
 
  

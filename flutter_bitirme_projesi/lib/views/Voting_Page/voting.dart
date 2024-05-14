@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bitirme_projesi/Constants/backend_featues.dart';
-import 'package:flutter_bitirme_projesi/views/Entered_Homepage/entered_home_page.dart';
-import 'package:flutter_bitirme_projesi/Use_General_Project/general_frame.dart';
+import 'package:flutter_bitirme_projesi/Views/Entered_Homepage/entered_home_page.dart';
+import 'package:flutter_bitirme_projesi/widgets/general_frame.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/navigateToPage.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
 import 'package:flutter_bitirme_projesi/model/custom_card_model.dart';
@@ -17,10 +17,11 @@ class Voting extends StatefulWidget {
       {super.key,
       required this.electionID,
       required this.idNo,
-      required this.password});
+      required this.password, required this.token});
   final String electionID;
   final String idNo;
   final String password;
+  final String token;
 
   @override
   State<Voting> createState() => _VotingState();
@@ -84,6 +85,15 @@ class _VotingState extends State<Voting> with NavigatorRoute {
 
   Future<void> putItems(int index) async {
     final result = await _dio
+        .put("candidate/vote/${selecetedElection?.voter?[index].isVoted}");
+
+    if (result.statusCode == HttpStatus.ok) {
+      print("başarılı");
+    }
+  }
+
+  Future<void> putIsVoted(int index) async {
+    final result = await _dio
         .put("candidate/vote/${selecetedElection?.candidates?[index].sId}");
 
     if (result.statusCode == HttpStatus.ok) {
@@ -108,12 +118,6 @@ class _VotingState extends State<Voting> with NavigatorRoute {
   @override
   Widget build(BuildContext context) {
     const double width2 = 400;
-
-    /*  void isSelected() {
-      setState(() {
-        isClicked = !isClicked;
-      });
-    } */
 
     return Scaffold(
       backgroundColor: ProjectColors().background,
@@ -192,7 +196,7 @@ class _VotingState extends State<Voting> with NavigatorRoute {
                                     _isSelected = true;
                                   });
                                   putItems(_activeCard);
-
+                                  putIsVoted(_activeCard);
                                   Navigator.of(context).pop();
                                   if (_isSelected == true) {
                                     navigateToWidget(

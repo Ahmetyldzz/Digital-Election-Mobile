@@ -1,7 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
-import 'package:flutter_bitirme_projesi/views/Result_Page/indicator.dart';
+import 'package:flutter_bitirme_projesi/Views/Result_Page/indicator.dart';
 
 class PieChartSample2 extends StatefulWidget {
   const PieChartSample2({super.key});

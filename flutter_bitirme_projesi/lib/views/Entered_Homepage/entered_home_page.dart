@@ -2,15 +2,13 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bitirme_projesi/Constants/backend_featues.dart';
-import 'package:flutter_bitirme_projesi/Use_General_Project/frame.dart';
-import 'package:flutter_bitirme_projesi/views/Elections/elections.dart';
-import 'package:flutter_bitirme_projesi/views/Not_Entered_Homepage/home_page.dart';
-import 'package:flutter_bitirme_projesi/views/Profile/profile.dart';
-import 'package:flutter_bitirme_projesi/Use_General_Project/general_frame.dart';
+import 'package:flutter_bitirme_projesi/Views/Elections/elections.dart';
+import 'package:flutter_bitirme_projesi/Views/Not_Entered_Homepage/home_page.dart';
+import 'package:flutter_bitirme_projesi/Views/Profile/profile.dart';
+import 'package:flutter_bitirme_projesi/widgets/general_frame.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/navigateToPage.dart';
 import 'package:flutter_bitirme_projesi/model/postmodel.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
-import 'package:flutter_bitirme_projesi/Use_General_Project/salomon_navbar.dart';
 import 'package:go_router/go_router.dart';
 
 class EnteredHomePage extends StatefulWidget {
@@ -84,6 +82,7 @@ class _EnteredHomePageState extends State<EnteredHomePage> with NavigatorRoute {
                       Elections(
                         idNo: widget.idNo,
                         password: widget.password,
+                        token: widget.token,
                         //key: state.pageKey,
                       ));
                 },

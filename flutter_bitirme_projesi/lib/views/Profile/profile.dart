@@ -3,11 +3,10 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bitirme_projesi/Constants/backend_featues.dart';
-import 'package:flutter_bitirme_projesi/Use_General_Project/Popup/popup.dart';
-import 'package:flutter_bitirme_projesi/Use_General_Project/general_frame.dart';
+import 'package:flutter_bitirme_projesi/widgets/Popup/popup.dart';
+import 'package:flutter_bitirme_projesi/widgets/general_frame.dart';
 import 'package:flutter_bitirme_projesi/model/postmodel.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
-import 'package:flutter_bitirme_projesi/Use_General_Project/salomon_navbar.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 class ProfilePage extends StatefulWidget {

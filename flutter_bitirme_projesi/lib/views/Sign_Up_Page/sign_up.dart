@@ -6,14 +6,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bitirme_projesi/Constants/backend_featues.dart';
-import 'package:flutter_bitirme_projesi/Use_General_Project/general_frame.dart';
+import 'package:flutter_bitirme_projesi/widgets/general_frame.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/navigateToPage.dart';
-import 'package:flutter_bitirme_projesi/Use_General_Project/navigate_other_auth.dart';
-import 'package:flutter_bitirme_projesi/Use_General_Project/padding_sizes.dart';
+import 'package:flutter_bitirme_projesi/widgets/navigate_other_auth.dart';
+import 'package:flutter_bitirme_projesi/Constants/padding_sizes.dart';
 import 'package:flutter_bitirme_projesi/model/postmodel.dart';
-import 'package:flutter_bitirme_projesi/Use_General_Project/project_button.dart';
+import 'package:flutter_bitirme_projesi/widgets/project_button.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
-import 'package:flutter_bitirme_projesi/views/Login_Page/login_page.dart';
+import 'package:flutter_bitirme_projesi/Views/Login_Page/login_page.dart';
 import 'package:go_router/go_router.dart';
 
 class Signup extends StatefulWidget {
@@ -82,7 +82,7 @@ class _SignupState extends State<Signup> with NavigatorRoute {
   GeneralFrame _customGeneralFrame(BuildContext context) {
     return GeneralFrame(
       child: Padding(
-        padding: PaddingSizes().innerFrame,
+        padding: PaddingSizes.innerFrame,
         child: Container(
           //color: ProjectColors().darkTheme,
           child: Column(

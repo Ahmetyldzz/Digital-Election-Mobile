@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bitirme_projesi/Constants/backend_featues.dart';
-import 'package:flutter_bitirme_projesi/Use_General_Project/general_frame.dart';
+import 'package:flutter_bitirme_projesi/widgets/general_frame.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
 import 'package:flutter_bitirme_projesi/model/postmodel.dart';
 
@@ -20,6 +20,7 @@ class _ElectionDetailsPageState extends State<ElectionDetailsPage> {
   late final Dio _dio;
   final String _baseUrl = BackendFeatures.baseUrl;
   List<PopupMenuItem<dynamic>> popupMenuList = [];
+  Candidate candidate = Candidate();
 
   @override
   void initState() {
@@ -27,6 +28,7 @@ class _ElectionDetailsPageState extends State<ElectionDetailsPage> {
     _dio = Dio(BaseOptions(baseUrl: _baseUrl));
     setList();
     print(popupMenuList.length);
+    print(widget.electionNewModel.sId);
   }
 
   void setList() {
@@ -34,7 +36,7 @@ class _ElectionDetailsPageState extends State<ElectionDetailsPage> {
         i < (widget.electionNewModel.candidates?.length ?? 0);
         i++) {
       popupMenuList.add(_customPopupMenuItem(context,
-          (widget.electionNewModel.candidates?[i].candidateId?.name ?? "")));
+          (widget.electionNewModel.candidates?[i].candidateId?.name ?? ""), i));
     }
   }
 
@@ -42,39 +44,46 @@ class _ElectionDetailsPageState extends State<ElectionDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ProjectColors().background,
-      body: GeneralFrame(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-          child: Column(
-            children: [
-              Text(
-                "${widget.electionNewModel.electionTitle}",
-                style: Theme.of(context)
-                    .textTheme
-                    .headlineMedium
-                    ?.copyWith(color: ProjectColors().background, fontSize: 28),
+      body: _electionDetailsPageBody(context),
+    );
+  }
+
+  _electionDetailsPageBody(BuildContext context) {
+    _electionDetailsPageBodyTitle() {
+      return Text(
+        "${widget.electionNewModel.electionTitle}",
+        style: Theme.of(context)
+            .textTheme
+            .headlineMedium
+            ?.copyWith(color: ProjectColors().background, fontSize: 28),
+      );
+    }
+
+    return GeneralFrame(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+        child: Column(
+          children: [
+            _electionDetailsPageBodyTitle(),
+            Expanded(
+              child: ListView(
+                children: [
+                  _customElectionInformation(
+                      context, "${widget.electionNewModel.initDate}"),
+                  _customElectionInformation(
+                      context, "${widget.electionNewModel.endDate}"),
+                  _customElectionInformation2(context, "Adaylar"),
+                  _customElectionInformation(context, "Kazanma Koşulu : 50+1"),
+                ],
               ),
-              Expanded(
-                child: ListView(
-                  children: [
-                    _customElectionInformation(
-                        context, "${widget.electionNewModel.initDate}"),
-                    _customElectionInformation(
-                        context, "${widget.electionNewModel.endDate}"),
-                    _customElectionInformation2(context, "Adaylar"),
-                    _customElectionInformation(
-                        context, "Kazanma Koşulu : 50+1"),
-                  ],
-                ),
-              )
-            ],
-          ),
+            )
+          ],
         ),
       ),
     );
   }
 
-  Padding _customElectionInformation(BuildContext context, String text) {
+  _customElectionInformation(BuildContext context, String text) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Container(
@@ -142,17 +151,21 @@ class _ElectionDetailsPageState extends State<ElectionDetailsPage> {
         return _customPopupMenuItem(
             context,
             widget.electionNewModel.candidates?[index].candidateId?.name ??
-                "başarısız");
+                "başarısız",
+            index);
       },
     );
   }
 
   PopupMenuItem<dynamic> _customPopupMenuItem(
-      BuildContext context, String candidateName) {
+      BuildContext context, String candidateName, index) {
     return PopupMenuItem(
       child: Text(candidateName),
       onTap: () {
-        _showDialog(context, candidateName);
+        _showDialog(
+            context,
+            widget.electionNewModel.candidates?[index].aboutCandidate ??
+                "başarısız");
       },
     );
   }
@@ -188,7 +201,7 @@ class _ElectionDetailsPageState extends State<ElectionDetailsPage> {
               ),
             ),
           ),
-          Text(
+          /*  Text(
             "Adayın Soyadı: ${widget.electionNewModel.candidates?[0].candidateId?.surname}",
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   color: Colors.black,
@@ -199,7 +212,7 @@ class _ElectionDetailsPageState extends State<ElectionDetailsPage> {
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   color: Colors.black,
                 ),
-          ),
+          ), */
         ]),
       ),
     );

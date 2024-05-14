@@ -2,12 +2,12 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bitirme_projesi/Constants/backend_featues.dart';
-import 'package:flutter_bitirme_projesi/Use_General_Project/general_frame.dart';
+import 'package:flutter_bitirme_projesi/widgets/general_frame.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/navigateToPage.dart';
 import 'package:flutter_bitirme_projesi/model/postmodel.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
-import 'package:flutter_bitirme_projesi/views/Login_Page/login_page.dart';
-import 'package:flutter_bitirme_projesi/views/Sign_Up_Page/sign_up.dart';
+import 'package:flutter_bitirme_projesi/Views/Login_Page/login_page.dart';
+import 'package:flutter_bitirme_projesi/Views/Sign_Up_Page/sign_up.dart';
 import 'package:go_router/go_router.dart';
 
 class HomePage extends StatefulWidget {

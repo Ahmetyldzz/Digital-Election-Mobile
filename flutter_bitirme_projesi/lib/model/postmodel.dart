@@ -165,7 +165,7 @@ class ElectionNewModel {
   String? electionTitle;
   String? electionExplanation;
   ElectionType? electionType;
-  List<Candidatess>? candidates;
+  List<Candidate>? candidates;
   List<Voter>? voter;
   int? iV;
 
@@ -190,9 +190,9 @@ class ElectionNewModel {
         ? new ElectionType.fromJson(json['electionType'])
         : null;
     if (json['candidates'] != null) {
-      candidates = <Candidatess>[];
+      candidates = <Candidate>[];
       json['candidates'].forEach((v) {
-        candidates!.add(new Candidatess.fromJson(v));
+        candidates!.add(new Candidate.fromJson(v));
       });
     }
     if (json['voter'] != null) {
@@ -247,21 +247,24 @@ class ElectionType {
   }
 }
 
-class Candidatess {
+class Candidate {
   String? sId;
   CandidateId? candidateId;
   int? vote;
   int? iV;
+  String? aboutCandidate;
 
-  Candidatess({this.sId, this.candidateId, this.vote, this.iV});
+  Candidate(
+      {this.sId, this.candidateId, this.vote, this.iV, this.aboutCandidate});
 
-  Candidatess.fromJson(Map<String, dynamic> json) {
+  Candidate.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     candidateId = json['candidateId'] != null
         ? new CandidateId.fromJson(json['candidateId'])
         : null;
     vote = json['vote'];
     iV = json['__v'];
+    aboutCandidate = json['aboutCandidate'];
   }
 
   Map<String, dynamic> toJson() {
@@ -272,6 +275,7 @@ class Candidatess {
     }
     data['vote'] = this.vote;
     data['__v'] = this.iV;
+    data['aboutCandidate'] = this.aboutCandidate;
     return data;
   }
 }

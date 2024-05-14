@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bitirme_projesi/Use_General_Project/padding_sizes.dart';
+import 'package:flutter_bitirme_projesi/Constants/padding_sizes.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
 
-class GeneralFrame extends StatefulWidget {
+class GeneralFrame extends StatelessWidget {
   const GeneralFrame(
       {super.key,
       this.child,
@@ -15,20 +15,15 @@ class GeneralFrame extends StatefulWidget {
   final Widget? bottomNavigationBar;
 
   @override
-  State<GeneralFrame> createState() => _GeneralFrameState();
-}
-
-class _GeneralFrameState extends State<GeneralFrame> {
-  @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
     print(width);
     return Scaffold(
-      bottomNavigationBar: widget.bottomNavigationBar,
+      bottomNavigationBar: bottomNavigationBar,
       resizeToAvoidBottomInset: true,
       backgroundColor: ProjectColors().background,
-      appBar: widget.appBar,
+      appBar: appBar,
       body: Padding(
         padding: EdgeInsets.symmetric(
             horizontal: width * 0.05, vertical: height * 0.05),
@@ -44,7 +39,7 @@ class _GeneralFrameState extends State<GeneralFrame> {
                 borderRadius: BorderRadius.circular(20),
                 color: ProjectColors().commonTheme,
               ),
-              child: widget.child,
+              child: child,
             ),
           ),
         ),

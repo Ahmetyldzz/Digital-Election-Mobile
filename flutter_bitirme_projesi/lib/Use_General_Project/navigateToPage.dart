@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bitirme_projesi/views/Entered_Homepage/entered_home_page.dart';
-import 'package:flutter_bitirme_projesi/views/Login_Page/login_page.dart';
-import 'package:flutter_bitirme_projesi/views/Result_Page/voting_result.dart';
+import 'package:flutter_bitirme_projesi/Views/Entered_Homepage/entered_home_page.dart';
+import 'package:flutter_bitirme_projesi/Views/Login_Page/login_page.dart';
+import 'package:flutter_bitirme_projesi/Views/Result_Page/voting_result.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
-import 'package:flutter_bitirme_projesi/views/Voting_Page/voting.dart';
+import 'package:flutter_bitirme_projesi/Views/Voting_Page/voting.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 mixin NavigatorRoute {
@@ -50,6 +50,7 @@ class _SalomonNavBarState extends State<SalomonNavBar> with NavigatorRoute {
                 electionID: "",
                 idNo: "",
                 password: "",
+                token: "",
               ));
         }
 

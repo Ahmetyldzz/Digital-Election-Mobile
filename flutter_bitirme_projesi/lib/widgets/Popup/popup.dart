@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bitirme_projesi/Use_General_Project/Popup/menu_items.dart';
+import 'package:flutter_bitirme_projesi/widgets/Popup/menu_items.dart';
 import 'package:popover/popover.dart';
 
 class Popup extends StatefulWidget {
