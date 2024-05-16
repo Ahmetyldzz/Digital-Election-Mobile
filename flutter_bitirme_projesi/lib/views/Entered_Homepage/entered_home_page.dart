@@ -206,8 +206,20 @@ class _EnteredHomePageState extends State<EnteredHomePage> with NavigatorRoute {
     return GeneralFrame(
       child: Column(
         children: [
+          SizedBox(
+          height: 40,
+        ),
+        Expanded(
+            flex: 1,
+            child: Text(
+              "Yaklaşan 2024 Seçimleri",
+              style: Theme.of(context)
+                  .textTheme
+                  .headlineMedium
+                  ?.copyWith(color: ProjectColors().background, fontSize: 24),
+            )),
           Expanded(
-            flex: 9,
+            flex: 8,
             child: Padding(
                 padding: const EdgeInsets.only(left: 15, right: 15),
                 child: PageView.builder(

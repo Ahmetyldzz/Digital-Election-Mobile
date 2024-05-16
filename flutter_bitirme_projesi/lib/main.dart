@@ -1,3 +1,4 @@
+// ignore_for_file: unused_import
 import 'package:flutter/material.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/Navigation_router/app_navigation.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/Navigation_router/main_wrapper.dart';
@@ -40,7 +41,7 @@ class MyApp extends StatelessWidget {
           appBarTheme: AppBarTheme(
         color: Color.fromRGBO(70, 139, 151, 1),
       )),
-      home: HomePage(),
+      home: LoginPage(),
     );
   }
 }

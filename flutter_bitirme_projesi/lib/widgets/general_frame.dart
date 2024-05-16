@@ -29,12 +29,11 @@ class GeneralFrame extends StatelessWidget {
             horizontal: width * 0.05, vertical: height * 0.05),
         child: Center(
           child: SingleChildScrollView(
-
-            child: Container(     
+            child: Container(
               width: /* ContainerSizes().width */
                   width,
               height: /* ContainerSizes().height */
-                  height * 0.9,
+                  height * 0.8,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 color: ProjectColors().commonTheme,

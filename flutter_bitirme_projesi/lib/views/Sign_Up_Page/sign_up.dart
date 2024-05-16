@@ -94,6 +94,9 @@ class _SignupState extends State<Signup> with NavigatorRoute {
                       fontSize: fontSize,
                     ),
               ),
+              SizedBox(
+                height: 20,
+              ),
               Expanded(
                 child: customTextField(
                     hintText: "T.C Kimlik Numarası",
@@ -122,24 +125,26 @@ class _SignupState extends State<Signup> with NavigatorRoute {
                     textInputAction: TextInputAction.next,
                     isObscure: true),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                      child: customTextField(
-                    hintText: "Doğum Tarihi",
-                    textEditingController: dogumTarihiEditingController,
-                    textInputAction: TextInputAction.next,
-                    textInputType: TextInputType.datetime,
-                  )),
-                  Expanded(
-                      child: customTextField(
-                    hintText: "Tel No:",
-                    textEditingController: telNoEditingController,
-                    textInputAction: TextInputAction.next,
-                    textInputType: TextInputType.phone,
-                  )),
-                ],
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                        child: customTextField(
+                      hintText: "Doğum Tarihi",
+                      textEditingController: dogumTarihiEditingController,
+                      textInputAction: TextInputAction.next,
+                      textInputType: TextInputType.datetime,
+                    )),
+                    Expanded(
+                        child: customTextField(
+                      hintText: "Tel No:",
+                      textEditingController: telNoEditingController,
+                      textInputAction: TextInputAction.next,
+                      textInputType: TextInputType.phone,
+                    )),
+                  ],
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 15),
@@ -163,7 +168,9 @@ class _SignupState extends State<Signup> with NavigatorRoute {
                   textColor: ProjectColors().darkTheme,
                 ),
               ),
-              Spacer(),
+              SizedBox(
+                height: 35,
+              ),
               NavigateToOtherAuth(
                 widget: LoginPage(),
                 title: underText,

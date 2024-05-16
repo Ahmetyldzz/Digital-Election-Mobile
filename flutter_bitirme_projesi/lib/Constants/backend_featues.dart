@@ -1,5 +1,5 @@
 class BackendFeatures {
-  static const String baseUrl = "http://192.168.1.127:3000/api/";
+  static const String baseUrl = "http://192.168.0.13:3000/api/";
   static String election = "$baseUrl + ${Paths.elections.name}";
   static String announcement = "$baseUrl + ${Paths.announcement.name}";
   static String candidate = "$baseUrl + ${Paths.candidate.name}";

@@ -86,7 +86,6 @@ class _LoginPageState extends State<LoginPage> with NavigatorRoute {
                 password: passwordTextEditingContoller.text,
                 token: myToken.toString(),
               ));
-          
         }
       } on DioException catch (e) {
         showDialog(
@@ -152,7 +151,7 @@ class _LoginPageState extends State<LoginPage> with NavigatorRoute {
                   ),
                 ),
                 SizedBox(
-                  height: 50,
+                  height: 30,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 70),
@@ -193,12 +192,6 @@ class _LoginPageState extends State<LoginPage> with NavigatorRoute {
                           ),
                         ),
                       ),
-                      /* TextField(
-                        controller: kimlikNoTextEditingContoller,
-                      ),
-                      TextField(
-                        controller: passwordTextEditingContoller,
-                      ), */
                       Padding(
                         padding: const EdgeInsets.only(top: 30),
                         child: ProjectButtonStyle(
@@ -227,7 +220,7 @@ class _LoginPageState extends State<LoginPage> with NavigatorRoute {
                         child: NavigateToOtherAuth(
                             widget: Signup(),
                             title: underText,
-                            navigateText: underText2),
+                            navigateText: " $underText2"),
                       ),
                     ],
                   ),

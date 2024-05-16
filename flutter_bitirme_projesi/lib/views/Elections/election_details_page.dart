@@ -64,10 +64,16 @@ class _ElectionDetailsPageState extends State<ElectionDetailsPage> {
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
         child: Column(
           children: [
+            SizedBox(
+              height: 25,
+            ),
             _electionDetailsPageBodyTitle(),
             Expanded(
               child: ListView(
                 children: [
+                  SizedBox(
+                    height: 60,
+                  ),
                   _customElectionInformation(
                       context, "${widget.electionNewModel.initDate}"),
                   _customElectionInformation(
