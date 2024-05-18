@@ -8,10 +8,12 @@ import 'package:flutter_bitirme_projesi/widgets/general_frame.dart';
 import 'package:flutter_bitirme_projesi/model/postmodel.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key, required this.token});
+  const ProfilePage({super.key, required this.token, required this.prefs});
   final String token;
+  final SharedPreferences? prefs;
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -19,6 +21,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   List<RegisterModel>? registersModel;
+  RegisterModel? selectedRegisterModel = RegisterModel();
   final String _baseUrl = BackendFeatures.baseUrl;
   late final Dio _dio;
   bool _isLoading = false;
@@ -29,6 +32,7 @@ class _ProfilePageState extends State<ProfilePage> {
     _dio = Dio(BaseOptions(baseUrl: _baseUrl));
     fetchPostItems();
     decodedToken = JwtDecoder.decode(widget.token);
+    print(widget.prefs?.getString("token") ?? "");
   }
 
   void isLoading() {
@@ -37,7 +41,13 @@ class _ProfilePageState extends State<ProfilePage> {
     });
   }
 
-  void setList() {}
+  void setList() {
+    for (int i = 0; i < (registersModel?.length ?? 0); i++) {
+      if (decodedToken["_kimlikNo"] == registersModel?[i].kimlikNo) {
+        selectedRegisterModel = (registersModel?[i]);
+      }
+    }
+  }
 
   Future<void> fetchPostItems() async {
     isLoading();
@@ -46,6 +56,7 @@ class _ProfilePageState extends State<ProfilePage> {
       final datas = response.data;
       if (datas is List) {
         registersModel = datas.map((e) => RegisterModel.fromJson(e)).toList();
+        setList();
       }
     }
     isLoading();
@@ -84,13 +95,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     Expanded(
                       child: CustomText(
                         headText: "Name",
-                        text: registersModel?[0].name ?? "",
+                        text: selectedRegisterModel?.name ?? "",
                       ),
                     ),
                     Expanded(
                       child: CustomText(
                         headText: "Surname",
-                        text: registersModel?[0].surname ?? "",
+                        text: selectedRegisterModel?.surname ?? "",
                       ),
                     ),
                   ],
@@ -101,7 +112,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     Expanded(
                       child: CustomText(
                         headText: "T.C.",
-                        text: registersModel?[0].kimlikNo.toString() ?? "",
+                        text: selectedRegisterModel?.kimlikNo.toString() ?? "",
                       ),
                     ),
                     Expanded(
@@ -118,13 +129,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     Expanded(
                       child: CustomText(
                         headText: "Phone",
-                        text: registersModel?[0].telNo.toString() ?? "",
+                        text: selectedRegisterModel?.telNo.toString() ?? "",
                       ),
                     ),
                     Expanded(
                       child: CustomText(
                         headText: "Date of Birth",
-                        text: registersModel?[0].dogumTrh ?? "",
+                        text: selectedRegisterModel?.dogumTrh ?? "",
                       ),
                     ),
                   ],

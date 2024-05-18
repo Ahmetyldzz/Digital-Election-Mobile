@@ -146,9 +146,9 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
                         selectedElectionItems: selectedElectionItems,
                         electionDate:
                             "${selectedElectionItems[index].initDate} - ${selectedElectionItems[index].endDate}",
-                            idNo: widget.idNo,
-                            password: widget.password,
-                            token: widget.token,
+                        idNo: widget.idNo,
+                        password: widget.password,
+                        token: widget.token,
                       );
                     },
                   ),
@@ -226,13 +226,15 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
               onTap: () {
                 navigateToWidget(
                   context,
-                  /* VotingResults(electionNewModel: selectedElectionModel) */
-                  Voting(
+                  VotingResult(
+                    selectedElectionModelId: selectedElectionModel.sId ?? "",
+                  ),
+                  /*  Voting(
                     electionID: electionID,
                     idNo: widget.idNo,
                     password: widget.password,
                     token: widget.token,
-                  ),
+                  ), */
                 );
               },
               child: CircleAvatar(
@@ -335,13 +337,15 @@ class _CustomCardWidget extends StatelessWidget with NavigatorRoute {
                           onPressed: () {
                             navigateToWidget(
                               context,
-                              /* VotingResults(electionNewModel: selectedElectionModel) */
-                              Voting(
+                              VotingResult(
+                                selectedElectionModelId: selectedElectionID,
+                              ),
+                              /* Voting(
                                 electionID: selectedElectionID,
                                 idNo: idNo,
                                 password: password,
                                 token: token,
-                              ),
+                              ), */
                             );
                           },
                           icon: FittedBox(
@@ -359,10 +363,10 @@ class _CustomCardWidget extends StatelessWidget with NavigatorRoute {
                   IconButton(
                     onPressed: () {
                       navigateToWidget(
-                    context,
-                    ElectionDetailsPage(
-                      electionNewModel: selectedElectionModel,
-                    ));
+                          context,
+                          ElectionDetailsPage(
+                            electionNewModel: selectedElectionModel,
+                          ));
                     },
                     icon: Icon(
                       Icons.info_outline,

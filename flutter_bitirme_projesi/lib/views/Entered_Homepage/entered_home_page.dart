@@ -10,16 +10,19 @@ import 'package:flutter_bitirme_projesi/Use_General_Project/navigateToPage.dart'
 import 'package:flutter_bitirme_projesi/model/postmodel.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class EnteredHomePage extends StatefulWidget {
   const EnteredHomePage(
       {super.key,
       required this.idNo,
       required this.password,
-      required this.token});
+      required this.token,
+      this.prefs});
   final String idNo;
   final String password;
   final String token;
+  final SharedPreferences? prefs;
 
   @override
   State<EnteredHomePage> createState() => _EnteredHomePageState();
@@ -102,6 +105,7 @@ class _EnteredHomePageState extends State<EnteredHomePage> with NavigatorRoute {
                       context,
                       ProfilePage(
                         token: widget.token,
+                        prefs: widget.prefs,
                       ));
                 },
                 icon: Icon(
@@ -207,17 +211,17 @@ class _EnteredHomePageState extends State<EnteredHomePage> with NavigatorRoute {
       child: Column(
         children: [
           SizedBox(
-          height: 40,
-        ),
-        Expanded(
-            flex: 1,
-            child: Text(
-              "Yaklaşan 2024 Seçimleri",
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineMedium
-                  ?.copyWith(color: ProjectColors().background, fontSize: 24),
-            )),
+            height: 40,
+          ),
+          Expanded(
+              flex: 1,
+              child: Text(
+                "Yaklaşan 2024 Seçimleri",
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineMedium
+                    ?.copyWith(color: ProjectColors().background, fontSize: 24),
+              )),
           Expanded(
             flex: 8,
             child: Padding(

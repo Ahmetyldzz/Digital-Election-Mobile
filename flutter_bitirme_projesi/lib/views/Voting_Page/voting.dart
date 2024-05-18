@@ -11,6 +11,7 @@ import 'package:flutter_bitirme_projesi/model/custom_card_model.dart';
 import 'package:flutter_bitirme_projesi/model/postmodel.dart';
 import 'package:go_router/go_router.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Voting extends StatefulWidget {
   const Voting(

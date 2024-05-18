@@ -33,7 +33,7 @@ class GeneralFrame extends StatelessWidget {
               width: /* ContainerSizes().width */
                   width,
               height: /* ContainerSizes().height */
-                  height * 0.8,
+                  height * 0.78,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 color: ProjectColors().commonTheme,

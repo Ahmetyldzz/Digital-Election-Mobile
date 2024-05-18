@@ -82,6 +82,7 @@ class AppNavigation {
                   return ProfilePage(
                     token:
                         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjMzYjMwNzkzODdjMzkxZjBhZWY0ZTYiLCJfa2ltbGlrTm8iOiI5OTk4ODg3NzcyNCIsIl9wYXNzd29yZCI6IiQyYSQxMCRBa0hIYXZ0MjlyNENTaGxTZi5nbUJPeklpWFViQ1U0bEJwNHdCQ3NCT1Yvd21yOFI5LmFaSyIsImlhdCI6MTcxNTM0ODI3NH0.SbFYEDdrQd8Z0rmzZHmZxqHX4Z3kOt1pbtVph4XaTpM",
+                        prefs: null,
                   );
                 },
               )

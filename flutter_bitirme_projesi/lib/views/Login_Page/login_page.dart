@@ -1,11 +1,9 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bitirme_projesi/Constants/backend_featues.dart';
 import 'package:flutter_bitirme_projesi/Views/Entered_Homepage/entered_home_page.dart';
 import 'package:flutter_bitirme_projesi/widgets/general_frame.dart';
@@ -16,8 +14,6 @@ import 'package:flutter_bitirme_projesi/model/postmodel.dart';
 import 'package:flutter_bitirme_projesi/widgets/project_button.dart';
 import 'package:flutter_bitirme_projesi/Use_General_Project/project_colors.dart';
 import 'package:flutter_bitirme_projesi/Views/Sign_Up_Page/sign_up.dart';
-import 'package:go_router/go_router.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
@@ -85,6 +81,7 @@ class _LoginPageState extends State<LoginPage> with NavigatorRoute {
                 idNo: idTextEditingContoller.text,
                 password: passwordTextEditingContoller.text,
                 token: myToken.toString(),
+                prefs: prefs,
               ));
         }
       } on DioException catch (e) {
@@ -150,9 +147,6 @@ class _LoginPageState extends State<LoginPage> with NavigatorRoute {
                         ),
                   ),
                 ),
-                SizedBox(
-                  height: 30,
-                ),
                 Padding(
                   padding: const EdgeInsets.only(top: 70),
                   child: Column(
@@ -213,7 +207,7 @@ class _LoginPageState extends State<LoginPage> with NavigatorRoute {
                             buttonColor: ProjectColors().likePink),
                       ),
                       SizedBox(
-                        height: 120,
+                        height: 110,
                       ),
                       Align(
                         alignment: Alignment.bottomCenter,

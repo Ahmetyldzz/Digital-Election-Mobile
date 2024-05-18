@@ -43,6 +43,9 @@ class _ElectionDetailsPageState extends State<ElectionDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+      ),
       backgroundColor: ProjectColors().background,
       body: _electionDetailsPageBody(context),
     );
