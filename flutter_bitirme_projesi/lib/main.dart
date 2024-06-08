@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
           appBarTheme: AppBarTheme(
         color: Color.fromRGBO(70, 139, 151, 1),
       )),
-      home: Elections(idNo: "12345678911", password: "ahoyildiz123", token: ""),
+      home: LoginPage(),
     );
   }
 }

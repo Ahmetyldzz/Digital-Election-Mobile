@@ -226,15 +226,15 @@ class _ElectionsState extends State<Elections> with NavigatorRoute {
               onTap: () {
                 navigateToWidget(
                   context,
-                  VotingResult(
+                  /* VotingResult(
                     selectedElectionModelId: selectedElectionModel.sId ?? "",
-                  ),
-                  /*  Voting(
+                  ), */
+                  Voting(
                     electionID: electionID,
                     idNo: widget.idNo,
                     password: widget.password,
                     token: widget.token,
-                  ), */
+                  ),
                 );
               },
               child: CircleAvatar(
